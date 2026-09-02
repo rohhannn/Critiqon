@@ -8,7 +8,6 @@ import {
   CheckCircle2,
   XCircle,
   AlertTriangle,
-  Lightbulb,
   Briefcase,
   GraduationCap,
   ArrowRight,
