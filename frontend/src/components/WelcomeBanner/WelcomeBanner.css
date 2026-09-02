@@ -1,0 +1,4 @@
+.welcome-banner { width: 100%; min-height: 190px; padding: 32px 34px; display: flex; align-items: center; border: 1px solid #e2e6ef; border-radius: 24px; background: radial-gradient(circle at 90% 10%,rgba(129,140,248,.18),transparent 30%), linear-gradient(135deg,#ffffff,#f6f7ff); box-shadow: 0 16px 45px rgba(15,23,42,.06); }
+.welcome-banner h1 { margin: 0 0 10px; color: #121a2b; font-size: clamp(28px,4vw,38px); line-height: 1.1; letter-spacing: -.045em; font-weight: 850; }
+.welcome-banner p { margin: 0; color: #6c7688; font-size: 15px; line-height: 1.7; max-width: 720px; white-space: normal; }
+@media (max-width: 600px) { .welcome-banner { padding: 25px; min-height: 150px; } }

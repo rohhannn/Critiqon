@@ -1,0 +1,162 @@
+.site-footer {
+  width: 100%;
+  background: #0f172a;
+  color: #ffffff;
+  margin-top: 0;
+}
+
+.footer-inner {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 180px 160px;
+
+  gap: 80px;
+
+  padding: 64px 0 52px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.footer-brand {
+  max-width: 360px;
+}
+
+.footer-logo {
+  display: inline-block;
+
+  color: #ffffff;
+  text-decoration: none;
+
+  font: 900 24px/1 Inter, system-ui, sans-serif;
+
+  letter-spacing: 0.06em;
+
+  margin-bottom: 16px;
+}
+
+.footer-logo::after {
+  content: ".";
+  color: #6366f1;
+}
+
+.footer-brand p {
+  margin: 0;
+
+  max-width: 320px;
+
+  color: #94a3b8;
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   COLUMNS
+========================================================= */
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.footer-column h3 {
+  margin: 0 0 8px;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  letter-spacing: 0.04em;
+}
+
+.footer-column a {
+  width: fit-content;
+
+  color: #94a3b8;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.footer-column a:hover {
+  color: #ffffff;
+
+  transform: translateX(2px);
+}
+
+
+/* =========================================================
+   BOTTOM
+========================================================= */
+
+.footer-bottom {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+
+  padding: 20px 0 24px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+
+    gap: 42px;
+
+    padding: 48px 0 40px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+
+    gap: 32px;
+  }
+
+  .footer-brand {
+    grid-column: auto;
+  }
+
+  .footer-bottom {
+    padding-bottom: 20px;
+
+    line-height: 1.6;
+  }
+
+}

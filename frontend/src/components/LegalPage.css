@@ -1,0 +1,154 @@
+.legal-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  color: #172033;
+}
+
+.legal-header {
+  height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 clamp(20px, 6vw, 76px);
+
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  border-bottom: 1px solid #e5e7eb;
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.legal-logo {
+  color: #111827;
+
+  text-decoration: none;
+
+  font: 900 22px/1 Inter, system-ui, sans-serif;
+
+  letter-spacing: 0.08em;
+}
+
+.legal-logo::after {
+  content: ".";
+  color: #6366f1;
+}
+
+.legal-back {
+  color: #4f46e5;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.legal-back:hover {
+  text-decoration: underline;
+}
+
+.legal-container {
+  width: 100%;
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  padding: 70px 20px;
+  box-sizing: border-box;
+}
+
+.legal-card {
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 20px;
+
+  padding: clamp(28px, 5vw, 56px);
+
+  box-shadow: 0 10px 35px rgba(15, 23, 42, 0.05);
+}
+
+.legal-card h1 {
+  margin: 0 0 10px;
+
+  color: #111827;
+
+  font-size: clamp(30px, 5vw, 42px);
+  line-height: 1.15;
+}
+
+.legal-updated {
+  margin: 0 0 40px;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+.legal-content h2 {
+  margin: 38px 0 12px;
+
+  color: #111827;
+
+  font-size: 20px;
+}
+
+.legal-content h3 {
+  margin: 25px 0 10px;
+
+  color: #1e293b;
+
+  font-size: 16px;
+}
+
+.legal-content p {
+  margin: 0 0 16px;
+
+  color: #475569;
+
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.legal-content ul {
+  margin: 0 0 20px;
+  padding-left: 22px;
+}
+
+.legal-content li {
+  margin-bottom: 9px;
+
+  color: #475569;
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.legal-content a {
+  color: #4f46e5;
+}
+
+@media (max-width: 600px) {
+  .legal-header {
+    height: 64px;
+  }
+
+  .legal-logo {
+    font-size: 19px;
+  }
+
+  .legal-container {
+    padding: 35px 15px;
+  }
+
+  .legal-card {
+    border-radius: 14px;
+    padding: 25px 20px;
+  }
+}

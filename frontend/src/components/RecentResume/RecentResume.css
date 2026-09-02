@@ -1,0 +1,9 @@
+.recent-card { background: #fff; border: 1px solid #e7eaf0; border-radius: 20px; padding: 24px; box-shadow: 0 12px 32px rgba(15,23,42,.05); }
+.recent-top { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
+.file-icon { width:52px; height:52px; border-radius:14px; display:grid; place-items:center; background:#eef2ff; color:#4f46e5; font-size:24px; }
+.recent-top h3 { margin:0; font-size:17px; color:#172033; }
+.recent-top span { color:#7b8494; font-size:13px; }
+.recent-stats { display:flex; gap:40px; margin:22px 0; }
+.recent-stats p { color:#7b8494; margin:0 0 6px; font-size:12px; }
+.recent-btn { width:100%; padding:12px 15px; border:1px solid transparent; border-radius:12px; background:linear-gradient(135deg,#4f46e5,#6366f1); color:#fff; font-size:14px; font-weight:750; cursor:pointer; transition:.22s ease; }
+.recent-btn:hover { transform:translateY(-2px); box-shadow:0 10px 24px rgba(79,70,229,.20); }

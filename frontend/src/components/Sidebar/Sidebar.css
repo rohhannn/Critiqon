@@ -1,0 +1,284 @@
+/* =========================================================
+   CRITIQON — WHITE SIDEBAR
+========================================================= */
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 900;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 22px 15px;
+
+  background: rgba(255, 255, 255, 0.92);
+
+  border-right: 1px solid var(--border);
+  box-shadow: 8px 0 30px rgba(20, 43, 34, .035);
+
+  color: var(--primary);
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo {
+  margin: 3px 10px 35px;
+
+  color: #111827;
+
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.logo::after {
+  content: ".";
+  color: #111827;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+
+/* Normal item */
+
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 13px;
+
+  border-radius: 13px;
+
+  color: #64716b;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: background-color var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+
+/* Hover */
+
+.sidebar-menu a:hover {
+  background: #f2f7f4;
+
+  color: var(--text);
+
+  transform: translateX(2px);
+}
+
+
+/* =========================================================
+   ACTIVE ITEM
+========================================================= */
+
+.sidebar-menu a.active {
+  background: linear-gradient(135deg, #eaf6f0, #f4f8f6);
+
+  color: var(--primary);
+
+  box-shadow: inset 3px 0 0 var(--primary), inset 0 0 0 1px #dcece5;
+}
+
+.sidebar-menu a.active:hover {
+  background: #eceef1;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   ICONS
+========================================================= */
+
+.sidebar-menu a svg {
+  width: 19px;
+  height: 19px;
+
+  flex-shrink: 0;
+
+  color: #667085;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.sidebar-menu a:hover svg,
+.sidebar-menu a.active svg {
+  color: #111827;
+}
+
+
+/* =========================================================
+   PLAN BADGE
+========================================================= */
+
+.sidebar-plan {
+  margin: 18px 2px 12px;
+
+  padding: 11px 13px;
+
+  background: #f8f9fa;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 10px;
+
+  color: #667085;
+
+  font-size: 12px;
+}
+
+.sidebar-plan strong {
+  color: #111827;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+.logout-btn {
+  margin-top: auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 12px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  color: #667085;
+
+  cursor: pointer;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #f8f8f8;
+
+  border-color: #d1d5db;
+
+  color: #111827;
+
+  transform: translateY(-1px);
+}
+
+.logout-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .sidebar {
+    position: relative;
+
+    width: 100%;
+    height: auto;
+
+    padding: 14px;
+
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .logo {
+    margin: 3px 8px 12px;
+  }
+
+  .sidebar-menu {
+    flex-direction: row;
+
+    overflow-x: auto;
+
+    padding-bottom: 4px;
+
+    scrollbar-width: none;
+  }
+
+  .sidebar-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar-menu a {
+    white-space: nowrap;
+  }
+
+  .logout-btn {
+    margin-top: 10px;
+  }
+
+  .sidebar-plan {
+    margin-top: 10px;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.sidebar-menu a:focus-visible,
+.logout-btn:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .sidebar-menu a,
+  .logout-btn,
+  .sidebar-menu a svg {
+    transition: none;
+  }
+
+}

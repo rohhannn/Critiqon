@@ -1,0 +1,553 @@
+/* =========================================================
+   RESUME UPLOAD CARD
+========================================================= */
+
+.resume-upload-card {
+  width: 100%;
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border-radius: 22px;
+
+  padding: 30px;
+
+  box-shadow:
+    0 10px 30px rgba(31, 41, 55, 0.06);
+}
+
+
+.resume-upload-card h2 {
+  margin: 0 0 22px 0;
+
+  font-size: 25px;
+  font-weight: 700;
+
+  color: #172033;
+}
+
+
+/* =========================================================
+   UPLOAD BOX
+========================================================= */
+
+.upload-box {
+  width: 100%;
+
+  min-height: 155px;
+
+  box-sizing: border-box;
+
+  border: 2px dashed #2864f0;
+
+  border-radius: 16px;
+
+  background: #f8faff;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 28px;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   FILE INPUT
+========================================================= */
+
+.file-input {
+  flex: 0 0 auto;
+
+  max-width: 270px;
+
+  font-size: 14px;
+
+  color: #202124;
+}
+
+
+/* =========================================================
+   UPLOAD BUTTON
+========================================================= */
+
+.upload-btn {
+  flex: 1 1 auto;
+
+  width: auto;
+
+  min-width: 0;
+
+  height: 52px;
+
+  margin-left: 10px;
+
+  padding: 0 28px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #2864f0;
+
+  color: #ffffff;
+
+  font-size: 17px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.upload-btn:hover {
+  background: #1f55d1;
+
+  transform: translateY(-1px);
+}
+
+
+.upload-btn:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* =========================================================
+   SELECTED FILE
+========================================================= */
+
+.selected-file {
+  flex: 0 1 auto;
+
+  max-width: 260px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  font-size: 14px;
+
+  color: #374151;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message {
+  margin: 12px 0 0 0;
+
+  font-size: 14px;
+
+  color: #4f7a65;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   UPLOADED RESUME ITEM
+========================================================= */
+
+.resume-item {
+  padding: 20px;
+
+  margin-top: 14px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.resume-item:hover {
+  border-color: #4f7a65;
+
+  box-shadow:
+    0 5px 18px rgba(31, 41, 55, 0.06);
+}
+
+
+.selected-resume {
+  border-color: #4f7a65;
+
+  background: #f5faf7;
+}
+
+
+.resume-item h3 {
+  margin: 0 0 8px 0;
+
+  font-size: 17px;
+
+  color: #172033;
+}
+
+
+.resume-item p {
+  margin: 0 0 8px 0;
+
+  color: #6b7280;
+
+  font-size: 14px;
+}
+
+
+.resume-item strong {
+  display: block;
+
+  margin-top: 8px;
+
+  color: #4f7a65;
+
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   RECENT / ACTION BUTTONS
+========================================================= */
+
+.recent-btn {
+  border: none;
+
+  border-radius: 9px;
+
+  padding: 10px 16px;
+
+  background: #4f7a65;
+
+  color: #ffffff;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.recent-btn:hover {
+  background: #3e6654;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .resume-upload-card {
+    padding: 20px;
+  }
+
+
+  .upload-box {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    padding: 20px;
+  }
+
+
+  .file-input {
+    max-width: 100%;
+
+    width: 100%;
+  }
+
+
+  .selected-file {
+    max-width: 100%;
+  }
+
+
+  .upload-btn {
+    width: 100%;
+
+    flex: none;
+
+    margin-left: 0;
+  }
+
+}
+
+
+@media (max-width: 450px) {
+
+  .resume-upload-card {
+    padding: 16px;
+
+    border-radius: 16px;
+  }
+
+
+  .resume-upload-card h2 {
+    font-size: 21px;
+  }
+
+
+  .upload-box {
+    padding: 16px;
+  }
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+.dark-mode .resume-upload-card {
+  background: #171d23;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.dark-mode .resume-upload-card h2 {
+  color: #f1f5f9;
+}
+
+
+/* =========================================================
+   UPLOAD BOX
+========================================================= */
+
+.dark-mode .upload-box {
+  background: #1d242c;
+  border-color: #3b82f6;
+}
+
+
+/* =========================================================
+   FILE INPUT
+========================================================= */
+
+.dark-mode .file-input {
+  color: #e5e7eb;
+}
+
+
+/* =========================================================
+   SELECTED FILE
+========================================================= */
+
+.dark-mode .selected-file {
+  color: #d1d5db;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.dark-mode .message {
+  color: #6ee7b7;
+}
+
+
+/* =========================================================
+   RESUME ITEMS
+========================================================= */
+
+.dark-mode .resume-item {
+  background: #1d242c;
+  border-color: #303943;
+}
+
+.dark-mode .resume-item:hover {
+  border-color: #4f7a65;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.25);
+}
+
+.dark-mode .selected-resume {
+  background: #202a25;
+  border-color: #4f7a65;
+}
+
+.dark-mode .resume-item h3 {
+  color: #f1f5f9;
+}
+
+.dark-mode .resume-item p {
+  color: #9ca3af;
+}
+
+.dark-mode .resume-item strong {
+  color: #6ee7b7;
+}
+
+
+/* =========================================================
+   FILE SELECT BUTTON
+========================================================= */
+
+.dark-mode .file-input::file-selector-button {
+  background: #252c34;
+  color: #f1f5f9;
+  border: 1px solid #3b4652;
+  border-radius: 6px;
+  padding: 7px 12px;
+  cursor: pointer;
+}
+
+.dark-mode .file-input::file-selector-button:hover {
+  background: #303943;
+}
+/* =========================================================
+   DARK MODE - RESUME UPLOAD
+========================================================= */
+
+.dark-mode .resume-upload-card {
+  background: #171d23 !important;
+  color: #f1f5f9;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.dark-mode .resume-upload-card h2 {
+  color: #f1f5f9 !important;
+}
+
+
+/* Upload box */
+
+.dark-mode .upload-box {
+  background: #1d242c !important;
+  border-color: #3b82f6 !important;
+}
+
+
+/* File input */
+
+.dark-mode .file-input {
+  color: #e5e7eb !important;
+}
+
+.dark-mode .file-input::file-selector-button {
+  background: #252c34 !important;
+  color: #f1f5f9 !important;
+  border: 1px solid #3b4652;
+}
+
+
+/* Selected file */
+
+.dark-mode .selected-file {
+  color: #d1d5db !important;
+}
+
+
+/* Message */
+
+.dark-mode .message {
+  color: #6ee7b7 !important;
+}
+
+
+/* Resume items */
+
+.dark-mode .resume-item {
+  background: #1d242c !important;
+  border-color: #303943 !important;
+  color: #e5e7eb;
+}
+
+.dark-mode .selected-resume {
+  background: #202a25 !important;
+  border-color: #4f7a65 !important;
+}
+
+.dark-mode .resume-item h3 {
+  color: #f1f5f9 !important;
+}
+
+.dark-mode .resume-item p {
+  color: #9ca3af !important;
+}
+
+.dark-mode .resume-item strong {
+  color: #6ee7b7 !important;
+}
+.locked-feature-card {
+  padding: 28px;
+
+  border-radius: 20px;
+
+  background: #f6f9f7;
+
+  border: 1px solid #dce7df;
+
+  text-align: center;
+
+  margin-top: 20px;
+}
+
+
+.locked-feature-card > div {
+  font-size: 34px;
+
+  margin-bottom: 10px;
+}
+
+
+.locked-feature-card h3 {
+  margin: 0 0 8px;
+
+  color: #263238;
+}
+
+
+.locked-feature-card p {
+  max-width: 520px;
+
+  margin: 0 auto 18px;
+
+  line-height: 1.6;
+
+  color: #65756c;
+}
+
+
+.dark-mode .locked-feature-card {
+  background: #171d23;
+
+  border-color: #29313a;
+}
+
+
+.dark-mode .locked-feature-card h3 {
+  color: #f1f5f9;
+}
+
+
+.dark-mode .locked-feature-card p {
+  color: #a8b3c2;
+}
+
+}

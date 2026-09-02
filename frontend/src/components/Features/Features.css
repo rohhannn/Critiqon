@@ -1,0 +1,405 @@
+/* =====================================================
+   FEATURES SECTION
+===================================================== */
+
+.features {
+  position: relative;
+
+  width: 100%;
+
+  padding: 120px 0 110px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 8% 15%,
+      rgba(99, 102, 241, 0.08),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 92% 75%,
+      rgba(129, 140, 248, 0.07),
+      transparent 30%
+    ),
+    #f8fafc;
+
+  box-sizing: border-box;
+}
+
+
+/* =====================================================
+   SUBTLE BACKGROUND GRID
+===================================================== */
+
+.features::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: 0.45;
+
+  background-image:
+    linear-gradient(
+      rgba(15, 23, 42, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(15, 23, 42, 0.025) 1px,
+      transparent 1px
+    );
+
+  background-size: 44px 44px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 15%,
+    black 85%,
+    transparent
+  );
+}
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.features-container {
+  position: relative;
+
+  z-index: 1;
+
+  width: min(1180px, calc(100% - 64px));
+
+  margin: 0 auto;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.features-header {
+  max-width: 760px;
+
+  margin-bottom: 52px;
+}
+
+
+.features-label {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  margin-bottom: 18px;
+
+  color: #4f46e5;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  line-height: 1;
+
+  letter-spacing: 0.14em;
+
+  text-transform: uppercase;
+}
+
+
+.features-label-dot {
+  width: 7px;
+  height: 7px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #6366f1;
+
+  box-shadow:
+    0 0 0 5px rgba(99, 102, 241, 0.1),
+    0 0 18px rgba(99, 102, 241, 0.35);
+
+  animation: featurePulse 2.5s ease-in-out infinite;
+}
+
+
+@keyframes featurePulse {
+  0%,
+  100% {
+    opacity: 0.75;
+
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+
+    transform: scale(1.12);
+  }
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+.features-header h2 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: clamp(38px, 5vw, 58px);
+
+  line-height: 1.04;
+
+  font-weight: 850;
+
+  letter-spacing: -0.055em;
+}
+
+
+.features-title-accent {
+  color: #6366f1;
+}
+
+
+/* =====================================================
+   SUBTITLE
+===================================================== */
+
+.features-header .subtitle {
+  max-width: 680px;
+
+  margin: 20px 0 0;
+
+  color: #64748b;
+
+  font-size: 17px;
+
+  line-height: 1.75;
+
+  letter-spacing: -0.01em;
+}
+
+
+/* =====================================================
+   FEATURE GRID
+===================================================== */
+
+.feature-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
+
+  width: 100%;
+}
+
+
+/* =====================================================
+   CARD ENTRANCE ANIMATION
+===================================================== */
+
+.feature-grid > .feature-card {
+  animation: featureCardEnter 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+
+.feature-grid > .feature-card:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+
+.feature-grid > .feature-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+
+.feature-grid > .feature-card:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+
+.feature-grid > .feature-card:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+
+@keyframes featureCardEnter {
+  from {
+    opacity: 0;
+
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.features-footer {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  margin-top: 48px;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.02em;
+
+  text-align: center;
+}
+
+
+.features-footer-line {
+  height: 1px;
+
+  flex: 1;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(148, 163, 184, 0.3)
+  );
+}
+
+
+.features-footer-line:last-child {
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0.3),
+    transparent
+  );
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 900px) {
+  .features {
+    padding: 90px 0;
+  }
+
+  .features-container {
+    width: min(100% - 40px, 720px);
+  }
+
+  .feature-grid {
+    gap: 16px;
+  }
+
+  .features-header {
+    margin-bottom: 38px;
+  }
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 650px) {
+  .features {
+    padding: 76px 0 70px;
+  }
+
+  .features-container {
+    width: calc(100% - 32px);
+  }
+
+  .features-header {
+    margin-bottom: 32px;
+  }
+
+  .features-label {
+    font-size: 10px;
+
+    letter-spacing: 0.11em;
+  }
+
+  .features-header h2 {
+    font-size: clamp(34px, 10vw, 44px);
+
+    letter-spacing: -0.05em;
+  }
+
+  .features-header .subtitle {
+    margin-top: 16px;
+
+    font-size: 15px;
+
+    line-height: 1.65;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+
+    gap: 14px;
+  }
+
+  .features-footer {
+    margin-top: 34px;
+
+    gap: 12px;
+
+    font-size: 10px;
+  }
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 420px) {
+  .features-container {
+    width: calc(100% - 24px);
+  }
+
+  .features-header h2 {
+    font-size: 34px;
+  }
+
+  .features-footer-line {
+    display: none;
+  }
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .features-label-dot,
+  .feature-grid > .feature-card {
+    animation: none;
+  }
+}

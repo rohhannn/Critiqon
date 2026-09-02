@@ -1,0 +1,1289 @@
+/* =========================================================
+   INTERVIEW PREP — PREMIUM UI
+   ========================================================= */
+
+.interview-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(79, 122, 101, 0.07), transparent 28%),
+    radial-gradient(circle at 95% 12%, rgba(79, 122, 101, 0.045), transparent 24%),
+    #f7f9f8;
+  padding: 42px 32px 80px;
+  color: #26372f;
+}
+
+.interview-main {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.interview-header {
+  margin-bottom: 30px;
+}
+
+.interview-title-row {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+}
+
+.interview-icon {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  border-radius: 17px;
+  background: linear-gradient(145deg, #e7f3ec, #dcece3);
+  color: #4f7a65;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 0 0 0 1px rgba(79, 122, 101, 0.08),
+    0 8px 22px rgba(44, 73, 59, 0.07);
+}
+
+.interview-icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 7px rgba(79, 122, 101, 0.025);
+  pointer-events: none;
+}
+
+.interview-header h1 {
+  margin: 0;
+  color: #1f3028;
+  font-size: 30px;
+  line-height: 1.15;
+  font-weight: 750;
+  letter-spacing: -0.7px;
+}
+
+.interview-header p {
+  margin: 7px 0 0;
+  color: #718078;
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   GENERATOR
+   ========================================================= */
+
+.interview-generator {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #e0e8e3;
+  border-radius: 22px;
+  padding: 30px;
+  box-shadow:
+    0 14px 45px rgba(35, 55, 45, 0.055),
+    0 2px 8px rgba(35, 55, 45, 0.025);
+  animation: interviewCardIn 0.45s ease both;
+}
+
+.interview-generator::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    #4f7a65,
+    #7da38d,
+    transparent 80%
+  );
+  opacity: 0.8;
+}
+
+.generator-heading {
+  margin-bottom: 25px;
+}
+
+.generator-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: #26372f;
+  font-size: 21px;
+  line-height: 1.3;
+  font-weight: 750;
+  letter-spacing: -0.25px;
+}
+
+.generator-heading h2 svg {
+  color: #4f7a65;
+}
+
+.generator-heading p {
+  margin: 7px 0 0 30px;
+  color: #7a8781;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   FORM GRID
+   ========================================================= */
+
+.generator-grid {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr 1fr;
+  gap: 17px;
+}
+
+.form-group {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group.full-width {
+  margin-top: 20px;
+}
+
+.form-group label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #35473f;
+  font-size: 13px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.form-group label span {
+  color: #9aa49f;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #dbe4df;
+  border-radius: 11px;
+  background: #fbfcfb;
+  color: #26372f;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.form-group select {
+  height: 47px;
+  padding: 0 13px;
+  cursor: pointer;
+}
+
+.form-group textarea {
+  min-height: 148px;
+  padding: 14px 15px;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.form-group select:hover:not(:disabled),
+.form-group textarea:hover:not(:disabled) {
+  border-color: #cbd8d1;
+  background: #ffffff;
+}
+
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #4f7a65;
+  background: #ffffff;
+  box-shadow:
+    0 0 0 3px rgba(79, 122, 101, 0.09),
+    0 4px 12px rgba(48, 72, 59, 0.035);
+}
+
+.form-group select:disabled,
+.form-group textarea:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   SELECT WITH ICON
+   ========================================================= */
+
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select-wrapper svg {
+  position: absolute;
+  left: 13px;
+  color: #829089;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.select-wrapper select {
+  padding-left: 40px;
+}
+
+/* =========================================================
+   GENERATE BUTTON
+   ========================================================= */
+
+.generate-btn {
+  margin-top: 22px;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #56836c, #4f7a65);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 750;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  cursor: pointer;
+  box-shadow: 0 7px 18px rgba(65, 103, 82, 0.18);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.generate-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #4f7a65, #426954);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(65, 103, 82, 0.22);
+}
+
+.generate-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.generate-btn:disabled {
+  opacity: 0.58;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.interview-error {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 11px;
+  background: #fff6f5;
+  border: 1px solid #f1d5d1;
+  color: #a34a4a;
+  font-size: 13.5px;
+  line-height: 1.5;
+  animation: errorIn 0.25s ease both;
+}
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   READINESS
+   ========================================================= */
+
+.readiness-card {
+  position: relative;
+  overflow: hidden;
+  margin-top: 24px;
+  padding: 21px 24px;
+  background: linear-gradient(135deg, #ffffff, #f9fcfa);
+  border: 1px solid #dce8e0;
+  border-radius: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 25px rgba(35, 55, 45, 0.04);
+  animation: interviewCardIn 0.35s ease both;
+}
+
+.readiness-card::before {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  right: -90px;
+  top: -90px;
+  border-radius: 50%;
+  background: rgba(79, 122, 101, 0.045);
+}
+
+.readiness-card h2 {
+  position: relative;
+  margin: 0;
+  color: #26372f;
+  font-size: 18px;
+  font-weight: 750;
+}
+
+.readiness-card p {
+  position: relative;
+  margin: 5px 0 0;
+  color: #7b8882;
+  font-size: 13px;
+}
+
+.readiness-score {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  flex: 0 0 76px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, #ffffff 55%, transparent 56%),
+    conic-gradient(#4f7a65 0deg, #4f7a65 260deg, #e4eee8 260deg);
+  color: #4f7a65;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  box-shadow: inset 0 0 0 1px #dce9e1;
+}
+
+.readiness-score span {
+  font-size: 10px;
+  margin-left: 2px;
+  margin-top: 7px;
+}
+
+/* =========================================================
+   QUESTIONS SECTION
+   ========================================================= */
+
+.questions-section {
+  margin-top: 32px;
+  animation: interviewCardIn 0.4s ease both;
+}
+
+.questions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 17px;
+}
+
+.questions-header h2 {
+  margin: 0;
+  color: #26372f;
+  font-size: 21px;
+  font-weight: 750;
+  letter-spacing: -0.2px;
+}
+
+.questions-header p {
+  margin: 5px 0 0;
+  color: #7b8882;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.questions-badge {
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: #e8f2ec;
+  border: 1px solid #d7e8dd;
+  color: #4f7a65;
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   QUESTION LIST
+   ========================================================= */
+
+.questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.question-card {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #e1e8e4;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(35, 55, 45, 0.025);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.question-card:hover {
+  border-color: #cedbd3;
+  box-shadow: 0 7px 20px rgba(35, 55, 45, 0.045);
+  transform: translateY(-1px);
+}
+
+.question-card.expanded {
+  border-color: #b8cebf;
+  box-shadow:
+    0 10px 28px rgba(45, 65, 54, 0.065),
+    0 0 0 1px rgba(79, 122, 101, 0.035);
+}
+
+.question-card.completed {
+  border-color: #c5ddcd;
+}
+
+.question-card.completed:hover {
+  border-color: #a9cbb5;
+}
+
+/* =========================================================
+   QUESTION HEADER
+   ========================================================= */
+
+.question-main {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 18px 19px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.question-number {
+  min-width: 38px;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: #edf4f0;
+  color: #4f7a65;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  transition: 0.2s ease;
+}
+
+.question-card:hover .question-number {
+  background: #e5f0e9;
+}
+
+.question-card.completed .question-number {
+  background: #e4f3e9;
+  color: #3f8a58;
+}
+
+.question-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.question-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 7px;
+}
+
+.category,
+.difficulty,
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 21px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 750;
+}
+
+.category {
+  background: #edf4f0;
+  color: #4f7a65;
+}
+
+.difficulty {
+  background: #f1f3f2;
+  color: #66716c;
+}
+
+.difficulty.hard {
+  background: #fff0ed;
+  color: #ad5c4c;
+}
+
+.difficulty.medium {
+  background: #fff7e8;
+  color: #a5772d;
+}
+
+.difficulty.easy {
+  background: #eaf5ed;
+  color: #4e8661;
+}
+
+.score-badge {
+  background: #edf4ff;
+  color: #3569b8;
+}
+
+.question-content h3 {
+  margin: 0;
+  color: #293a32;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 650;
+}
+
+.expand-icon {
+  color: #87938d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.question-card.expanded .expand-icon {
+  color: #4f7a65;
+}
+
+/* =========================================================
+   QUESTION DETAILS
+   ========================================================= */
+
+.question-details {
+  border-top: 1px solid #eaf0ec;
+  padding: 20px 23px 22px 71px;
+  background: linear-gradient(180deg, #fbfcfb, #f9fbfa);
+  animation: detailsIn 0.22s ease both;
+}
+
+.detail-block + .detail-block {
+  margin-top: 18px;
+}
+
+.detail-block h4 {
+  margin: 0 0 7px;
+  color: #35473e;
+  font-size: 12.5px;
+  font-weight: 750;
+}
+
+.detail-block p {
+  margin: 0;
+  color: #69766f;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.detail-block ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #69766f;
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+.detail-block li::marker {
+  color: #4f7a65;
+}
+
+.practice-btn {
+  margin-top: 20px;
+  min-height: 43px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #4f7a65;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+  box-shadow: 0 5px 13px rgba(65, 103, 82, 0.13);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.practice-btn:hover {
+  background: #426954;
+  transform: translateY(-1px);
+  box-shadow: 0 7px 17px rgba(65, 103, 82, 0.18);
+}
+
+/* =========================================================
+   PRACTICE SECTION
+   ========================================================= */
+
+.practice-section {
+  position: relative;
+  overflow: hidden;
+  margin-top: 32px;
+  background: #ffffff;
+  border: 1px solid #dfe7e2;
+  border-radius: 20px;
+  padding: 29px;
+  box-shadow:
+    0 14px 40px rgba(35, 55, 45, 0.055),
+    0 2px 8px rgba(35, 55, 45, 0.025);
+  animation: practiceIn 0.35s ease both;
+}
+
+.practice-section::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    #4f7a65,
+    #7da38d,
+    transparent
+  );
+}
+
+.practice-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 23px;
+}
+
+.practice-header > div:first-child > span {
+  color: #4f7a65;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.practice-header h2 {
+  margin: 5px 0 0;
+  color: #26372f;
+  font-size: 22px;
+  line-height: 1.25;
+  font-weight: 750;
+  letter-spacing: -0.3px;
+}
+
+.answer-score {
+  width: 68px;
+  height: 68px;
+  flex: 0 0 68px;
+  border-radius: 50%;
+  background: #e7f1eb;
+  border: 5px solid #f2f7f4;
+  outline: 1px solid #d5e5db;
+  color: #4f7a65;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  font-weight: 850;
+}
+
+.answer-score span {
+  font-size: 10px;
+  margin-left: 2px;
+  margin-top: 7px;
+}
+
+/* =========================================================
+   PRACTICE QUESTION
+   ========================================================= */
+
+.practice-question {
+  position: relative;
+  padding: 22px;
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      135deg,
+      #f6faf7,
+      #fbfcfb
+    );
+  border: 1px solid #e0eae4;
+}
+
+.practice-question::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 17px;
+  bottom: 17px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: #4f7a65;
+}
+
+.practice-label {
+  margin-bottom: 9px;
+  color: #4f7a65;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.practice-question h3 {
+  margin: 0;
+  color: #293a32;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 650;
+}
+
+/* =========================================================
+   ANSWER
+   ========================================================= */
+
+.answer-section {
+  margin-top: 21px;
+}
+
+.answer-section label {
+  display: block;
+  margin-bottom: 8px;
+  color: #34453d;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.answer-section textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  border: 1px solid #dce5e0;
+  border-radius: 12px;
+  background: #fbfcfb;
+  color: #26372f;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.65;
+  resize: vertical;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.answer-section textarea::placeholder {
+  color: #a2aca7;
+}
+
+.answer-section textarea:hover:not(:disabled) {
+  background: #ffffff;
+  border-color: #cbd8d1;
+}
+
+.answer-section textarea:focus {
+  background: #ffffff;
+  border-color: #4f7a65;
+  box-shadow:
+    0 0 0 3px rgba(79, 122, 101, 0.08),
+    0 5px 16px rgba(45, 65, 54, 0.035);
+}
+
+.answer-section textarea:disabled {
+  opacity: 0.75;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.evaluate-btn,
+.next-question-btn {
+  margin-top: 18px;
+  min-height: 46px;
+  padding: 0 19px;
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #56836c, #4f7a65);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 750;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(65, 103, 82, 0.14);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.evaluate-btn:hover:not(:disabled),
+.next-question-btn:hover {
+  background: linear-gradient(135deg, #4f7a65, #426954);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 19px rgba(65, 103, 82, 0.18);
+}
+
+.evaluate-btn:active:not(:disabled),
+.next-question-btn:active {
+  transform: translateY(0);
+}
+
+.evaluate-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* =========================================================
+   EVALUATION
+   ========================================================= */
+
+.evaluation-result {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #e6ece8;
+  animation: detailsIn 0.3s ease both;
+}
+
+.evaluation-result > h3 {
+  margin: 0 0 16px;
+  color: #26372f;
+  font-size: 19px;
+  font-weight: 750;
+}
+
+/* =========================================================
+   SCORE CARDS
+   ========================================================= */
+
+.evaluation-scores {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 11px;
+}
+
+.evaluation-scores > div {
+  position: relative;
+  overflow: hidden;
+  padding: 15px;
+  background: #f8faf9;
+  border: 1px solid #e2eae5;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.evaluation-scores > div::after {
+  content: "";
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  right: -20px;
+  bottom: -20px;
+  border-radius: 50%;
+  background: rgba(79, 122, 101, 0.045);
+}
+
+.evaluation-scores span {
+  color: #7b8882;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.evaluation-scores strong {
+  color: #4f7a65;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+/* =========================================================
+   FEEDBACK
+   ========================================================= */
+
+.feedback-block {
+  margin-top: 21px;
+}
+
+.feedback-block h4,
+.feedback-columns h4,
+.improved-answer h4 {
+  margin: 0 0 8px;
+  color: #35473e;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.feedback-block p {
+  margin: 0;
+  color: #69766f;
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+.feedback-block ul,
+.feedback-columns ul {
+  margin: 0;
+  padding-left: 19px;
+  color: #69766f;
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   STRENGTHS / IMPROVEMENTS
+   ========================================================= */
+
+.feedback-columns {
+  margin-top: 21px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+
+.feedback-columns > div {
+  padding: 17px;
+  border-radius: 12px;
+  background: #f8faf9;
+  border: 1px solid #e5ebe7;
+}
+
+.feedback-columns > div:first-child {
+  background: #f7fbf8;
+}
+
+.feedback-columns > div:last-child {
+  background: #fbfaf7;
+}
+
+/* =========================================================
+   IMPROVED ANSWER
+   ========================================================= */
+
+.improved-answer {
+  margin-top: 21px;
+  padding: 19px;
+  border-radius: 13px;
+  background:
+    linear-gradient(
+      135deg,
+      #eef6f1,
+      #f5faf7
+    );
+  border: 1px solid #d5e7db;
+}
+
+.improved-answer p {
+  margin: 0;
+  color: #4c5e54;
+  font-size: 13.5px;
+  line-height: 1.75;
+  white-space: pre-wrap;
+}
+
+/* =========================================================
+   NEXT BUTTON
+   ========================================================= */
+
+.next-question-btn {
+  margin-top: 21px;
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes interviewCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes practiceIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes detailsIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes errorIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .interview-page {
+    padding: 30px 22px 60px;
+  }
+
+  .generator-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .generator-grid .form-group:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .question-details {
+    padding-left: 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .interview-page {
+    padding: 22px 15px 50px;
+  }
+
+  .interview-title-row {
+    align-items: flex-start;
+  }
+
+  .interview-icon {
+    width: 50px;
+    height: 50px;
+    flex-basis: 50px;
+    border-radius: 14px;
+  }
+
+  .interview-header h1 {
+    font-size: 25px;
+  }
+
+  .interview-header p {
+    font-size: 13px;
+  }
+
+  .interview-generator,
+  .practice-section {
+    padding: 21px;
+    border-radius: 17px;
+  }
+
+  .generator-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .generator-grid .form-group:first-child {
+    grid-column: auto;
+  }
+
+  .generator-heading h2 {
+    font-size: 18px;
+  }
+
+  .generator-heading p {
+    margin-left: 30px;
+  }
+
+  .questions-header {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .questions-header h2 {
+    font-size: 19px;
+  }
+
+  .questions-badge {
+    display: none;
+  }
+
+  .question-main {
+    padding: 16px;
+    gap: 11px;
+  }
+
+  .question-number {
+    min-width: 35px;
+    width: 35px;
+    height: 35px;
+  }
+
+  .question-content h3 {
+    font-size: 13.5px;
+  }
+
+  .question-details {
+    padding: 18px 18px 20px;
+  }
+
+  .readiness-card {
+    padding: 18px;
+    align-items: center;
+  }
+
+  .readiness-score {
+    width: 68px;
+    height: 68px;
+    flex-basis: 68px;
+    font-size: 19px;
+  }
+
+  .practice-header {
+    align-items: flex-start;
+  }
+
+  .practice-header h2 {
+    font-size: 20px;
+  }
+
+  .answer-score {
+    width: 60px;
+    height: 60px;
+    flex-basis: 60px;
+    font-size: 18px;
+  }
+
+  .practice-question {
+    padding: 19px;
+  }
+
+  .practice-question h3 {
+    font-size: 15px;
+  }
+
+  .evaluation-scores {
+    grid-template-columns: 1fr;
+  }
+
+  .feedback-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 450px) {
+  .interview-title-row {
+    gap: 12px;
+  }
+
+  .interview-icon {
+    width: 45px;
+    height: 45px;
+    flex-basis: 45px;
+  }
+
+  .interview-header h1 {
+    font-size: 22px;
+  }
+
+  .interview-generator,
+  .practice-section {
+    padding: 17px;
+  }
+
+  .generate-btn,
+  .evaluate-btn,
+  .next-question-btn,
+  .practice-btn {
+    width: 100%;
+  }
+
+  .question-main {
+    padding: 14px;
+  }
+
+  .question-meta {
+    gap: 4px;
+  }
+
+  .question-content h3 {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interview-page *,
+  .interview-page *::before,
+  .interview-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

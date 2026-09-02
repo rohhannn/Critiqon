@@ -1,0 +1,596 @@
+/* =========================================================
+   CRITIQON â€” LOGIN PAGE
+========================================================= */
+
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+
+  background:
+    radial-gradient(
+      circle at 15% 10%,
+      rgba(99, 102, 241, 0.18),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 85% 90%,
+      rgba(124, 58, 237, 0.13),
+      transparent 30%
+    ),
+    #f7f8fb;
+}
+
+
+/* =========================================================
+   LOGIN CARD
+========================================================= */
+
+.login-card {
+  width: min(100%, 430px);
+  padding: 36px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 26px;
+
+  box-shadow:
+    0 28px 80px rgba(15, 23, 42, 0.11);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.login-card h1 {
+  margin: 0;
+
+  text-align: center;
+
+  color: #101828;
+
+  font-size: 30px;
+  font-weight: 800;
+
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.login-card > p {
+  margin: 9px 0 28px;
+
+  text-align: center;
+
+  color: #778195;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.login-card form {
+  width: 100%;
+}
+
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+.login-card label {
+  display: block;
+
+  margin: 17px 0 7px;
+
+  color: #344054;
+
+  font-size: 13px;
+  font-weight: 750;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.login-card input {
+  width: 100%;
+
+  padding: 13px 14px;
+
+  border: 1px solid #dfe3ea;
+  border-radius: 12px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.login-card input::placeholder {
+  color: #98a2b3;
+}
+
+.login-card input:hover {
+  border-color: #c9ced8;
+}
+
+.login-card input:focus {
+  border-color: #818cf8;
+
+  box-shadow:
+    0 0 0 4px rgba(99, 102, 241, 0.11);
+}
+
+
+/* =========================================================
+   SIGN IN BUTTON
+========================================================= */
+
+.login-card form .sign-in-btn {
+  width: 100%;
+  height: 50px;
+
+  margin-top: 20px;
+  padding: 0 18px;
+
+  border: 0;
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5 0%,
+      #6366f1 45%,
+      #7c3aed 100%
+    );
+
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+
+  letter-spacing: -0.01em;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 24px rgba(79, 70, 229, 0.22);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+
+/* Hover */
+
+.login-card form .sign-in-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  filter: brightness(1.04);
+
+  box-shadow:
+    0 15px 30px rgba(79, 70, 229, 0.28);
+}
+
+
+/* Active */
+
+.login-card form .sign-in-btn:active:not(:disabled) {
+  transform: translateY(0);
+
+  box-shadow:
+    0 6px 14px rgba(79, 70, 229, 0.20);
+}
+
+
+/* Keyboard focus */
+
+.login-card form .sign-in-btn:focus-visible {
+  outline: none;
+
+  box-shadow:
+    0 0 0 4px rgba(99, 102, 241, 0.18),
+    0 10px 24px rgba(79, 70, 229, 0.22);
+}
+
+
+/* Disabled / loading */
+
+.login-card form .sign-in-btn:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow:
+    none;
+}
+
+
+/* =========================================================
+   BUTTON LOADING STATE
+========================================================= */
+
+.login-card form .sign-in-btn.loading {
+  cursor: wait;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6366f1,
+      #7c3aed
+    );
+}
+
+
+/* Optional spinner
+   Works if your button contains .button-spinner
+*/
+
+.button-spinner {
+  width: 17px;
+  height: 17px;
+
+  margin-right: 9px;
+
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+
+  border-radius: 50%;
+
+  animation: critiqon-spin 0.7s linear infinite;
+}
+
+@keyframes critiqon-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.login-divider {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin: 22px 0 15px;
+
+  color: #98a2b3;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 0.12em;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+
+  flex: 1;
+
+  height: 1px;
+
+  background: #eaecf0;
+}
+
+
+/* =========================================================
+   GOOGLE SIGN IN
+========================================================= */
+
+.google-signin-wrap {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 7px;
+
+  min-height: 44px;
+}
+
+.google-signin-button {
+  width: 100%;
+  min-height: 40px;
+
+  display: flex;
+
+  justify-content: center;
+}
+
+.google-signin-button > div {
+  max-width: 100%;
+}
+
+.google-signin-error {
+  margin: 0;
+
+  color: #b42318;
+
+  font-size: 12px;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   REGISTER LINK
+========================================================= */
+
+.register-link {
+  margin-top: 22px;
+
+  text-align: center;
+
+  color: #7b8494;
+
+  font-size: 13px;
+}
+
+.register-link a {
+  color: #4f46e5;
+
+  text-decoration: none;
+
+  font-weight: 800;
+
+  transition:
+    color 0.2s ease;
+}
+
+.register-link a:hover {
+  color: #3730a3;
+
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+  .login-page {
+    padding: 18px;
+  }
+
+  .login-card {
+    width: 100%;
+
+    padding: 28px 22px;
+
+    border-radius: 22px;
+  }
+
+  .login-card h1 {
+    font-size: 27px;
+  }
+
+  .login-card::before {
+    margin-bottom: 20px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .login-card input,
+  .login-card form .sign-in-btn,
+  .register-link a {
+    transition: none;
+  }
+
+  .button-spinner {
+    animation: none;
+  }
+}
+/* =========================================================
+   CRITIQON SIGN IN BUTTON
+========================================================= */
+
+.login-card .sign-in-btn {
+  width: 100%;
+  height: 50px;
+
+  margin-top: 20px;
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 13px;
+
+  background: linear-gradient(
+    135deg,
+    #4f46e5 0%,
+    #6366f1 50%,
+    #7c3aed 100%
+  );
+
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 24px
+    rgba(79, 70, 229, 0.22);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.login-card .sign-in-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  filter: brightness(1.05);
+
+  box-shadow:
+    0 16px 32px
+    rgba(79, 70, 229, 0.30);
+}
+
+.login-card .sign-in-btn:active:not(:disabled) {
+  transform: translateY(0);
+
+  box-shadow:
+    0 6px 14px
+    rgba(79, 70, 229, 0.20);
+}
+
+.login-card .sign-in-btn:focus-visible {
+  outline: none;
+
+  box-shadow:
+    0 0 0 4px
+      rgba(99, 102, 241, 0.18),
+    0 10px 24px
+      rgba(79, 70, 229, 0.22);
+}
+
+.login-card .sign-in-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* Loading spinner */
+
+.button-spinner {
+  width: 16px;
+  height: 16px;
+
+  margin-right: 9px;
+
+  border: 2px solid
+    rgba(255, 255, 255, 0.35);
+
+  border-top-color: #ffffff;
+
+  border-radius: 50%;
+
+  animation:
+    critiqon-spin 0.7s linear infinite;
+}
+
+@keyframes critiqon-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* =========================================================
+   PASSWORDLESS EMAIL OTP
+   ========================================================= */
+
+.otp-input {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 10px;
+  padding-left: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.otp-secondary-btn,
+.otp-resend-btn {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.otp-secondary-btn {
+  margin-top: 10px;
+  color: #64748b;
+}
+
+.otp-secondary-btn:hover:not(:disabled) {
+  color: #111827;
+}
+
+.otp-resend-btn {
+  margin-top: 12px;
+  color: #4f46e5;
+  font-weight: 700;
+}
+
+.otp-resend-btn:disabled,
+.otp-secondary-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.register-link {
+  line-height: 1.55;
+}
+
+@media (max-width: 520px) {
+  .otp-input {
+    font-size: 25px;
+    letter-spacing: 7px;
+    padding-left: 14px;
+  }
+}

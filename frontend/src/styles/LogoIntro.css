@@ -1,0 +1,490 @@
+/* =========================================================
+   CRITIQON
+   PREMIUM WHITE LOGO INTRO
+========================================================= */
+
+.logo-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  color: #111111;
+
+  isolation: isolate;
+
+  animation: introEnter 0.35s ease-out both;
+}
+
+
+/* =========================================================
+   AMBIENT LIGHT
+========================================================= */
+
+.logo-intro__orb {
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  filter: blur(90px);
+
+  opacity: 0;
+}
+
+
+/* Left ambient light */
+
+.logo-intro__orb--one {
+  background: rgba(17, 24, 39, 0.045);
+
+  transform: translate(-35vw, -20vh);
+
+  animation:
+    orbOne 1.7s ease-out 0.1s forwards;
+}
+
+
+/* Right ambient light */
+
+.logo-intro__orb--two {
+  background: rgba(99, 102, 241, 0.035);
+
+  transform: translate(35vw, 20vh);
+
+  animation:
+    orbTwo 1.7s ease-out 0.15s forwards;
+}
+
+
+/* =========================================================
+   SUBTLE GRAIN
+========================================================= */
+
+.logo-intro__noise {
+  position: absolute;
+
+  inset: -50%;
+
+  opacity: 0.018;
+
+  pointer-events: none;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+
+  animation:
+    noiseMove 0.25s steps(2) infinite;
+}
+
+
+/* =========================================================
+   CENTER LIGHT SWEEP
+========================================================= */
+
+.logo-intro__line {
+  position: absolute;
+
+  width: 1px;
+  height: 0;
+
+  background: rgba(17, 24, 39, 0.7);
+
+  box-shadow:
+    0 0 25px rgba(17, 24, 39, 0.12);
+
+  animation:
+    verticalLine 0.8s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    0.15s forwards;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.logo-intro__brand {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #111111;
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  font-size: clamp(38px, 6vw, 76px);
+
+  font-weight: 800;
+
+  letter-spacing: 0.12em;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   INDIVIDUAL LETTERS
+========================================================= */
+
+.logo-intro__brand span {
+  display: inline-block;
+
+  opacity: 0;
+
+  transform:
+    translateY(35px)
+    rotateX(70deg)
+    scale(0.8);
+
+  filter: blur(8px);
+
+  animation:
+    letterReveal 0.65s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
+}
+
+
+/* =========================================================
+   LETTER TIMING
+========================================================= */
+
+.logo-intro__brand span:nth-child(1) {
+  animation-delay: 0.30s;
+}
+
+.logo-intro__brand span:nth-child(2) {
+  animation-delay: 0.35s;
+}
+
+.logo-intro__brand span:nth-child(3) {
+  animation-delay: 0.40s;
+}
+
+.logo-intro__brand span:nth-child(4) {
+  animation-delay: 0.45s;
+}
+
+.logo-intro__brand span:nth-child(5) {
+  animation-delay: 0.50s;
+}
+
+.logo-intro__brand span:nth-child(6) {
+  animation-delay: 0.55s;
+}
+
+.logo-intro__brand span:nth-child(7) {
+  animation-delay: 0.60s;
+}
+
+.logo-intro__brand span:nth-child(8) {
+  animation-delay: 0.65s;
+}
+
+
+/* =========================================================
+   CAPTION
+========================================================= */
+
+.logo-intro__caption {
+  position: relative;
+
+  z-index: 2;
+
+  margin-top: 18px;
+
+  color: rgba(17, 24, 39, 0.45);
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.34em;
+
+  opacity: 0;
+
+  transform: translateY(8px);
+
+  animation:
+    captionReveal 0.5s
+    ease-out
+    0.85s forwards;
+}
+
+
+/* =========================================================
+   EXIT
+========================================================= */
+
+.logo-intro--closing {
+  animation:
+    introExit 0.32s
+    cubic-bezier(0.4, 0, 1, 1)
+    forwards;
+}
+
+
+/* =========================================================
+   KEYFRAMES
+========================================================= */
+
+@keyframes introEnter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+@keyframes verticalLine {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  100% {
+    height: 70vh;
+    opacity: 0;
+  }
+}
+
+
+@keyframes letterReveal {
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(35px)
+      rotateX(70deg)
+      scale(0.8);
+
+    filter: blur(8px);
+  }
+
+  55% {
+    opacity: 1;
+
+    filter: blur(0);
+
+    transform:
+      translateY(-3px)
+      rotateX(0)
+      scale(1.03);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      rotateX(0)
+      scale(1);
+
+    filter: blur(0);
+  }
+}
+
+
+@keyframes captionReveal {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+@keyframes orbOne {
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-45vw, -30vh)
+      scale(0.6);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translate(-35vw, -20vh)
+      scale(1);
+  }
+}
+
+
+@keyframes orbTwo {
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(45vw, 30vh)
+      scale(0.6);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translate(35vw, 20vh)
+      scale(1);
+  }
+}
+
+
+@keyframes noiseMove {
+  0% {
+    transform:
+      translate(0, 0);
+  }
+
+  25% {
+    transform:
+      translate(2%, -1%);
+  }
+
+  50% {
+    transform:
+      translate(-1%, 2%);
+  }
+
+  75% {
+    transform:
+      translate(1%, 1%);
+  }
+
+  100% {
+    transform:
+      translate(0, 0);
+  }
+}
+
+
+@keyframes introExit {
+  0% {
+    opacity: 1;
+
+    transform:
+      scale(1);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      scale(1.035);
+
+    visibility: hidden;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .logo-intro__brand {
+    font-size: 32px;
+
+    letter-spacing: 0.09em;
+  }
+
+  .logo-intro__caption {
+    font-size: 7px;
+
+    letter-spacing: 0.24em;
+  }
+
+  .logo-intro__orb {
+    width: 300px;
+    height: 300px;
+
+    filter: blur(70px);
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .logo-intro,
+  .logo-intro__orb,
+  .logo-intro__line,
+  .logo-intro__brand span,
+  .logo-intro__caption {
+    animation: none !important;
+  }
+
+  .logo-intro {
+    opacity: 1;
+  }
+
+  .logo-intro__brand span {
+    opacity: 1;
+
+    transform: none;
+
+    filter: none;
+  }
+
+  .logo-intro__caption {
+    opacity: 1;
+
+    transform: none;
+  }
+}

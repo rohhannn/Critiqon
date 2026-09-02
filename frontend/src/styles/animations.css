@@ -1,0 +1,198 @@
+/* =========================================================
+   GLOBAL ANIMATIONS
+========================================================= */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+/* =========================================================
+   DASHBOARD SECTION ANIMATION
+========================================================= */
+
+.animate-item {
+  opacity: 0;
+  animation-name: fadeUp;
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: forwards;
+}
+
+
+/* Individual delays */
+
+.animate-1 {
+  animation-delay: 0.05s;
+}
+
+.animate-2 {
+  animation-delay: 0.18s;
+}
+
+.animate-3 {
+  animation-delay: 0.31s;
+}
+
+.animate-4 {
+  animation-delay: 0.44s;
+}
+
+.animate-5 {
+  animation-delay: 0.57s;
+}
+
+.animate-6 {
+  animation-delay: 0.70s;
+}
+
+
+/* =========================================================
+   DASHBOARD CARDS
+========================================================= */
+
+.animated-card {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.animated-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 14px 32px rgba(31, 41, 55, 0.10);
+}
+
+
+/* =========================================================
+   BUTTON ANIMATION
+========================================================= */
+
+.upload-btn,
+.welcome-btn,
+.recent-btn {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.upload-btn:hover,
+.welcome-btn:hover,
+.recent-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 18px rgba(40, 100, 240, 0.16);
+}
+
+.upload-btn:active,
+.welcome-btn:active,
+.recent-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar-item {
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.sidebar-item:hover {
+  transform: translateX(3px);
+}
+
+
+/* =========================================================
+   UPLOAD BOX
+========================================================= */
+
+.upload-box {
+  transition:
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.upload-box:hover {
+  box-shadow:
+    0 8px 24px rgba(40, 100, 240, 0.07);
+}
+
+
+/* =========================================================
+   FILE SELECTION
+========================================================= */
+
+.selected-file {
+  animation:
+    scaleIn 0.25s ease-out both;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message {
+  animation:
+    fadeUp 0.3s ease-out both;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+}
