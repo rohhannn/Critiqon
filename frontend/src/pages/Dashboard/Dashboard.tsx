@@ -670,7 +670,7 @@ function Dashboard() {
               </div>
             </div>
 
-            <ResumeUpload hideUpload={true} />
+            <ResumeUpload />
           </section>
         </main>
       </div>
