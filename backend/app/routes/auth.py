@@ -15,12 +15,13 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from pydantic import BaseModel, EmailStr
 
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
 
-from ..auth import hash_password
+from ..auth import hash_password, verify_password
 from ..config import GOOGLE_CLIENT_ID
 from ..database import get_db
 from ..dependencies import get_current_user
@@ -34,6 +35,7 @@ from ..schemas import (
     UserLogin,
 )
 from ..services.email_service import (
+    email_configured,
     send_login_email,
     send_otp_email,
     send_welcome_email,
@@ -49,34 +51,22 @@ router = APIRouter()
 
 OTP_LENGTH = 6
 
-# OTP remains valid for 10 minutes.
 OTP_EXPIRY_MINUTES = 10
 
-# User can request another OTP after 60 seconds.
 OTP_RESEND_COOLDOWN_SECONDS = 60
 
-# Maximum incorrect attempts for one OTP.
 OTP_MAX_ATTEMPTS = 5
 
 
 # ============================================================
-# HELPER FUNCTIONS
+# HELPERS
 # ============================================================
 
 def _normalise_email(email: str) -> str:
-    """
-    Normalise an email address so that authentication is
-    case-insensitive and whitespace is removed.
-    """
     return email.strip().lower()
 
 
 def _hash_otp(email: str, otp: str) -> str:
-    """
-    Hash the OTP before storing it in the database.
-
-    The raw OTP is never stored in the database.
-    """
     message = f"{email}:{otp}".encode("utf-8")
 
     return hmac.new(
@@ -87,14 +77,9 @@ def _hash_otp(email: str, otp: str) -> str:
 
 
 def _create_access_response(user: User) -> dict:
-    """
-    Create the application's JWT response after successful
-    authentication.
-    """
-
     access_token = create_access_token(
         data={
-            "sub": user.email
+            "sub": user.email,
         }
     )
 
@@ -109,8 +94,23 @@ def _create_access_response(user: User) -> dict:
     }
 
 
+def _validate_password(password: str) -> None:
+    if len(password) < 8:
+        raise HTTPException(
+            status_code=400,
+            detail="Password must be at least 8 characters.",
+        )
+
+    # bcrypt has a 72-byte input limit.
+    if len(password.encode("utf-8")) > 72:
+        raise HTTPException(
+            status_code=400,
+            detail="Password must not exceed 72 bytes.",
+        )
+
+
 # ============================================================
-# EMAIL OTP LOGIN
+# EMAIL OTP SCHEMAS
 # ============================================================
 
 class RequestOTP(BaseModel):
@@ -123,7 +123,161 @@ class VerifyOTP(BaseModel):
 
 
 # ============================================================
-# REQUEST OTP
+# PASSWORD REGISTRATION
+# ============================================================
+
+@router.post("/register")
+def register(
+    user_data: UserCreate,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
+    """
+    Create a Critiqon account using email + password.
+    """
+
+    email = _normalise_email(
+        str(user_data.email)
+    )
+
+    full_name = user_data.full_name.strip()
+
+    password = user_data.password
+
+    if not full_name:
+        raise HTTPException(
+            status_code=400,
+            detail="Full name cannot be empty.",
+        )
+
+    _validate_password(password)
+
+    # --------------------------------------------------------
+    # Check existing account
+    # --------------------------------------------------------
+
+    existing_user = (
+        db.query(User)
+        .filter(User.email == email)
+        .first()
+    )
+
+    if existing_user:
+        raise HTTPException(
+            status_code=409,
+            detail=(
+                "An account with this email already exists. "
+                "Please sign in instead."
+            ),
+        )
+
+    # --------------------------------------------------------
+    # Create user
+    # --------------------------------------------------------
+
+    user = User(
+        full_name=full_name,
+        email=email,
+        hashed_password=hash_password(password),
+    )
+
+    db.add(user)
+
+    try:
+        db.commit()
+        db.refresh(user)
+
+    except IntegrityError:
+        db.rollback()
+
+        raise HTTPException(
+            status_code=409,
+            detail=(
+                "An account with this email already exists. "
+                "Please sign in instead."
+            ),
+        )
+
+    # --------------------------------------------------------
+    # Welcome email
+    # --------------------------------------------------------
+
+    background_tasks.add_task(
+        send_welcome_email,
+        user.full_name,
+        user.email,
+    )
+
+    return {
+        "message": "Account created successfully.",
+        "user": {
+            "id": user.id,
+            "full_name": user.full_name,
+            "email": user.email,
+        },
+    }
+
+
+# ============================================================
+# PASSWORD LOGIN
+# ============================================================
+
+@router.post("/login")
+def login(
+    user_data: UserLogin,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
+    """
+    Authenticate using email + password.
+    """
+
+    email = _normalise_email(
+        str(user_data.email)
+    )
+
+    user = (
+        db.query(User)
+        .filter(User.email == email)
+        .first()
+    )
+
+    # Do not reveal whether an email exists.
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password.",
+        )
+
+    try:
+        password_valid = verify_password(
+            user_data.password,
+            user.hashed_password,
+        )
+    except Exception:
+        password_valid = False
+
+    if not password_valid:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password.",
+        )
+
+    # --------------------------------------------------------
+    # Login notification
+    # --------------------------------------------------------
+
+    background_tasks.add_task(
+        send_login_email,
+        user.full_name,
+        user.email,
+    )
+
+    return _create_access_response(user)
+
+
+# ============================================================
+# EMAIL OTP — REQUEST
 # ============================================================
 
 @router.post("/request-otp")
@@ -134,16 +288,15 @@ def request_otp(
     """
     Generate and send a six-digit verification code.
 
-    This is the first step of passwordless authentication.
+    OTP login can be used for both existing accounts and
+    first-time users.
     """
 
-    email = _normalise_email(str(request.email))
+    email = _normalise_email(
+        str(request.email)
+    )
 
     now = datetime.utcnow()
-
-    # --------------------------------------------------------
-    # Check whether an OTP already exists
-    # --------------------------------------------------------
 
     otp_record = (
         db.query(EmailOTP)
@@ -154,17 +307,21 @@ def request_otp(
     )
 
     # --------------------------------------------------------
-    # Resend cooldown
+    # Cooldown
     # --------------------------------------------------------
 
-    if otp_record and otp_record.last_sent_at:
-
+    if (
+        otp_record
+        and otp_record.last_sent_at
+    ):
         elapsed = (
             now - otp_record.last_sent_at
         ).total_seconds()
 
-        if elapsed < OTP_RESEND_COOLDOWN_SECONDS:
-
+        if (
+            elapsed
+            < OTP_RESEND_COOLDOWN_SECONDS
+        ):
             retry_after = max(
                 1,
                 OTP_RESEND_COOLDOWN_SECONDS
@@ -183,7 +340,21 @@ def request_otp(
             )
 
     # --------------------------------------------------------
-    # Generate secure six-digit OTP
+    # Email configuration
+    # --------------------------------------------------------
+
+    if not email_configured():
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "Email delivery is not configured. "
+                "Configure RESEND_API_KEY and EMAIL_FROM "
+                "on the server."
+            ),
+        )
+
+    # --------------------------------------------------------
+    # Generate OTP
     # --------------------------------------------------------
 
     otp = str(
@@ -191,11 +362,10 @@ def request_otp(
     )
 
     # --------------------------------------------------------
-    # Create or replace OTP record
+    # Create / replace OTP
     # --------------------------------------------------------
 
     if otp_record is None:
-
         otp_record = EmailOTP(
             email=email,
             code_hash=_hash_otp(
@@ -215,7 +385,6 @@ def request_otp(
         db.add(otp_record)
 
     else:
-
         otp_record.code_hash = _hash_otp(
             email,
             otp,
@@ -231,34 +400,10 @@ def request_otp(
         otp_record.attempts = 0
         otp_record.last_sent_at = now
 
-    # --------------------------------------------------------
-    # Save OTP before sending
-    # --------------------------------------------------------
-
     db.commit()
 
     # --------------------------------------------------------
-    # Check email configuration
-    # --------------------------------------------------------
-
-    from ..services.email_service import email_configured
-
-    if not email_configured():
-
-        db.delete(otp_record)
-        db.commit()
-
-        raise HTTPException(
-            status_code=503,
-            detail=(
-                "Email delivery is not configured. "
-                "Configure RESEND_API_KEY and EMAIL_FROM "
-                "on the server."
-            ),
-        )
-
-    # --------------------------------------------------------
-    # Send OTP email
+    # Send OTP
     # --------------------------------------------------------
 
     delivered = send_otp_email(
@@ -267,12 +412,7 @@ def request_otp(
         expires_minutes=OTP_EXPIRY_MINUTES,
     )
 
-    # --------------------------------------------------------
-    # If email delivery failed, don't leave a usable OTP
-    # --------------------------------------------------------
-
     if not delivered:
-
         db.delete(otp_record)
         db.commit()
 
@@ -284,10 +424,6 @@ def request_otp(
             ),
         )
 
-    # --------------------------------------------------------
-    # Success
-    # --------------------------------------------------------
-
     return {
         "message": "Verification code sent.",
         "expires_in": OTP_EXPIRY_MINUTES * 60,
@@ -296,7 +432,7 @@ def request_otp(
 
 
 # ============================================================
-# VERIFY OTP
+# EMAIL OTP — VERIFY
 # ============================================================
 
 @router.post("/verify-otp")
@@ -306,15 +442,7 @@ def verify_otp(
     db: Session = Depends(get_db),
 ):
     """
-    Verify the email OTP.
-
-    If valid:
-        - Create the user if necessary
-        - Delete the OTP
-        - Create JWT
-        - Send login email
-        - Send welcome email for new accounts
-        - Return authenticated user
+    Verify an OTP and authenticate/create the user.
     """
 
     email = _normalise_email(
@@ -323,22 +451,14 @@ def verify_otp(
 
     otp = request.otp.strip()
 
-    # --------------------------------------------------------
-    # Validate OTP format
-    # --------------------------------------------------------
-
-    if not otp.isdigit() or len(otp) != OTP_LENGTH:
-
+    if (
+        not otp.isdigit()
+        or len(otp) != OTP_LENGTH
+    ):
         raise HTTPException(
             status_code=400,
-            detail=(
-                "Enter the 6-digit verification code."
-            ),
+            detail="Enter the 6-digit verification code.",
         )
-
-    # --------------------------------------------------------
-    # Find OTP
-    # --------------------------------------------------------
 
     otp_record = (
         db.query(EmailOTP)
@@ -350,12 +470,7 @@ def verify_otp(
 
     now = datetime.utcnow()
 
-    # --------------------------------------------------------
-    # OTP doesn't exist
-    # --------------------------------------------------------
-
     if not otp_record:
-
         raise HTTPException(
             status_code=400,
             detail=(
@@ -364,12 +479,7 @@ def verify_otp(
             ),
         )
 
-    # --------------------------------------------------------
-    # OTP expired
-    # --------------------------------------------------------
-
     if otp_record.expires_at < now:
-
         db.delete(otp_record)
         db.commit()
 
@@ -381,12 +491,7 @@ def verify_otp(
             ),
         )
 
-    # --------------------------------------------------------
-    # Too many attempts
-    # --------------------------------------------------------
-
     if otp_record.attempts >= OTP_MAX_ATTEMPTS:
-
         raise HTTPException(
             status_code=429,
             detail=(
@@ -395,24 +500,15 @@ def verify_otp(
             ),
         )
 
-    # --------------------------------------------------------
-    # Calculate expected OTP hash
-    # --------------------------------------------------------
-
     expected = _hash_otp(
         email,
         otp,
     )
 
-    # --------------------------------------------------------
-    # Compare securely
-    # --------------------------------------------------------
-
     if not hmac.compare_digest(
         otp_record.code_hash,
         expected,
     ):
-
         otp_record.attempts += 1
 
         db.commit()
@@ -434,12 +530,8 @@ def verify_otp(
         )
 
     # ========================================================
-    # OTP IS VALID
+    # VALID OTP
     # ========================================================
-
-    # --------------------------------------------------------
-    # Find existing user
-    # --------------------------------------------------------
 
     user = (
         db.query(User)
@@ -452,11 +544,10 @@ def verify_otp(
     is_new_user = user is None
 
     # --------------------------------------------------------
-    # Create account if this is the first login
+    # Create account for first-time OTP user
     # --------------------------------------------------------
 
     if user is None:
-
         display_name = (
             email
             .split("@", 1)[0]
@@ -477,21 +568,16 @@ def verify_otp(
             full_name=display_name,
             email=email,
 
-            # ------------------------------------------------
-            # Password login is disabled.
-            #
-            # This random password only exists because the
-            # current database model requires hashed_password.
-            # ------------------------------------------------
-
+            # Random password means this OTP-created account
+            # can still use the password column required by
+            # the existing database schema.
             hashed_password=hash_password(
-                secrets.token_urlsafe(48)
+                secrets.token_urlsafe(32)
             ),
         )
 
         db.add(user)
 
-        # Get the database ID before commit.
         db.flush()
 
     # --------------------------------------------------------
@@ -500,29 +586,20 @@ def verify_otp(
 
     db.delete(otp_record)
 
-    # --------------------------------------------------------
-    # Commit user + OTP deletion
-    # --------------------------------------------------------
-
     db.commit()
 
     db.refresh(user)
 
     # --------------------------------------------------------
-    # Welcome email for brand-new account
+    # Emails
     # --------------------------------------------------------
 
     if is_new_user:
-
         background_tasks.add_task(
             send_welcome_email,
             user.full_name,
             user.email,
         )
-
-    # --------------------------------------------------------
-    # Login notification
-    # --------------------------------------------------------
 
     background_tasks.add_task(
         send_login_email,
@@ -530,64 +607,7 @@ def verify_otp(
         user.email,
     )
 
-    # --------------------------------------------------------
-    # Return JWT
-    # --------------------------------------------------------
-
-    return _create_access_response(
-        user
-    )
-
-
-# ============================================================
-# LEGACY PASSWORD LOGIN DISABLED
-# ============================================================
-
-@router.post("/login")
-def legacy_login_disabled(
-    user: UserLogin,
-):
-    """
-    Password login has been intentionally disabled.
-
-    Authentication is now performed through:
-        /request-otp
-        /verify-otp
-    """
-
-    raise HTTPException(
-        status_code=410,
-        detail=(
-            "Password login has been replaced "
-            "by email verification codes. "
-            "Use /request-otp and /verify-otp."
-        ),
-    )
-
-
-# ============================================================
-# LEGACY PASSWORD REGISTRATION DISABLED
-# ============================================================
-
-@router.post("/register")
-def legacy_register_disabled(
-    user: UserCreate,
-):
-    """
-    Password registration has been disabled.
-
-    A Critiqon account is automatically created after
-    successful email OTP verification.
-    """
-
-    raise HTTPException(
-        status_code=410,
-        detail=(
-            "Password registration has been replaced "
-            "by email verification. "
-            "Enter your email on the sign-in page."
-        ),
-    )
+    return _create_access_response(user)
 
 
 # ============================================================
@@ -604,17 +624,7 @@ def google_login(
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
 ):
-    """
-    Verify Google Identity Services ID token
-    and authenticate/create the user.
-    """
-
-    # --------------------------------------------------------
-    # Check Google configuration
-    # --------------------------------------------------------
-
     if not GOOGLE_CLIENT_ID:
-
         raise HTTPException(
             status_code=503,
             detail=(
@@ -623,25 +633,13 @@ def google_login(
             ),
         )
 
-    # --------------------------------------------------------
-    # Check credential
-    # --------------------------------------------------------
-
     if not request.credential:
-
         raise HTTPException(
             status_code=400,
-            detail=(
-                "Google credential was not provided."
-            ),
+            detail="Google credential was not provided.",
         )
 
-    # --------------------------------------------------------
-    # Verify Google ID token
-    # --------------------------------------------------------
-
     try:
-
         google_user = (
             id_token.verify_oauth2_token(
                 request.credential,
@@ -651,7 +649,6 @@ def google_login(
         )
 
     except Exception as error:
-
         print(
             "Google token verification error:",
             repr(error),
@@ -659,14 +656,8 @@ def google_login(
 
         raise HTTPException(
             status_code=401,
-            detail=(
-                "Google Sign-In verification failed."
-            ),
+            detail="Google Sign-In verification failed.",
         )
-
-    # --------------------------------------------------------
-    # Extract email
-    # --------------------------------------------------------
 
     email = _normalise_email(
         str(
@@ -677,17 +668,12 @@ def google_login(
         )
     )
 
-    # --------------------------------------------------------
-    # Verify Google email
-    # --------------------------------------------------------
-
     if (
         not email
         or google_user.get(
             "email_verified"
         ) is not True
     ):
-
         raise HTTPException(
             status_code=401,
             detail=(
@@ -695,10 +681,6 @@ def google_login(
                 "not be verified."
             ),
         )
-
-    # --------------------------------------------------------
-    # Get Google user's name
-    # --------------------------------------------------------
 
     name = str(
         google_user.get("name")
@@ -708,10 +690,6 @@ def google_login(
 
     if not name:
         name = email.split("@", 1)[0]
-
-    # --------------------------------------------------------
-    # Find existing user
-    # --------------------------------------------------------
 
     user = (
         db.query(User)
@@ -723,17 +701,12 @@ def google_login(
 
     is_new_user = user is None
 
-    # --------------------------------------------------------
-    # Create Google user
-    # --------------------------------------------------------
-
     if user is None:
-
         user = User(
             full_name=name,
             email=email,
             hashed_password=hash_password(
-                secrets.token_urlsafe(48)
+                secrets.token_urlsafe(32)
             ),
         )
 
@@ -742,21 +715,12 @@ def google_login(
         db.commit()
         db.refresh(user)
 
-    # --------------------------------------------------------
-    # Welcome email for new Google account
-    # --------------------------------------------------------
-
     if is_new_user:
-
         background_tasks.add_task(
             send_welcome_email,
             user.full_name,
             user.email,
         )
-
-    # --------------------------------------------------------
-    # Login email
-    # --------------------------------------------------------
 
     background_tasks.add_task(
         send_login_email,
@@ -764,34 +728,54 @@ def google_login(
         user.email,
     )
 
-    # --------------------------------------------------------
-    # Return JWT
-    # --------------------------------------------------------
-
-    return _create_access_response(
-        user
-    )
+    return _create_access_response(user)
 
 
 # ============================================================
-# OAUTH2 PASSWORD LOGIN DISABLED
+# OAUTH2 PASSWORD LOGIN
 # ============================================================
 
 @router.post("/login/oauth")
-def login_oauth_disabled(
+def login_oauth(
     form_data: OAuth2PasswordRequestForm = Depends(),
+    background_tasks: BackgroundTasks = None,
+    db: Session = Depends(get_db),
 ):
     """
-    Swagger/OAuth2 password authentication is disabled.
+    Compatibility endpoint for Swagger/OAuth2 clients.
     """
 
-    raise HTTPException(
-        status_code=410,
-        detail=(
-            "Password login is disabled. "
-            "Use email verification codes."
-        ),
+    email = _normalise_email(
+        form_data.username
     )
+
+    user = (
+        db.query(User)
+        .filter(User.email == email)
+        .first()
+    )
+
+    if not user:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password.",
+        )
+
+    try:
+        valid = verify_password(
+            form_data.password,
+            user.hashed_password,
+        )
+    except Exception:
+        valid = False
+
+    if not valid:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password.",
+        )
+
+    return _create_access_response(user)
 
 
 # ============================================================
@@ -825,39 +809,19 @@ def update_profile(
         get_current_user
     ),
 ):
-    """
-    Update user's profile.
-
-    Email cannot be changed directly because email is the
-    authentication identity. A separate email verification
-    flow should be used for email changes.
-    """
-
     full_name = profile.full_name.strip()
 
     email = _normalise_email(
         str(profile.email)
     )
 
-    # --------------------------------------------------------
-    # Validate name
-    # --------------------------------------------------------
-
     if not full_name:
-
         raise HTTPException(
             status_code=400,
-            detail=(
-                "Full name cannot be empty."
-            ),
+            detail="Full name cannot be empty.",
         )
 
-    # --------------------------------------------------------
-    # Prevent unverified email changes
-    # --------------------------------------------------------
-
     if email != current_user.email:
-
         raise HTTPException(
             status_code=400,
             detail=(
@@ -866,10 +830,6 @@ def update_profile(
                 "be changed from profile settings."
             ),
         )
-
-    # --------------------------------------------------------
-    # Update profile
-    # --------------------------------------------------------
 
     current_user.full_name = full_name
 
@@ -880,25 +840,47 @@ def update_profile(
 
 
 # ============================================================
-# CHANGE PASSWORD DISABLED
+# CHANGE PASSWORD
 # ============================================================
 
 @router.put("/password")
-def change_password_disabled(
+def change_password(
     password_data: PasswordChange,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(
+        get_current_user
+    ),
 ):
     """
-    Password authentication is disabled.
-
-    Kept as a compatibility endpoint so old frontend/API
-    calls receive a clear response rather than breaking
-    unpredictably.
+    Allows an authenticated user to change their password.
     """
 
-    raise HTTPException(
-        status_code=410,
-        detail=(
-            "Password authentication is disabled. "
-            "Critiqon uses email verification codes."
-        ),
+    try:
+        valid = verify_password(
+            password_data.current_password,
+            current_user.hashed_password,
+        )
+    except Exception:
+        valid = False
+
+    if not valid:
+        raise HTTPException(
+            status_code=400,
+            detail="Current password is incorrect.",
+        )
+
+    _validate_password(
+        password_data.new_password
     )
+
+    current_user.hashed_password = (
+        hash_password(
+            password_data.new_password
+        )
+    )
+
+    db.commit()
+
+    return {
+        "message": "Password changed successfully.",
+    }
