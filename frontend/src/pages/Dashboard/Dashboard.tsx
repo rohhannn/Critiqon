@@ -59,9 +59,11 @@ function Dashboard() {
 
   const [dashboardData, setDashboardData] =
     useState<DashboardData | null>(null);
+
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(false);
+
   const [activeFocus, setActiveFocus] = useState<
     "overview" | "resume" | "interview"
   >("overview");
@@ -194,7 +196,10 @@ function Dashboard() {
         role="status"
         aria-live="polite"
       >
-        <div className="dashboard-loading-mark" aria-hidden="true">
+        <div
+          className="dashboard-loading-mark"
+          aria-hidden="true"
+        >
           <span />
           <span />
           <span />
@@ -214,15 +219,21 @@ function Dashboard() {
         className="dashboard-route-state dashboard-route-state--error"
         role="alert"
       >
-        <div className="dashboard-state-icon" aria-hidden="true">
+        <div
+          className="dashboard-state-icon"
+          aria-hidden="true"
+        >
           <AlertCircle size={24} />
         </div>
 
         <div>
-          <strong>We couldn’t load your dashboard</strong>
+          <strong>
+            We couldn’t load your dashboard
+          </strong>
+
           <p>
-            Check your connection and try again. Your saved data has not
-            been changed.
+            Check your connection and try again. Your saved
+            data has not been changed.
           </p>
 
           <button
@@ -246,12 +257,18 @@ function Dashboard() {
         <Topbar />
 
         <main className="dashboard-content">
+
+          {/* =====================================================
+              HERO
+          ====================================================== */}
+
           <section className="dashboard-hero-section dashboard-reveal dashboard-reveal--1">
             <WelcomeBanner user={dashboardData.user || "User"} />
 
             <div className="dashboard-command-bar">
               <div className="dashboard-command-copy">
                 <span className="dashboard-live-dot" />
+
                 <span>
                   Dashboard overview
                   <strong>Live account data</strong>
@@ -262,22 +279,31 @@ function Dashboard() {
                 <button
                   type="button"
                   className="dashboard-refresh-button"
-                  onClick={() => void loadDashboard(false)}
+                  onClick={() =>
+                    void loadDashboard(false)
+                  }
                   disabled={refreshing}
                   aria-label="Refresh dashboard"
                   title="Refresh dashboard"
                 >
                   <RefreshCw
                     size={15}
-                    className={refreshing ? "is-spinning" : ""}
+                    className={
+                      refreshing ? "is-spinning" : ""
+                    }
                   />
-                  {refreshing ? "Refreshing" : "Refresh"}
+
+                  {refreshing
+                    ? "Refreshing"
+                    : "Refresh"}
                 </button>
 
                 <button
                   type="button"
                   className="dashboard-primary-action"
-                  onClick={() => navigate("/resume-analysis")}
+                  onClick={() =>
+                    navigate("/resume-analysis")
+                  }
                 >
                   <Upload size={15} />
                   Analyze resume
@@ -287,25 +313,76 @@ function Dashboard() {
             </div>
           </section>
 
-          <section className="dashboard-focus-section dashboard-reveal dashboard-reveal--2">
+
+          {/* =====================================================
+              RESUME UPLOAD — MOVED TO TOP
+          ====================================================== */}
+
+          <section className="dashboard-library-section dashboard-reveal dashboard-reveal--2">
+            <div className="dashboard-library-heading">
+              <div>
+                <span className="section-eyebrow">
+                  GET STARTED
+                </span>
+
+                <h2>Upload your resume</h2>
+
+                <p>
+                  Upload your resume to analyze your ATS
+                  score, skills, strengths and improvement
+                  opportunities.
+                </p>
+              </div>
+
+              <div className="dashboard-library-stats">
+                <span>
+                  <MessageSquare size={14} />
+                  {dashboardData.total_questions_answered}{" "}
+                  questions
+                </span>
+
+                <span>
+                  <CheckCircle2 size={14} />
+                  {dashboardData.completed_interviews}{" "}
+                  completed
+                </span>
+              </div>
+            </div>
+
+            <ResumeUpload />
+          </section>
+
+
+          {/* =====================================================
+              CAREER READINESS
+          ====================================================== */}
+
+          <section className="dashboard-focus-section dashboard-reveal dashboard-reveal--3">
             <div className="dashboard-focus-card">
               <div className="dashboard-focus-copy">
                 <span className="dashboard-focus-eyebrow">
                   YOUR NEXT MOVE
                 </span>
+
                 <h2>{readinessLabel}</h2>
+
                 <p>{readinessMessage}</p>
               </div>
 
               <div className="dashboard-focus-score">
                 <div
                   className="dashboard-focus-ring"
-                  style={{
-                    "--readiness": `${metrics.readiness}%`,
-                  } as React.CSSProperties}
+                  style={
+                    {
+                      "--readiness": `${metrics.readiness}%`,
+                    } as React.CSSProperties
+                  }
                 >
                   <div>
-                    <strong>{metrics.readiness}</strong>
+                    <strong>
+                      {metrics.readiness}
+                    </strong>
+
                     <span>/100</span>
                   </div>
                 </div>
@@ -314,8 +391,12 @@ function Dashboard() {
               <div className="dashboard-focus-progress">
                 <div>
                   <span>Career readiness</span>
-                  <strong>{metrics.readiness}%</strong>
+
+                  <strong>
+                    {metrics.readiness}%
+                  </strong>
                 </div>
+
                 <div className="dashboard-focus-track">
                   <span
                     style={{
@@ -327,13 +408,21 @@ function Dashboard() {
             </div>
           </section>
 
+
+          {/* =====================================================
+              PERFORMANCE
+          ====================================================== */}
+
           <section
-            className="dashboard-performance-section dashboard-reveal dashboard-reveal--3"
+            className="dashboard-performance-section dashboard-reveal dashboard-reveal--4"
             aria-labelledby="dashboard-performance-title"
           >
             <div className="section-heading section-heading--compact">
               <div>
-                <span className="section-eyebrow">AT A GLANCE</span>
+                <span className="section-eyebrow">
+                  AT A GLANCE
+                </span>
+
                 <h2 id="dashboard-performance-title">
                   Your career performance
                 </h2>
@@ -354,15 +443,24 @@ function Dashboard() {
             <DashboardStats stats={dashboardData} />
           </section>
 
-          <section className="dashboard-quick-actions dashboard-reveal dashboard-reveal--4">
+
+          {/* =====================================================
+              QUICK ACTIONS
+          ====================================================== */}
+
+          <section className="dashboard-quick-actions dashboard-reveal dashboard-reveal--5">
             <div className="section-heading section-heading--compact">
               <div>
-                <span className="section-eyebrow">QUICK ACTIONS</span>
+                <span className="section-eyebrow">
+                  QUICK ACTIONS
+                </span>
+
                 <h2>Move your profile forward</h2>
               </div>
             </div>
 
             <div className="dashboard-action-grid">
+
               <button
                 type="button"
                 className={`dashboard-action-card ${
@@ -378,14 +476,21 @@ function Dashboard() {
                 <span className="dashboard-action-icon dashboard-action-icon--green">
                   <FileText size={19} />
                 </span>
+
                 <span className="dashboard-action-content">
-                  <strong>Improve your resume</strong>
+                  <strong>
+                    Improve your resume
+                  </strong>
+
                   <small>
-                    Review ATS score and optimization insights
+                    Review ATS score and optimization
+                    insights
                   </small>
                 </span>
+
                 <ArrowUpRight size={17} />
               </button>
+
 
               <button
                 type="button"
@@ -402,14 +507,21 @@ function Dashboard() {
                 <span className="dashboard-action-icon dashboard-action-icon--purple">
                   <Brain size={19} />
                 </span>
+
                 <span className="dashboard-action-content">
-                  <strong>Practice interviews</strong>
+                  <strong>
+                    Practice interviews
+                  </strong>
+
                   <small>
-                    Build confidence with interview preparation
+                    Build confidence with interview
+                    preparation
                   </small>
                 </span>
+
                 <ArrowUpRight size={17} />
               </button>
+
 
               <button
                 type="button"
@@ -418,47 +530,76 @@ function Dashboard() {
                     ? "dashboard-action-card--active"
                     : ""
                 }`}
-                onClick={() => navigate("/job-match")}
+                onClick={() =>
+                  navigate("/job-match")
+                }
               >
                 <span className="dashboard-action-icon dashboard-action-icon--blue">
                   <Target size={19} />
                 </span>
+
                 <span className="dashboard-action-content">
-                  <strong>Match a job</strong>
+                  <strong>
+                    Match a job
+                  </strong>
+
                   <small>
-                    Compare your profile against a target role
+                    Compare your profile against a
+                    target role
                   </small>
                 </span>
+
                 <ArrowUpRight size={17} />
               </button>
+
 
               <button
                 type="button"
                 className="dashboard-action-card"
-                onClick={() => navigate("/reports")}
+                onClick={() =>
+                  navigate("/reports")
+                }
               >
                 <span className="dashboard-action-icon dashboard-action-icon--amber">
                   <BarChart3 size={19} />
                 </span>
+
                 <span className="dashboard-action-content">
-                  <strong>View insights</strong>
+                  <strong>
+                    View insights
+                  </strong>
+
                   <small>
-                    Explore your complete performance reports
+                    Explore your complete performance
+                    reports
                   </small>
                 </span>
+
                 <ArrowUpRight size={17} />
               </button>
+
             </div>
           </section>
 
-          <section className="dashboard-grid dashboard-reveal dashboard-reveal--5">
+
+          {/* =====================================================
+              CHART + READINESS
+          ====================================================== */}
+
+          <section className="dashboard-grid dashboard-reveal dashboard-reveal--6">
+
             <div className="dashboard-panel dashboard-panel--chart">
               <div className="dashboard-panel-topline">
                 <div>
-                  <span className="section-eyebrow">PROGRESS</span>
+                  <span className="section-eyebrow">
+                    PROGRESS
+                  </span>
+
                   <h2>ATS score trend</h2>
+
                   <p>
-                    Track how your resume performance changes over time.
+                    Track how your resume performance
+                    changes over time.
                   </p>
                 </div>
 
@@ -468,6 +609,7 @@ function Dashboard() {
                   ) : (
                     <BarChart3 size={15} />
                   )}
+
                   <span>
                     {metrics.trend > 0
                       ? `+${metrics.trend} pts`
@@ -478,16 +620,25 @@ function Dashboard() {
                 </div>
               </div>
 
-              <ATSTrendChart data={dashboardData.ats_history} />
+              <ATSTrendChart
+                data={dashboardData.ats_history}
+              />
             </div>
 
+
             <div className="dashboard-panel dashboard-panel--progress">
+
               <div className="progress-panel-header">
                 <div>
-                  <span className="section-eyebrow">READINESS</span>
+                  <span className="section-eyebrow">
+                    READINESS
+                  </span>
+
                   <h2>Career readiness</h2>
+
                   <p>
-                    A balanced view of resume and interview performance.
+                    A balanced view of resume and
+                    interview performance.
                   </p>
                 </div>
 
@@ -495,16 +646,29 @@ function Dashboard() {
                   className="readiness-orb"
                   aria-label={`Career readiness ${metrics.readiness} out of 100`}
                 >
-                  <span>{metrics.readiness}</span>
+                  <span>
+                    {metrics.readiness}
+                  </span>
+
                   <small>/100</small>
                 </div>
               </div>
 
+
               <div className="readiness-list">
+
                 <div className="readiness-row">
                   <div className="readiness-label">
-                    <span>Latest ATS score</span>
-                    <strong>{Math.round(metrics.resumeScore)}%</strong>
+                    <span>
+                      Latest ATS score
+                    </span>
+
+                    <strong>
+                      {Math.round(
+                        metrics.resumeScore
+                      )}
+                      %
+                    </strong>
                   </div>
 
                   <div className="readiness-track">
@@ -516,10 +680,19 @@ function Dashboard() {
                   </div>
                 </div>
 
+
                 <div className="readiness-row">
                   <div className="readiness-label">
-                    <span>Average ATS score</span>
-                    <strong>{Math.round(metrics.averageATS)}%</strong>
+                    <span>
+                      Average ATS score
+                    </span>
+
+                    <strong>
+                      {Math.round(
+                        metrics.averageATS
+                      )}
+                      %
+                    </strong>
                   </div>
 
                   <div className="readiness-track">
@@ -531,11 +704,18 @@ function Dashboard() {
                   </div>
                 </div>
 
+
                 <div className="readiness-row">
                   <div className="readiness-label">
-                    <span>Interview performance</span>
+                    <span>
+                      Interview performance
+                    </span>
+
                     <strong>
-                      {metrics.interviewScore.toFixed(1)}/10
+                      {metrics.interviewScore.toFixed(
+                        1
+                      )}
+                      /10
                     </strong>
                   </div>
 
@@ -548,10 +728,16 @@ function Dashboard() {
                   </div>
                 </div>
 
+
                 <div className="readiness-row">
                   <div className="readiness-label">
-                    <span>Interview completion</span>
-                    <strong>{metrics.interviewCompletion}%</strong>
+                    <span>
+                      Interview completion
+                    </span>
+
+                    <strong>
+                      {metrics.interviewCompletion}%
+                    </strong>
                   </div>
 
                   <div className="readiness-track">
@@ -562,43 +748,74 @@ function Dashboard() {
                     />
                   </div>
                 </div>
+
               </div>
 
+
               <div className="readiness-footer">
+
                 <div>
                   <span className="readiness-mini-icon">
                     <Sparkles size={13} />
                   </span>
-                  <strong>{dashboardData.skills_found}</strong>
-                  <span>skills detected</span>
+
+                  <strong>
+                    {dashboardData.skills_found}
+                  </strong>
+
+                  <span>
+                    skills detected
+                  </span>
                 </div>
+
 
                 <div>
                   <span className="readiness-mini-icon">
                     <FileText size={13} />
                   </span>
-                  <strong>{dashboardData.total_resumes}</strong>
-                  <span>resumes analyzed</span>
+
+                  <strong>
+                    {dashboardData.total_resumes}
+                  </strong>
+
+                  <span>
+                    resumes analyzed
+                  </span>
                 </div>
+
 
                 <button
                   type="button"
-                  onClick={() => navigate("/reports")}
+                  onClick={() =>
+                    navigate("/reports")
+                  }
                 >
                   View insights
                   <ArrowUpRight size={15} />
                 </button>
+
               </div>
+
             </div>
+
           </section>
 
-          <section className="dashboard-insight-strip dashboard-reveal dashboard-reveal--6">
+
+          {/* =====================================================
+              PERSONALIZED SIGNAL
+          ====================================================== */}
+
+          <section className="dashboard-insight-strip dashboard-reveal dashboard-reveal--7">
+
             <div className="dashboard-insight-icon">
               <Sparkles size={18} />
             </div>
 
             <div className="dashboard-insight-copy">
-              <span>PERSONALIZED SIGNAL</span>
+              <span>
+                PERSONALIZED SIGNAL
+              </span>
+
               <strong>
                 {metrics.trend > 0
                   ? `Your ATS score is up ${metrics.trend} points from the previous recorded score.`
@@ -621,57 +838,57 @@ function Dashboard() {
               Take action
               <ArrowUpRight size={15} />
             </button>
+
           </section>
 
-          <section className="dashboard-recent-section dashboard-reveal dashboard-reveal--7">
+
+          {/* =====================================================
+              RECENT RESUME
+          ====================================================== */}
+
+          <section className="dashboard-recent-section dashboard-reveal dashboard-reveal--8">
+
             <div className="section-heading section-heading--compact">
+
               <div>
-                <span className="section-eyebrow">LATEST DOCUMENT</span>
-                <h2>Recent resume</h2>
+                <span className="section-eyebrow">
+                  LATEST DOCUMENT
+                </span>
+
+                <h2>
+                  Recent resume
+                </h2>
               </div>
 
               <span className="section-meta">
                 {hasATSHistory
                   ? `${dashboardData.ats_history.length} score${
-                      dashboardData.ats_history.length === 1 ? "" : "s"
+                      dashboardData.ats_history.length ===
+                      1
+                        ? ""
+                        : "s"
                     } recorded`
                   : "No score history yet"}
               </span>
+
             </div>
 
             <RecentResume
-              resume={dashboardData.recent_resume}
+              resume={
+                dashboardData.recent_resume
+              }
             />
+
           </section>
 
-          <section
-            className="dashboard-library-section dashboard-reveal dashboard-reveal--8"
-            aria-label="Resume library"
-          >
-            <div className="dashboard-library-heading">
-              <div>
-                <span className="section-eyebrow">YOUR LIBRARY</span>
-                <h2>Resume workspace</h2>
-                <p>
-                  Keep your resume versions organized and ready for your
-                  next application.
-                </p>
-              </div>
 
-              <div className="dashboard-library-stats">
-                <span>
-                  <MessageSquare size={14} />
-                  {dashboardData.total_questions_answered} questions
-                </span>
-                <span>
-                  <CheckCircle2 size={14} />
-                  {dashboardData.completed_interviews} completed
-                </span>
-              </div>
-            </div>
+          {/* =====================================================
+              END OF DASHBOARD
+              
+              ResumeUpload was intentionally removed from
+              the bottom because it now appears near the top.
+          ====================================================== */}
 
-            <ResumeUpload />
-          </section>
         </main>
       </div>
     </div>
