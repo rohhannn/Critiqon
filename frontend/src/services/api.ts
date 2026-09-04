@@ -4,14 +4,6 @@ import axios from "axios";
 |--------------------------------------------------------------------------
 | API BASE URL
 |--------------------------------------------------------------------------
-|
-| Development:
-|   Uses VITE_API_URL if provided.
-|   Otherwise defaults to http://127.0.0.1:8000
-|
-| Production:
-|   VITE_API_URL MUST be configured.
-|
 */
 
 const configuredApiUrl = String(
@@ -38,17 +30,24 @@ if (configuredApiUrl) {
 |--------------------------------------------------------------------------
 |
 | IMPORTANT:
-| Do NOT set a global Content-Type here.
+| Interview question generation and AI answer evaluation can take
+| longer than normal API requests.
 |
-| JSON requests are handled automatically by Axios.
-| FormData requests must be allowed to set their own
-| multipart/form-data boundary.
+| 2 minutes gives the backend enough time to:
+| - send the request to OpenAI
+| - process a large resume
+| - generate up to 20 questions
+| - receive the JSON response
+| - save the interview session
 |
 */
 
 const api = axios.create({
   baseURL: apiBaseUrl,
-  timeout: 30_000,
+
+  // Increased from 30 seconds to 2 minutes.
+  timeout: 120_000,
+
   headers: {
     Accept: "application/json",
   },
@@ -58,19 +57,14 @@ const api = axios.create({
 |--------------------------------------------------------------------------
 | REQUEST INTERCEPTOR
 |--------------------------------------------------------------------------
-|
-| Automatically attach the JWT to authenticated requests.
-|
 */
 
 api.interceptors.request.use(
   (config) => {
-    const token =
-      sessionStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     if (token) {
-      config.headers.Authorization =
-        `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
@@ -84,23 +78,18 @@ api.interceptors.request.use(
 |--------------------------------------------------------------------------
 | RESPONSE INTERCEPTOR
 |--------------------------------------------------------------------------
-|
-| If the backend returns 401, tell AuthContext
-| to clear the current session.
-|
 */
 
 api.interceptors.response.use(
   (response) => response,
+
   (error) => {
     if (
       axios.isAxiosError(error) &&
       error.response?.status === 401
     ) {
       window.dispatchEvent(
-        new Event(
-          "critiqon:session-expired",
-        ),
+        new Event("critiqon:session-expired"),
       );
     }
 
@@ -116,12 +105,10 @@ api.interceptors.response.use(
 
 export function getApiErrorMessage(
   error: unknown,
-  fallback =
-    "Something went wrong. Please try again.",
+  fallback = "Something went wrong. Please try again.",
 ): string {
   if (axios.isAxiosError(error)) {
-    const detail =
-      error.response?.data?.detail;
+    const detail = error.response?.data?.detail;
 
     /*
     |--------------------------------------------------------------------------
@@ -156,29 +143,26 @@ export function getApiErrorMessage(
     |--------------------------------------------------------------------------
     */
 
-    if (
-      Array.isArray(detail)
-    ) {
-      const messages =
-        detail
-          .map((item) => {
-            if (
-              item &&
-              typeof item === "object" &&
-              "msg" in item &&
-              typeof item.msg === "string"
-            ) {
-              return item.msg;
-            }
+    if (Array.isArray(detail)) {
+      const messages = detail
+        .map((item) => {
+          if (
+            item &&
+            typeof item === "object" &&
+            "msg" in item &&
+            typeof item.msg === "string"
+          ) {
+            return item.msg;
+          }
 
-            return null;
-          })
-          .filter(
-            (
-              message,
-            ): message is string =>
-              Boolean(message),
-          );
+          return null;
+        })
+        .filter(
+          (
+            message,
+          ): message is string =>
+            Boolean(message),
+        );
 
       if (messages.length > 0) {
         return messages.join(" ");
@@ -187,55 +171,66 @@ export function getApiErrorMessage(
 
     /*
     |--------------------------------------------------------------------------
-    | Status-specific messages
+    | QUESTION LIMIT
     |--------------------------------------------------------------------------
     */
 
     if (
-      error.response?.status === 400
+      detail &&
+      typeof detail === "object" &&
+      detail.code === "QUESTION_LIMIT"
     ) {
+      const plan =
+        typeof detail.current_plan === "string"
+          ? detail.current_plan
+          : "current";
+
+      const limit =
+        typeof detail.limit === "number"
+          ? detail.limit
+          : 10;
+
+      return (
+        `Your ${plan} plan allows up to ` +
+        `${limit} interview questions per session.`
+      );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Status-specific messages
+    |--------------------------------------------------------------------------
+    */
+
+    if (error.response?.status === 400) {
       return "The information provided is invalid.";
     }
 
-    if (
-      error.response?.status === 401
-    ) {
+    if (error.response?.status === 401) {
       return "Your session is invalid. Please sign in again.";
     }
 
-    if (
-      error.response?.status === 403
-    ) {
+    if (error.response?.status === 403) {
       return "You do not have permission to perform this action.";
     }
 
-    if (
-      error.response?.status === 404
-    ) {
+    if (error.response?.status === 404) {
       return "The requested resource was not found.";
     }
 
-    if (
-      error.response?.status === 409
-    ) {
+    if (error.response?.status === 409) {
       return "This information already exists.";
     }
 
-    if (
-      error.response?.status === 413
-    ) {
+    if (error.response?.status === 413) {
       return "The uploaded file is too large. Maximum size is 10 MB.";
     }
 
-    if (
-      error.response?.status === 422
-    ) {
+    if (error.response?.status === 422) {
       return "The uploaded file could not be processed. Please select a valid PDF and try again.";
     }
 
-    if (
-      error.response?.status === 429
-    ) {
+    if (error.response?.status === 429) {
       return "Too many requests. Please wait a moment and try again.";
     }
 
@@ -248,20 +243,39 @@ export function getApiErrorMessage(
 
     /*
     |--------------------------------------------------------------------------
-    | Network error
+    | TIMEOUT
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      error.code === "ECONNABORTED" ||
+      error.code === "ETIMEDOUT"
+    ) {
+      return (
+        "The AI is taking longer than expected to generate the interview. " +
+        "Please try again. Large 20-question interviews may take a little longer."
+      );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | NETWORK ERROR
     |--------------------------------------------------------------------------
     */
 
     if (!error.response) {
-      return "Unable to reach the server. Make sure the backend is running.";
+      return (
+        "Unable to reach the server. " +
+        "Make sure the backend is running."
+      );
     }
   }
 
   /*
   |--------------------------------------------------------------------------
-  | Normal JavaScript Error
+  | NORMAL JAVASCRIPT ERROR
   |--------------------------------------------------------------------------
-  */
+    */
 
   if (
     error instanceof Error &&
