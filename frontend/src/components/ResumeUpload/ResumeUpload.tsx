@@ -5,6 +5,7 @@ import {
 } from "react";
 
 import {
+  useLocation,
   useNavigate,
 } from "react-router-dom";
 
@@ -92,6 +93,19 @@ function ResumeUpload({
   ======================================================= */
 
   const navigate = useNavigate();
+
+  const location = useLocation();
+
+
+  /*
+   * Job Match should NOT appear on the Dashboard.
+   *
+   * It will still appear normally on:
+   * /job-match
+   * and any other page where ResumeUpload is used.
+   */
+  const isDashboard =
+    location.pathname === "/dashboard";
 
 
   /* =======================================================
@@ -200,6 +214,7 @@ function ResumeUpload({
       ) {
 
         logout();
+
         navigate("/login");
 
         return;
@@ -955,36 +970,40 @@ function ResumeUpload({
                       </button>
 
 
-                      <button
-                        type="button"
-                        className="recent-btn"
-                        onClick={(event) => {
+                      {!isDashboard && (
 
-                          event.stopPropagation();
+                        <button
+                          type="button"
+                          className="recent-btn"
+                          onClick={(event) => {
+
+                            event.stopPropagation();
 
 
-                          if (
-                            !hasAccess("Pro")
-                          ) {
+                            if (
+                              !hasAccess("Pro")
+                            ) {
 
-                            setShowJobMatchUpgrade(
-                              true
+                              setShowJobMatchUpgrade(
+                                true
+                              );
+
+                              return;
+                            }
+
+
+                            selectResume(
+                              resume.id
                             );
 
-                            return;
-                          }
+                          }}
+                        >
 
+                          🎯 Use for Job Match
 
-                          selectResume(
-                            resume.id
-                          );
+                        </button>
 
-                        }}
-                      >
-
-                        🎯 Use for Job Match
-
-                      </button>
+                      )}
 
                     </div>
 
@@ -1000,9 +1019,11 @@ function ResumeUpload({
 
           {/* =================================================
               JOB MATCH SECTION
+
+              HIDDEN ON DASHBOARD
           ================================================= */}
 
-          {selectedResumeId && (
+          {!isDashboard && selectedResumeId && (
 
             hasAccess("Pro") ? (
 
@@ -1073,9 +1094,11 @@ function ResumeUpload({
 
           {/* =================================================
               MATCH RESULT
+
+              ALSO HIDDEN ON DASHBOARD
           ================================================= */}
 
-          {matchResult && (
+          {!isDashboard && matchResult && (
 
             <MatchAnalysis
               result={
