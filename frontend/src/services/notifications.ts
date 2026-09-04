@@ -4,8 +4,16 @@ export type AppNotification = {
   message: string;
 };
 
-export function notify(notification: AppNotification) {
+
+export function notify(
+  notification: AppNotification,
+) {
   window.dispatchEvent(
-    new CustomEvent("critiqon:notification", { detail: notification })
+    new CustomEvent<AppNotification>(
+      "critiqon:notification",
+      {
+        detail: notification,
+      },
+    ),
   );
 }

@@ -5,7 +5,23 @@ import { useNavigate } from "react-router-dom";
 function Hero() {
   const navigate = useNavigate();
 
+  /*
+   * =========================================================
+   * GET STARTED
+   * New users should go directly to registration.
+   * =========================================================
+   */
   const handleGetStarted = () => {
+    navigate("/register");
+  };
+
+  /*
+   * =========================================================
+   * IMPROVE RESUME
+   * Existing users can sign in first.
+   * =========================================================
+   */
+  const handleImproveResume = () => {
     navigate("/login");
   };
 
@@ -298,7 +314,7 @@ function Hero() {
 
               <button
                 className="preview-action"
-                onClick={handleGetStarted}
+                onClick={handleImproveResume}
               >
                 Improve Resume →
               </button>

@@ -14,17 +14,14 @@ import "./Login.css";
 const OTP_LENGTH = 6;
 const RESEND_COOLDOWN_SECONDS = 60;
 
-type LoginMode = "password" | "otp";
 type OtpStep = "email" | "otp";
 
 function Login() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const [otp, setOtp] = useState("");
 
-  const [mode, setMode] = useState<LoginMode>("password");
-  const [otpStep, setOtpStep] = useState<OtpStep>("email");
+  const [otpStep, setOtpStep] =
+    useState<OtpStep>("email");
 
   const [loading, setLoading] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(0);
@@ -32,7 +29,8 @@ function Login() {
   const navigate = useNavigate();
 
   const { login } = useAuth();
-  const { refreshSubscription } = useSubscription();
+  const { refreshSubscription } =
+    useSubscription();
 
   useEffect(() => {
     if (secondsLeft <= 0) {
@@ -45,7 +43,8 @@ function Login() {
       );
     }, 1000);
 
-    return () => window.clearInterval(timer);
+    return () =>
+      window.clearInterval(timer);
   }, [secondsLeft]);
 
   function normaliseEmail(value: string) {
@@ -57,7 +56,7 @@ function Login() {
    * AFTER LOGIN
    * =========================================================
    *
-   * Keeps your existing pending-plan + Razorpay flow.
+   * Keeps the existing pending-plan + Razorpay flow.
    */
   async function handleSuccessfulLogin(
     accessToken: string,
@@ -75,7 +74,9 @@ function Login() {
       pendingPlan !== "Pro" &&
       pendingPlan !== "Premium"
     ) {
-      localStorage.removeItem("pendingPlan");
+      localStorage.removeItem(
+        "pendingPlan",
+      );
 
       navigate("/dashboard");
 
@@ -89,7 +90,9 @@ function Login() {
           currentPlan === "Premium";
 
     if (alreadyHasRequestedAccess) {
-      localStorage.removeItem("pendingPlan");
+      localStorage.removeItem(
+        "pendingPlan",
+      );
 
       navigate("/dashboard");
 
@@ -102,7 +105,9 @@ function Login() {
         async () => {
           await refreshSubscription();
 
-          localStorage.removeItem("pendingPlan");
+          localStorage.removeItem(
+            "pendingPlan",
+          );
 
           navigate("/dashboard");
         },
@@ -113,7 +118,9 @@ function Login() {
         error,
       );
 
-      localStorage.removeItem("pendingPlan");
+      localStorage.removeItem(
+        "pendingPlan",
+      );
 
       notify({
         type: "error",
@@ -125,82 +132,6 @@ function Login() {
       });
 
       navigate("/dashboard");
-    }
-  }
-
-  /*
-   * =========================================================
-   * PASSWORD LOGIN
-   * =========================================================
-   */
-  async function handlePasswordLogin(
-    event?: React.FormEvent<HTMLFormElement>,
-  ) {
-    event?.preventDefault();
-
-    if (loading) {
-      return;
-    }
-
-    const cleanEmail =
-      normaliseEmail(email);
-
-    if (!cleanEmail) {
-      notify({
-        type: "error",
-        title: "Email required",
-        message:
-          "Please enter your email address.",
-      });
-
-      return;
-    }
-
-    if (!password) {
-      notify({
-        type: "error",
-        title: "Password required",
-        message:
-          "Please enter your password.",
-      });
-
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      const response = await api.post(
-        "/login",
-        {
-          email: cleanEmail,
-          password,
-        },
-      );
-
-      const data = response.data;
-
-      await handleSuccessfulLogin(
-        data.access_token,
-        data.user,
-      );
-    } catch (error: any) {
-      console.error(
-        "Password login error:",
-        error,
-      );
-
-      const message =
-        error?.response?.data?.detail ||
-        "Invalid email or password.";
-
-      notify({
-        type: "error",
-        title: "Sign in failed",
-        message,
-      });
-    } finally {
-      setLoading(false);
     }
   }
 
@@ -298,6 +229,17 @@ function Login() {
 
     const cleanOtp =
       otp.replace(/\D/g, "");
+
+    if (!cleanEmail) {
+      notify({
+        type: "error",
+        title: "Email required",
+        message:
+          "Please enter your email address.",
+      });
+
+      return;
+    }
 
     if (cleanOtp.length !== OTP_LENGTH) {
       notify({
@@ -410,24 +352,13 @@ function Login() {
 
   /*
    * =========================================================
-   * SWITCH TO PASSWORD
+   * CHANGE EMAIL
    * =========================================================
    */
-  function switchToPassword() {
-    setMode("password");
+  function useDifferentEmail() {
     setOtpStep("email");
     setOtp("");
-  }
-
-  /*
-   * =========================================================
-   * SWITCH TO OTP
-   * =========================================================
-   */
-  function switchToOtp() {
-    setMode("otp");
-    setOtpStep("email");
-    setOtp("");
+    setSecondsLeft(0);
   }
 
   /*
@@ -441,11 +372,9 @@ function Login() {
       <form
         className="login-card"
         onSubmit={
-          mode === "password"
-            ? handlePasswordLogin
-            : otpStep === "email"
-              ? requestOtp
-              : verifyOtp
+          otpStep === "email"
+            ? requestOtp
+            : verifyOtp
         }
       >
         <BrandLogo
@@ -454,32 +383,29 @@ function Login() {
         />
 
         <h1>
-          {mode === "otp" &&
-          otpStep === "otp"
+          {otpStep === "otp"
             ? "Check your email"
             : "Sign in to Critiqon"}
         </h1>
 
         <p>
-          {mode === "password"
-            ? "Sign in using your email and password."
-            : otpStep === "email"
-              ? "Enter your email and we'll send you a secure one-time verification code."
-              : `Enter the 6-digit code we sent to ${email}.`}
+          {otpStep === "email"
+            ? "Enter your email and we'll send you a secure one-time verification code."
+            : `Enter the 6-digit code we sent to ${email}.`}
         </p>
 
         {/* =================================================
-            PASSWORD LOGIN
+            OTP EMAIL STEP
         ================================================= */}
 
-        {mode === "password" && (
+        {otpStep === "email" && (
           <>
-            <label htmlFor="login-email">
+            <label htmlFor="otp-email">
               Email Address
             </label>
 
             <input
-              id="login-email"
+              id="otp-email"
               type="email"
               placeholder="you@example.com"
               value={email}
@@ -493,24 +419,6 @@ function Login() {
               autoFocus
             />
 
-            <label htmlFor="login-password">
-              Password
-            </label>
-
-            <input
-              id="login-password"
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(event) =>
-                setPassword(
-                  event.target.value,
-                )
-              }
-              required
-              autoComplete="current-password"
-            />
-
             <button
               type="submit"
               className="sign-in-btn"
@@ -519,152 +427,87 @@ function Login() {
               {loading ? (
                 <>
                   <span className="button-spinner" />
-                  Signing in...
+                  Sending code...
                 </>
               ) : (
-                "Sign In"
+                "Continue"
               )}
-            </button>
-
-            <button
-              type="button"
-              className="auth-switch-btn"
-              onClick={switchToOtp}
-              disabled={loading}
-            >
-              Use OTP instead
             </button>
           </>
         )}
 
         {/* =================================================
-            OTP EMAIL STEP
-        ================================================= */}
-
-        {mode === "otp" &&
-          otpStep === "email" && (
-            <>
-              <label htmlFor="otp-email">
-                Email Address
-              </label>
-
-              <input
-                id="otp-email"
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(event) =>
-                  setEmail(
-                    event.target.value,
-                  )
-                }
-                required
-                autoComplete="email"
-                autoFocus
-              />
-
-              <button
-                type="submit"
-                className="sign-in-btn"
-                disabled={loading}
-              >
-                {loading ? (
-                  <>
-                    <span className="button-spinner" />
-                    Sending code...
-                  </>
-                ) : (
-                  "Continue"
-                )}
-              </button>
-
-              <button
-                type="button"
-                className="auth-switch-btn"
-                onClick={switchToPassword}
-                disabled={loading}
-              >
-                Use password instead
-              </button>
-            </>
-          )}
-
-        {/* =================================================
             OTP VERIFICATION STEP
         ================================================= */}
 
-        {mode === "otp" &&
-          otpStep === "otp" && (
-            <>
-              <label htmlFor="login-otp">
-                Verification Code
-              </label>
+        {otpStep === "otp" && (
+          <>
+            <label htmlFor="login-otp">
+              Verification Code
+            </label>
 
-              <input
-                id="login-otp"
-                className="otp-input"
-                type="text"
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                placeholder="000000"
-                value={otp}
-                onChange={(event) =>
-                  handleOtpChange(
-                    event.target.value,
-                  )
-                }
-                maxLength={OTP_LENGTH}
-                autoFocus
-                required
-              />
+            <input
+              id="login-otp"
+              className="otp-input"
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              placeholder="000000"
+              value={otp}
+              onChange={(event) =>
+                handleOtpChange(
+                  event.target.value,
+                )
+              }
+              maxLength={OTP_LENGTH}
+              autoFocus
+              required
+            />
 
-              <button
-                type="submit"
-                className="sign-in-btn"
-                disabled={
-                  loading ||
-                  otp.length !== OTP_LENGTH
-                }
-              >
-                {loading ? (
-                  <>
-                    <span className="button-spinner" />
-                    Verifying...
-                  </>
-                ) : (
-                  "Verify & Sign In"
-                )}
-              </button>
+            <button
+              type="submit"
+              className="sign-in-btn"
+              disabled={
+                loading ||
+                otp.length !== OTP_LENGTH
+              }
+            >
+              {loading ? (
+                <>
+                  <span className="button-spinner" />
+                  Verifying...
+                </>
+              ) : (
+                "Verify & Sign In"
+              )}
+            </button>
 
-              <button
-                type="button"
-                className="otp-secondary-btn"
-                onClick={() => {
-                  setOtpStep("email");
-                  setOtp("");
-                }}
-                disabled={loading}
-              >
-                Use a different email
-              </button>
+            <button
+              type="button"
+              className="otp-secondary-btn"
+              onClick={useDifferentEmail}
+              disabled={loading}
+            >
+              Use a different email
+            </button>
 
-              <button
-                type="button"
-                className="otp-resend-btn"
-                onClick={() =>
-                  void requestOtp()
-                }
-                disabled={
-                  loading ||
-                  secondsLeft > 0
-                }
-              >
-                {secondsLeft > 0
-                  ? `Resend code in ${secondsLeft}s`
-                  : "Resend verification code"}
-              </button>
-            </>
-          )}
+            <button
+              type="button"
+              className="otp-resend-btn"
+              onClick={() =>
+                void requestOtp()
+              }
+              disabled={
+                loading ||
+                secondsLeft > 0
+              }
+            >
+              {secondsLeft > 0
+                ? `Resend code in ${secondsLeft}s`
+                : "Resend verification code"}
+            </button>
+          </>
+        )}
 
         {/* =================================================
             GOOGLE

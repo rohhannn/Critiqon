@@ -6,19 +6,38 @@ import {
   useState,
 } from "react";
 
-import type { ReactNode } from "react";
+import type {
+  ReactNode,
+} from "react";
 
+
+/*
+|--------------------------------------------------------------------------
+| USER
+|--------------------------------------------------------------------------
+*/
 
 export interface User {
   id: number;
+
   full_name: string;
+
   email: string;
 }
 
 
+/*
+|--------------------------------------------------------------------------
+| AUTH CONTEXT
+|--------------------------------------------------------------------------
+*/
+
 interface AuthContextType {
+
   user: User | null;
+
   token: string | null;
+
   loading: boolean;
 
   login: (
@@ -30,47 +49,106 @@ interface AuthContextType {
 }
 
 
-const AuthContext =
-  createContext<AuthContextType | undefined>(
-    undefined,
-  );
+/*
+|--------------------------------------------------------------------------
+| CONTEXT
+|--------------------------------------------------------------------------
+*/
 
+const AuthContext =
+  createContext<
+    AuthContextType | undefined
+  >(undefined);
+
+
+/*
+|--------------------------------------------------------------------------
+| READ STORED SESSION
+|--------------------------------------------------------------------------
+*/
 
 function readStoredSession(): {
   token: string | null;
+
   user: User | null;
 } {
+
   try {
+
     const token =
-      sessionStorage.getItem("token");
+      sessionStorage.getItem(
+        "token",
+      );
 
     const rawUser =
-      sessionStorage.getItem("user");
+      sessionStorage.getItem(
+        "user",
+      );
 
-    if (!token || !rawUser) {
+
+    /*
+    |--------------------------------------------------------------------------
+    | No session
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      !token ||
+      !rawUser
+    ) {
+
       return {
         token: null,
         user: null,
       };
+
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Parse user
+    |--------------------------------------------------------------------------
+    */
+
     const user =
-      JSON.parse(rawUser) as User;
+      JSON.parse(
+        rawUser,
+      ) as User;
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Validate stored user
+    |--------------------------------------------------------------------------
+    */
 
     if (
-      !user?.id ||
-      !user?.email
+      !user ||
+      !user.id ||
+      !user.email
     ) {
+
       throw new Error(
         "Invalid stored user",
       );
+
     }
+
 
     return {
       token,
       user,
     };
+
   } catch {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Remove corrupt session
+    |--------------------------------------------------------------------------
+    */
+
     sessionStorage.removeItem(
       "token",
     );
@@ -79,50 +157,95 @@ function readStoredSession(): {
       "user",
     );
 
+
     return {
       token: null,
       user: null,
     };
+
   }
 }
 
+
+/*
+|--------------------------------------------------------------------------
+| AUTH PROVIDER
+|--------------------------------------------------------------------------
+*/
 
 export function AuthProvider({
   children,
 }: {
   children: ReactNode;
 }) {
+
+  /*
+  |--------------------------------------------------------------------------
+  | Initial session
+  |--------------------------------------------------------------------------
+  */
+
   const initial =
     useMemo(
-      () => readStoredSession(),
+      () =>
+        readStoredSession(),
       [],
     );
 
-  const [user, setUser] =
+
+  /*
+  |--------------------------------------------------------------------------
+  | STATE
+  |--------------------------------------------------------------------------
+  */
+
+  const [
+    user,
+    setUser,
+  ] =
     useState<User | null>(
       initial.user,
     );
 
-  const [token, setToken] =
+
+  const [
+    token,
+    setToken,
+  ] =
     useState<string | null>(
       initial.token,
     );
 
 
+  /*
+  |--------------------------------------------------------------------------
+  | SESSION EXPIRATION
+  |--------------------------------------------------------------------------
+  |
+  | api.ts dispatches:
+  |
+  | critiqon:session-expired
+  |
+  */
+
   useEffect(() => {
-    const handleSessionExpired =
-      () => {
-        sessionStorage.removeItem(
-          "token",
-        );
 
-        sessionStorage.removeItem(
-          "user",
-        );
+    function handleSessionExpired() {
 
-        setToken(null);
-        setUser(null);
-      };
+      sessionStorage.removeItem(
+        "token",
+      );
+
+      sessionStorage.removeItem(
+        "user",
+      );
+
+
+      setToken(null);
+
+      setUser(null);
+
+    }
 
 
     window.addEventListener(
@@ -131,18 +254,35 @@ export function AuthProvider({
     );
 
 
-    return () =>
+    return () => {
+
       window.removeEventListener(
         "critiqon:session-expired",
         handleSessionExpired,
       );
+
+    };
+
   }, []);
 
+
+  /*
+  |--------------------------------------------------------------------------
+  | LOGIN
+  |--------------------------------------------------------------------------
+  */
 
   function login(
     nextToken: string,
     nextUser: User,
   ) {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Session storage
+    |--------------------------------------------------------------------------
+    */
+
     sessionStorage.setItem(
       "token",
       nextToken,
@@ -150,15 +290,43 @@ export function AuthProvider({
 
     sessionStorage.setItem(
       "user",
-      JSON.stringify(nextUser),
+      JSON.stringify(
+        nextUser,
+      ),
     );
 
-    setToken(nextToken);
-    setUser(nextUser);
+
+    /*
+    |--------------------------------------------------------------------------
+    | React state
+    |--------------------------------------------------------------------------
+    */
+
+    setToken(
+      nextToken,
+    );
+
+    setUser(
+      nextUser,
+    );
+
   }
 
 
+  /*
+  |--------------------------------------------------------------------------
+  | LOGOUT
+  |--------------------------------------------------------------------------
+  */
+
   function logout() {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Session storage
+    |--------------------------------------------------------------------------
+    */
+
     sessionStorage.removeItem(
       "token",
     );
@@ -166,6 +334,13 @@ export function AuthProvider({
     sessionStorage.removeItem(
       "user",
     );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Legacy local storage cleanup
+    |--------------------------------------------------------------------------
+    */
 
     localStorage.removeItem(
       "token",
@@ -179,23 +354,51 @@ export function AuthProvider({
       "pendingPlan",
     );
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | React state
+    |--------------------------------------------------------------------------
+    */
+
     setToken(null);
+
     setUser(null);
+
   }
 
+
+  /*
+  |--------------------------------------------------------------------------
+  | CONTEXT VALUE
+  |--------------------------------------------------------------------------
+  */
 
   const value =
     useMemo(
       () => ({
         user,
+
         token,
+
         loading: false,
+
         login,
+
         logout,
       }),
-      [user, token],
+      [
+        user,
+        token,
+      ],
     );
 
+
+  /*
+  |--------------------------------------------------------------------------
+  | PROVIDER
+  |--------------------------------------------------------------------------
+  */
 
   return (
     <AuthContext.Provider
@@ -207,15 +410,28 @@ export function AuthProvider({
 }
 
 
+/*
+|--------------------------------------------------------------------------
+| USE AUTH
+|--------------------------------------------------------------------------
+*/
+
 export function useAuth() {
+
   const context =
-    useContext(AuthContext);
+    useContext(
+      AuthContext,
+    );
+
 
   if (!context) {
+
     throw new Error(
       "useAuth must be used inside AuthProvider",
     );
+
   }
+
 
   return context;
 }
