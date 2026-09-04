@@ -25,51 +25,37 @@ import {
 } from "../../context/SubscriptionContext";
 
 
-
 /* =========================================================
    TYPES
 ========================================================= */
 
 interface Resume {
-
   id: number;
-
   filename: string;
-
   filepath: string;
-
   uploaded_at: string;
-
   user_id: number;
-
 }
-
 
 interface MatchResult {
-
   match_score: number;
-
   matched_skills: string[];
-
   missing_skills: string[];
-
   experience_match: number;
-
   education_match: number;
-
   suggestions: string[];
-
   recommendation: string;
-
 }
 
+interface ResumeUploadResponse {
+  resume_id?: number;
+  id?: number;
+  message?: string;
+}
 
 interface ResumeUploadProps {
-
   uploadOnly?: boolean;
-
   hideUpload?: boolean;
-
 }
 
 
@@ -82,7 +68,6 @@ function ResumeUpload({
   hideUpload = false,
 }: ResumeUploadProps) {
 
-
   /* =======================================================
      AUTH
   ======================================================= */
@@ -90,8 +75,7 @@ function ResumeUpload({
   const {
     token,
     logout,
-  } =
-    useAuth();
+  } = useAuth();
 
 
   /* =======================================================
@@ -100,16 +84,14 @@ function ResumeUpload({
 
   const {
     hasAccess,
-  } =
-    useSubscription();
+  } = useSubscription();
 
 
   /* =======================================================
      NAVIGATION
   ======================================================= */
 
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
 
   /* =======================================================
@@ -119,24 +101,19 @@ function ResumeUpload({
   const [
     file,
     setFile,
-  ] =
-    useState<File | null>(
-      null
-    );
+  ] = useState<File | null>(null);
 
 
   const [
     message,
     setMessage,
-  ] =
-    useState("");
+  ] = useState("");
 
 
   const [
     loading,
     setLoading,
-  ] =
-    useState(false);
+  ] = useState(false);
 
 
   /* =======================================================
@@ -146,19 +123,13 @@ function ResumeUpload({
   const [
     resumes,
     setResumes,
-  ] =
-    useState<Resume[]>(
-      []
-    );
+  ] = useState<Resume[]>([]);
 
 
   const [
     selectedResumeId,
     setSelectedResumeId,
-  ] =
-    useState<number | null>(
-      null
-    );
+  ] = useState<number | null>(null);
 
 
   /* =======================================================
@@ -168,24 +139,19 @@ function ResumeUpload({
   const [
     jobDescription,
     setJobDescription,
-  ] =
-    useState("");
+  ] = useState("");
 
 
   const [
     matchLoading,
     setMatchLoading,
-  ] =
-    useState(false);
+  ] = useState(false);
 
 
   const [
     matchResult,
     setMatchResult,
-  ] =
-    useState<MatchResult | null>(
-      null
-    );
+  ] = useState<MatchResult | null>(null);
 
 
   /* =======================================================
@@ -195,8 +161,7 @@ function ResumeUpload({
   const [
     showJobMatchUpgrade,
     setShowJobMatchUpgrade,
-  ] =
-    useState(false);
+  ] = useState(false);
 
 
   /* =========================================================
@@ -204,21 +169,49 @@ function ResumeUpload({
   ========================================================= */
 
   const fetchResumes = useCallback(async () => {
+
     if (!token) return;
 
     try {
-      const response = await api.get<Resume[]>("/resume/");
-      setResumes(response.data);
-      setSelectedResumeId(response.data[0]?.id ?? null);
+
+      const response =
+        await api.get<Resume[]>("/resume/");
+
+      const resumeList =
+        Array.isArray(response.data)
+          ? response.data
+          : [];
+
+      setResumes(resumeList);
+
+      setSelectedResumeId(
+        resumeList[0]?.id ?? null
+      );
+
     } catch (error: any) {
-      if (error?.response?.status === 401) {
+
+      console.error(
+        "Failed to fetch resumes:",
+        error
+      );
+
+      if (
+        error?.response?.status === 401
+      ) {
+
         logout();
         navigate("/login");
+
         return;
       }
-      console.error("Failed to fetch resumes:", error);
+
     }
-  }, [token, logout, navigate]);
+
+  }, [
+    token,
+    logout,
+    navigate,
+  ]);
 
 
   /* =========================================================
@@ -236,132 +229,302 @@ function ResumeUpload({
      UPLOAD RESUME
   ========================================================= */
 
-  const handleUpload =
-    async () => {
+  const handleUpload = async () => {
 
+    /* ================================================
+       FILE REQUIRED
+    ================================================ */
 
-      /* ================================================
-         FILE REQUIRED
-      ================================================ */
+    if (!file) {
 
-      if (!file) {
-
-        setMessage(
-          "Please select a PDF."
-        );
-
-        return;
-
-      }
-
-
-      /* ================================================
-         AUTH REQUIRED
-      ================================================ */
-
-      if (!token) {
-
-        navigate(
-          "/login"
-        );
-
-        return;
-
-      }
-
-
-      /* ================================================
-         FORM DATA
-      ================================================ */
-
-      const formData =
-        new FormData();
-
-
-      formData.append(
-        "file",
-        file
+      setMessage(
+        "Please select a PDF."
       );
 
-
-      try {
-
-        setLoading(
-          true
-        );
+      return;
+    }
 
 
-        setMessage(
-          ""
-        );
+    /* ================================================
+       AUTH REQUIRED
+    ================================================ */
+
+    if (!token) {
+
+      navigate("/login");
+
+      return;
+    }
 
 
-        /* ==============================================
-           API REQUEST
-        ============================================== */
+    /* ================================================
+       FILE VALIDATION
+    ================================================ */
 
-        const response = await api.post("/resume/upload", formData);
-        const data = response.data;
+    const fileName =
+      file.name.toLowerCase();
 
+    if (!fileName.endsWith(".pdf")) {
 
-        /* ==============================================
-           SUCCESS
-        ============================================== */
+      setMessage(
+        "Only PDF files are allowed."
+      );
 
-        notify({ type: "success", title: "Resume analyzed", message: "Your resume analysis is ready." });
-        setMessage("Resume uploaded successfully!");
+      setFile(null);
 
-
-        setFile(
-          null
-        );
+      return;
+    }
 
 
-        /* ==============================================
-           OPEN ANALYSIS
-        ============================================== */
+    /* ================================================
+       SIZE VALIDATION
+    ================================================ */
 
-        navigate(
-          "/resume-analysis",
+    const MAX_FILE_SIZE =
+      10 * 1024 * 1024;
+
+    if (file.size > MAX_FILE_SIZE) {
+
+      setMessage(
+        "PDF must be smaller than 10 MB."
+      );
+
+      setFile(null);
+
+      return;
+    }
+
+
+    /* ================================================
+       FORM DATA
+    ================================================ */
+
+    const formData =
+      new FormData();
+
+    formData.append(
+      "file",
+      file,
+      file.name
+    );
+
+
+    /* ================================================
+       DEBUG
+    ================================================ */
+
+    console.log(
+      "Uploading resume:",
+      {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        formDataHasFile:
+          formData.has("file"),
+      }
+    );
+
+
+    try {
+
+      setLoading(true);
+
+      setMessage("");
+
+
+      /* ==============================================
+         API REQUEST
+      ============================================== */
+
+      const response =
+        await api.post<ResumeUploadResponse>(
+          "/resume/upload",
+          formData,
           {
-            state: {
-              resumeId:
-                data.resume_id,
+            timeout: 120_000,
+
+            /*
+             * IMPORTANT:
+             * Let the browser/Axios generate the multipart
+             * boundary automatically.
+             */
+            headers: {
+              "Content-Type": "multipart/form-data",
             },
           }
         );
 
 
-        /* ==============================================
-           REFRESH RESUME LIST
-        ============================================== */
+      const data =
+        response.data;
+
+
+      console.log(
+        "Resume upload response:",
+        data
+      );
+
+
+      /* ==============================================
+         VALIDATE RESPONSE
+      ============================================== */
+
+      const resumeId =
+        data?.resume_id ??
+        data?.id;
+
+
+      if (!resumeId) {
+
+        console.error(
+          "Upload succeeded but no resume ID was returned:",
+          data
+        );
+
+        notify({
+          type: "error",
+          title: "Upload incomplete",
+          message:
+            "The resume was uploaded, but the server did not return a resume ID.",
+        });
+
+        setMessage(
+          "Upload completed, but analysis could not be opened."
+        );
 
         await fetchResumes();
 
-      } catch (error: any) {
-
-        console.error(
-          "Resume upload error:",
-          error
-        );
-
-
-        const errorMessage =
-          error?.response?.data?.detail ||
-          "Unable to connect to the server.";
-
-        notify({ type: "error", title: "Upload failed", message: errorMessage });
-        setMessage(errorMessage);
-
-      } finally {
-
-        setLoading(
-          false
-        );
-
+        return;
       }
 
-    };
+
+      /* ==============================================
+         SUCCESS
+      ============================================== */
+
+      notify({
+        type: "success",
+        title: "Resume analyzed",
+        message:
+          "Your resume analysis is ready.",
+      });
+
+
+      setMessage(
+        "Resume uploaded successfully!"
+      );
+
+
+      setFile(null);
+
+
+      /* ==============================================
+         SAVE SELECTED RESUME
+      ============================================== */
+
+      localStorage.setItem(
+        "selectedResumeId",
+        String(resumeId)
+      );
+
+
+      /* ==============================================
+         REFRESH RESUME LIST
+      ============================================== */
+
+      await fetchResumes();
+
+
+      /* ==============================================
+         OPEN ANALYSIS
+      ============================================== */
+
+      navigate(
+        "/resume-analysis",
+        {
+          state: {
+            resumeId,
+          },
+        }
+      );
+
+    } catch (error: any) {
+
+      console.error(
+        "Resume upload error:",
+        error
+      );
+
+
+      let errorMessage =
+        "Unable to upload your resume.";
+
+
+      const detail =
+        error?.response?.data?.detail;
+
+
+      if (typeof detail === "string") {
+
+        errorMessage =
+          detail;
+
+      } else if (
+        Array.isArray(detail)
+      ) {
+
+        errorMessage =
+          detail
+            .map(
+              (item: any) =>
+                item?.msg || "Invalid upload."
+            )
+            .join(", ");
+
+      } else if (
+        error?.response?.status === 422
+      ) {
+
+        errorMessage =
+          "The server did not receive the PDF file. Please try selecting the PDF again.";
+
+      } else if (
+        error?.response?.status === 401
+      ) {
+
+        logout();
+
+        navigate("/login");
+
+        return;
+
+      } else if (
+        !error?.response
+      ) {
+
+        errorMessage =
+          "Unable to reach the server. Please check your connection and try again.";
+      }
+
+
+      notify({
+        type: "error",
+        title: "Upload failed",
+        message: errorMessage,
+      });
+
+
+      setMessage(
+        errorMessage
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+  };
 
 
   /* =========================================================
@@ -373,19 +536,10 @@ function ResumeUpload({
       resumeId: number
     ) => {
 
-      /* ================================================
-         SAVE SELECTED RESUME
-      ================================================ */
-
       localStorage.setItem(
         "selectedResumeId",
         String(resumeId)
       );
-
-
-      /* ================================================
-         NAVIGATE
-      ================================================ */
 
       navigate(
         "/resume-analysis",
@@ -412,7 +566,6 @@ function ResumeUpload({
         resumeId
       );
 
-
       setMatchResult(
         null
       );
@@ -427,11 +580,6 @@ function ResumeUpload({
   const handleAnalyzeMatch =
     async () => {
 
-
-      /* ================================================
-         PLAN CHECK
-      ================================================ */
-
       if (
         !hasAccess("Pro")
       ) {
@@ -441,82 +589,67 @@ function ResumeUpload({
         );
 
         return;
-
       }
 
-
-      /* ================================================
-         JOB DESCRIPTION REQUIRED
-      ================================================ */
 
       if (
         !jobDescription.trim()
       ) {
 
-        notify({ type: "error", title: "Job description required", message: "Please enter a Job Description." });
+        notify({
+          type: "error",
+          title: "Job description required",
+          message:
+            "Please enter a Job Description.",
+        });
 
         return;
-
       }
 
-
-      /* ================================================
-         RESUME REQUIRED
-      ================================================ */
 
       if (!selectedResumeId) {
 
-        notify({ type: "error", title: "Resume required", message: "Please select a resume first." });
+        notify({
+          type: "error",
+          title: "Resume required",
+          message:
+            "Please select a resume first.",
+        });
 
         return;
-
       }
 
 
-      /* ================================================
-         AUTH REQUIRED
-      ================================================ */
-
       if (!token) {
 
-        navigate(
-          "/login"
-        );
+        navigate("/login");
 
         return;
-
       }
 
 
       try {
 
-        setMatchLoading(
-          true
-        );
+        setMatchLoading(true);
+
+        setMatchResult(null);
+
+
+        const response =
+          await api.post(
+            "/resume/match",
+            {
+              resume_id:
+                selectedResumeId,
+
+              job_description:
+                jobDescription,
+            }
+          );
 
 
         setMatchResult(
-          null
-        );
-
-
-        /* ==============================================
-           API REQUEST
-        ============================================== */
-
-        const response = await api.post("/resume/match", {
-          resume_id: selectedResumeId,
-          job_description: jobDescription,
-        });
-
-        const data = response.data;
-
-        /* ==============================================
-           SUCCESS
-        ============================================== */
-
-        setMatchResult(
-          data
+          response.data
         );
 
       } catch (error: any) {
@@ -527,18 +660,26 @@ function ResumeUpload({
         );
 
 
-        const errorMessage =
-          typeof error?.response?.data?.detail === "string"
-            ? error.response.data.detail
-            : "Unable to connect to the server.";
+        const detail =
+          error?.response?.data?.detail;
 
-        notify({ type: "error", title: "Job match failed", message: errorMessage });
+
+        const errorMessage =
+          typeof detail === "string"
+            ? detail
+            : "Unable to analyze the job match.";
+
+
+        notify({
+          type: "error",
+          title: "Job match failed",
+          message:
+            errorMessage,
+        });
 
       } finally {
 
-        setMatchLoading(
-          false
-        );
+        setMatchLoading(false);
 
       }
 
@@ -561,7 +702,6 @@ function ResumeUpload({
         );
 
         return;
-
       }
 
     };
@@ -598,38 +738,67 @@ function ResumeUpload({
 
           <div className="upload-box">
 
-            {/* ==========================================
-                FILE INPUT
-            ========================================== */}
-
             <input
               type="file"
-              accept=".pdf"
+              accept=".pdf,application/pdf"
               className="file-input"
               onChange={(event) => {
 
+                const selectedFile =
+                  event.target.files?.[0];
+
+
+                if (!selectedFile) {
+                  return;
+                }
+
+
+                const name =
+                  selectedFile.name.toLowerCase();
+
+
                 if (
-                  event.target.files?.length
+                  !name.endsWith(".pdf")
                 ) {
 
-                  setFile(
-                    event.target.files[0]
+                  setMessage(
+                    "Only PDF files are allowed."
                   );
 
+                  setFile(null);
+
+                  event.target.value = "";
+
+                  return;
+                }
+
+
+                if (
+                  selectedFile.size >
+                  10 * 1024 * 1024
+                ) {
 
                   setMessage(
-                    ""
+                    "PDF must be smaller than 10 MB."
                   );
 
+                  setFile(null);
+
+                  event.target.value = "";
+
+                  return;
                 }
+
+
+                setFile(
+                  selectedFile
+                );
+
+                setMessage("");
 
               }}
             />
 
-
-            {/* ==========================================
-                SELECTED FILE
-            ========================================== */}
 
             {file && (
 
@@ -642,18 +811,11 @@ function ResumeUpload({
             )}
 
 
-            {/* ==========================================
-                UPLOAD BUTTON
-            ========================================== */}
-
             <button
+              type="button"
               className="upload-btn"
-              onClick={
-                handleUpload
-              }
-              disabled={
-                loading
-              }
+              onClick={handleUpload}
+              disabled={loading || !file}
             >
 
               {loading
@@ -662,10 +824,6 @@ function ResumeUpload({
 
             </button>
 
-
-            {/* ==========================================
-                MESSAGE
-            ========================================== */}
 
             {message && (
 
@@ -688,9 +846,7 @@ function ResumeUpload({
           UPLOAD ONLY MODE
       ===================================================== */}
 
-      {uploadOnly && (
-        null
-      )}
+      {uploadOnly && null}
 
 
       {/* =====================================================
@@ -720,10 +876,7 @@ function ResumeUpload({
                 (resume) => (
 
                   <div
-                    key={
-                      resume.id
-                    }
-
+                    key={resume.id}
                     className={
                       `resume-item ${
                         selectedResumeId ===
@@ -732,22 +885,15 @@ function ResumeUpload({
                           : ""
                       }`
                     }
-
                     style={{
-                      cursor:
-                        "pointer",
+                      cursor: "pointer",
                     }}
-
                     onClick={() =>
                       selectResume(
                         resume.id
                       )
                     }
                   >
-
-                    {/* ==================================
-                        RESUME NAME
-                    ================================== */}
 
                     <h3>
 
@@ -757,10 +903,6 @@ function ResumeUpload({
 
                     </h3>
 
-
-                    {/* ==================================
-                        UPLOAD DATE
-                    ================================== */}
 
                     <p>
 
@@ -772,10 +914,6 @@ function ResumeUpload({
 
                     </p>
 
-
-                    {/* ==================================
-                        SELECTED
-                    ================================== */}
 
                     {selectedResumeId ===
                       resume.id && (
@@ -789,37 +927,21 @@ function ResumeUpload({
                     )}
 
 
-                    {/* ==================================
-                        ACTION BUTTONS
-                    ================================== */}
-
                     <div
                       style={{
-                        display:
-                          "flex",
-
-                        gap:
-                          "10px",
-
-                        marginTop:
-                          "12px",
-
-                        flexWrap:
-                          "wrap",
+                        display: "flex",
+                        gap: "10px",
+                        marginTop: "12px",
+                        flexWrap: "wrap",
                       }}
                     >
 
-                      {/* VIEW ANALYSIS */}
-
                       <button
+                        type="button"
                         className="recent-btn"
-
-                        onClick={(
-                          event
-                        ) => {
+                        onClick={(event) => {
 
                           event.stopPropagation();
-
 
                           viewAnalysis(
                             resume.id
@@ -833,22 +955,16 @@ function ResumeUpload({
                       </button>
 
 
-                      {/* JOB MATCH */}
-
                       <button
+                        type="button"
                         className="recent-btn"
-
-                        onClick={(
-                          event
-                        ) => {
+                        onClick={(event) => {
 
                           event.stopPropagation();
 
 
                           if (
-                            !hasAccess(
-                              "Pro"
-                            )
+                            !hasAccess("Pro")
                           ) {
 
                             setShowJobMatchUpgrade(
@@ -856,14 +972,12 @@ function ResumeUpload({
                             );
 
                             return;
-
                           }
 
 
                           selectResume(
                             resume.id
                           );
-
 
                         }}
                       >
@@ -929,14 +1043,12 @@ function ResumeUpload({
 
 
                 <p>
-
                   Compare your resume
                   against job descriptions
                   using AI.
 
                   This feature is available
                   on the Pro plan.
-
                 </p>
 
 
