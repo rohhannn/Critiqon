@@ -7,6 +7,8 @@ import {
 
 import App from "./App";
 
+import NotificationCenter from "./components/NotificationCenter";
+
 import {
   AuthProvider,
 } from "./context/AuthContext";
@@ -31,6 +33,8 @@ ReactDOM.createRoot(
         <SubscriptionProvider>
 
           <App />
+
+          <NotificationCenter />
 
         </SubscriptionProvider>
 
