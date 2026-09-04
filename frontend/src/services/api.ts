@@ -25,10 +25,6 @@ if (configuredApiUrl) {
 } else if (import.meta.env.DEV) {
   apiBaseUrl = "http://127.0.0.1:8000";
 } else {
-  /*
-   * Do not silently assume that the frontend and backend
-   * are hosted on the same origin.
-   */
   console.error(
     "VITE_API_URL is not configured in production.",
   );
@@ -36,24 +32,27 @@ if (configuredApiUrl) {
   apiBaseUrl = window.location.origin;
 }
 
-
 /*
 |--------------------------------------------------------------------------
 | Axios Instance
 |--------------------------------------------------------------------------
+|
+| IMPORTANT:
+| Do NOT set a global Content-Type here.
+|
+| JSON requests are handled automatically by Axios.
+| FormData requests must be allowed to set their own
+| multipart/form-data boundary.
+|
 */
 
 const api = axios.create({
   baseURL: apiBaseUrl,
-
   timeout: 30_000,
-
   headers: {
     Accept: "application/json",
-    "Content-Type": "application/json",
   },
 });
-
 
 /*
 |--------------------------------------------------------------------------
@@ -76,12 +75,10 @@ api.interceptors.request.use(
 
     return config;
   },
-
   (error) => {
     return Promise.reject(error);
   },
 );
-
 
 /*
 |--------------------------------------------------------------------------
@@ -95,7 +92,6 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => response,
-
   (error) => {
     if (
       axios.isAxiosError(error) &&
@@ -112,7 +108,6 @@ api.interceptors.response.use(
   },
 );
 
-
 /*
 |--------------------------------------------------------------------------
 | API ERROR MESSAGE
@@ -124,12 +119,9 @@ export function getApiErrorMessage(
   fallback =
     "Something went wrong. Please try again.",
 ): string {
-
   if (axios.isAxiosError(error)) {
-
     const detail =
       error.response?.data?.detail;
-
 
     /*
     |--------------------------------------------------------------------------
@@ -143,7 +135,6 @@ export function getApiErrorMessage(
     ) {
       return detail;
     }
-
 
     /*
     |--------------------------------------------------------------------------
@@ -159,10 +150,9 @@ export function getApiErrorMessage(
       return detail.message;
     }
 
-
     /*
     |--------------------------------------------------------------------------
-    | Validation errors
+    | FastAPI validation errors
     |--------------------------------------------------------------------------
     */
 
@@ -172,7 +162,6 @@ export function getApiErrorMessage(
       const messages =
         detail
           .map((item) => {
-
             if (
               item &&
               typeof item === "object" &&
@@ -196,7 +185,6 @@ export function getApiErrorMessage(
       }
     }
 
-
     /*
     |--------------------------------------------------------------------------
     | Status-specific messages
@@ -206,66 +194,57 @@ export function getApiErrorMessage(
     if (
       error.response?.status === 400
     ) {
-      return (
-        "The information provided is invalid."
-      );
+      return "The information provided is invalid.";
     }
-
 
     if (
       error.response?.status === 401
     ) {
-      return (
-        "Your session is invalid. Please sign in again."
-      );
+      return "Your session is invalid. Please sign in again.";
     }
-
 
     if (
       error.response?.status === 403
     ) {
-      return (
-        "You do not have permission to perform this action."
-      );
+      return "You do not have permission to perform this action.";
     }
-
 
     if (
       error.response?.status === 404
     ) {
-      return (
-        "The requested resource was not found."
-      );
+      return "The requested resource was not found.";
     }
-
 
     if (
       error.response?.status === 409
     ) {
-      return (
-        "This information already exists."
-      );
+      return "This information already exists.";
     }
 
+    if (
+      error.response?.status === 413
+    ) {
+      return "The uploaded file is too large. Maximum size is 10 MB.";
+    }
+
+    if (
+      error.response?.status === 422
+    ) {
+      return "The uploaded file could not be processed. Please select a valid PDF and try again.";
+    }
 
     if (
       error.response?.status === 429
     ) {
-      return (
-        "Too many requests. Please wait a moment and try again."
-      );
+      return "Too many requests. Please wait a moment and try again.";
     }
-
 
     if (
       error.response?.status &&
       error.response.status >= 500
     ) {
-      return (
-        "The server is temporarily unavailable. Please try again shortly."
-      );
+      return "The server is temporarily unavailable. Please try again shortly.";
     }
-
 
     /*
     |--------------------------------------------------------------------------
@@ -274,12 +253,9 @@ export function getApiErrorMessage(
     */
 
     if (!error.response) {
-      return (
-        "Unable to reach the server. Make sure the backend is running."
-      );
+      return "Unable to reach the server. Make sure the backend is running.";
     }
   }
-
 
   /*
   |--------------------------------------------------------------------------
@@ -294,9 +270,7 @@ export function getApiErrorMessage(
     return error.message;
   }
 
-
   return fallback;
 }
-
 
 export default api;
