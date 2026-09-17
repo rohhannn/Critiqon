@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Routes,
   Route,
+  useLocation,
 } from "react-router-dom";
 
 import Home from "./pages/Home/Home";
@@ -63,22 +64,390 @@ import Contact
 import "./App.css";
 
 
+/* =========================================================
+   PAGE SEO
+========================================================= */
+
+function PageSEO() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const seoByPath: Record<
+      string,
+      {
+        title: string;
+        description: string;
+      }
+    > = {
+      "/": {
+        title:
+          "Critiqon – AI Resume Analyzer, Job Matching & Interview Prep",
+        description:
+          "Critiqon is an AI-powered career platform for resume analysis, ATS optimization, job matching, cover letters, and interview preparation.",
+      },
+
+      "/pricing": {
+        title:
+          "Pricing – AI Resume & Career Tools | Critiqon",
+        description:
+          "Explore Critiqon's plans for AI resume analysis, ATS optimization, job matching, cover letters, and interview preparation.",
+      },
+
+      "/contact": {
+        title:
+          "Contact Critiqon – Career & Resume Support",
+        description:
+          "Contact Critiqon for questions, support, feedback, and general enquiries about our AI-powered career tools.",
+      },
+
+      "/privacy-policy": {
+        title:
+          "Privacy Policy | Critiqon",
+        description:
+          "Read the Critiqon Privacy Policy to understand how we collect, use, protect, and handle user information.",
+      },
+
+      "/terms": {
+        title:
+          "Terms of Service | Critiqon",
+        description:
+          "Read the Critiqon Terms of Service covering accounts, AI-generated content, subscriptions, payments, and platform usage.",
+      },
+
+      "/refund-policy": {
+        title:
+          "Refund Policy | Critiqon",
+        description:
+          "Read the Critiqon Refund Policy covering subscription cancellations, refund requests, duplicate charges, and failed payments.",
+      },
+
+      "/login": {
+        title:
+          "Log In | Critiqon",
+        description:
+          "Log in to Critiqon to analyze your resume, match with jobs, prepare for interviews, and access your career tools.",
+      },
+
+      "/register": {
+        title:
+          "Create Your Account | Critiqon",
+        description:
+          "Create a Critiqon account and start using AI-powered resume analysis, job matching, cover letters, and interview preparation.",
+      },
+
+      "/dashboard": {
+        title:
+          "Dashboard | Critiqon",
+        description:
+          "Your Critiqon career dashboard.",
+      },
+
+      "/resume-analysis": {
+        title:
+          "AI Resume Analysis & ATS Checker | Critiqon",
+        description:
+          "Analyze your resume with AI, identify improvement opportunities, and evaluate ATS compatibility with Critiqon.",
+      },
+
+      "/job-match": {
+        title:
+          "AI Job Matching | Critiqon",
+        description:
+          "Match your resume and skills with relevant job opportunities using Critiqon's AI-powered job matching tools.",
+      },
+
+      "/cover-letter": {
+        title:
+          "AI Cover Letter Generator | Critiqon",
+        description:
+          "Create tailored, professional cover letters with AI using Critiqon's career preparation tools.",
+      },
+
+      "/interview-prep": {
+        title:
+          "AI Interview Preparation | Critiqon",
+        description:
+          "Prepare for job interviews with AI-generated interview questions, answer evaluation, and personalized preparation tools.",
+      },
+
+      "/interview-history": {
+        title:
+          "Interview History | Critiqon",
+        description:
+          "Review your previous AI interview preparation sessions and performance.",
+      },
+
+      "/reports": {
+        title:
+          "Career Reports | Critiqon",
+        description:
+          "View detailed career and resume reports with Critiqon's AI-powered tools.",
+      },
+
+      "/settings": {
+        title:
+          "Account Settings | Critiqon",
+        description:
+          "Manage your Critiqon account settings and preferences.",
+      },
+    };
+
+    const currentSEO =
+      seoByPath[location.pathname] || {
+        title:
+          "Critiqon – AI Resume & Career Platform",
+        description:
+          "Critiqon provides AI-powered resume analysis, ATS optimization, job matching, cover letters, and interview preparation.",
+      };
+
+    /* =====================================================
+       TITLE
+    ===================================================== */
+
+    document.title = currentSEO.title;
+
+
+    /* =====================================================
+       META DESCRIPTION
+    ===================================================== */
+
+    let descriptionTag =
+      document.querySelector(
+        'meta[name="description"]'
+      ) as HTMLMetaElement | null;
+
+    if (!descriptionTag) {
+      descriptionTag =
+        document.createElement("meta");
+
+      descriptionTag.setAttribute(
+        "name",
+        "description"
+      );
+
+      document.head.appendChild(
+        descriptionTag
+      );
+    }
+
+    descriptionTag.setAttribute(
+      "content",
+      currentSEO.description
+    );
+
+
+    /* =====================================================
+       CANONICAL URL
+    ===================================================== */
+
+    const canonicalURL =
+      `https://critiqon.com${location.pathname}`;
+
+    let canonicalTag =
+      document.querySelector(
+        'link[rel="canonical"]'
+      ) as HTMLLinkElement | null;
+
+    if (!canonicalTag) {
+      canonicalTag =
+        document.createElement("link");
+
+      canonicalTag.setAttribute(
+        "rel",
+        "canonical"
+      );
+
+      document.head.appendChild(
+        canonicalTag
+      );
+    }
+
+    canonicalTag.setAttribute(
+      "href",
+      canonicalURL
+    );
+
+
+    /* =====================================================
+       OPEN GRAPH TITLE
+    ===================================================== */
+
+    let ogTitle =
+      document.querySelector(
+        'meta[property="og:title"]'
+      ) as HTMLMetaElement | null;
+
+    if (!ogTitle) {
+      ogTitle =
+        document.createElement("meta");
+
+      ogTitle.setAttribute(
+        "property",
+        "og:title"
+      );
+
+      document.head.appendChild(
+        ogTitle
+      );
+    }
+
+    ogTitle.setAttribute(
+      "content",
+      currentSEO.title
+    );
+
+
+    /* =====================================================
+       OPEN GRAPH DESCRIPTION
+    ===================================================== */
+
+    let ogDescription =
+      document.querySelector(
+        'meta[property="og:description"]'
+      ) as HTMLMetaElement | null;
+
+    if (!ogDescription) {
+      ogDescription =
+        document.createElement("meta");
+
+      ogDescription.setAttribute(
+        "property",
+        "og:description"
+      );
+
+      document.head.appendChild(
+        ogDescription
+      );
+    }
+
+    ogDescription.setAttribute(
+      "content",
+      currentSEO.description
+    );
+
+
+    /* =====================================================
+       OPEN GRAPH URL
+    ===================================================== */
+
+    let ogURL =
+      document.querySelector(
+        'meta[property="og:url"]'
+      ) as HTMLMetaElement | null;
+
+    if (!ogURL) {
+      ogURL =
+        document.createElement("meta");
+
+      ogURL.setAttribute(
+        "property",
+        "og:url"
+      );
+
+      document.head.appendChild(
+        ogURL
+      );
+    }
+
+    ogURL.setAttribute(
+      "content",
+      canonicalURL
+    );
+
+
+    /* =====================================================
+       TWITTER TITLE
+    ===================================================== */
+
+    let twitterTitle =
+      document.querySelector(
+        'meta[name="twitter:title"]'
+      ) as HTMLMetaElement | null;
+
+    if (!twitterTitle) {
+      twitterTitle =
+        document.createElement("meta");
+
+      twitterTitle.setAttribute(
+        "name",
+        "twitter:title"
+      );
+
+      document.head.appendChild(
+        twitterTitle
+      );
+    }
+
+    twitterTitle.setAttribute(
+      "content",
+      currentSEO.title
+    );
+
+
+    /* =====================================================
+       TWITTER DESCRIPTION
+    ===================================================== */
+
+    let twitterDescription =
+      document.querySelector(
+        'meta[name="twitter:description"]'
+      ) as HTMLMetaElement | null;
+
+    if (!twitterDescription) {
+      twitterDescription =
+        document.createElement("meta");
+
+      twitterDescription.setAttribute(
+        "name",
+        "twitter:description"
+      );
+
+      document.head.appendChild(
+        twitterDescription
+      );
+    }
+
+    twitterDescription.setAttribute(
+      "content",
+      currentSEO.description
+    );
+
+  }, [location.pathname]);
+
+
+  return null;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
 function App() {
 
   const [showIntro, setShowIntro] = useState(() => {
     try {
-      return sessionStorage.getItem("critiqon:intro-seen") !== "1";
+      return (
+        sessionStorage.getItem(
+          "critiqon:intro-seen"
+        ) !== "1"
+      );
     } catch {
       return true;
     }
   });
 
+
   const completeIntro = () => {
     try {
-      sessionStorage.setItem("critiqon:intro-seen", "1");
+      sessionStorage.setItem(
+        "critiqon:intro-seen",
+        "1"
+      );
     } catch {
       // Storage can be unavailable in privacy-restricted browsers.
     }
+
     setShowIntro(false);
   };
 
@@ -99,306 +468,326 @@ function App() {
 
 
   return (
+    <>
+      <PageSEO />
 
-    <Routes>
+      <Routes>
 
-      {/* =====================================================
-          PUBLIC
-      ===================================================== */}
+        {/* =====================================================
+            PUBLIC
+        ===================================================== */}
 
-      <Route
-        path="/"
-        element={
-          <Home />
-        }
-      />
+        <Route
+          path="/"
+          element={
+            <Home />
+          }
+        />
 
 
-      <Route
-        path="/login"
-        element={
-          <Login />
-        }
-      />
+        <Route
+          path="/login"
+          element={
+            <Login />
+          }
+        />
 
 
-      <Route
-        path="/register"
-        element={
-          <Register />
-        }
-      />
+        <Route
+          path="/register"
+          element={
+            <Register />
+          }
+        />
 
 
-      <Route
-        path="/pricing"
-        element={
-          <Pricing />
-        }
-      />
+        <Route
+          path="/pricing"
+          element={
+            <Pricing />
+          }
+        />
 
 
-      {/* =====================================================
-          LEGAL / PUBLIC
-      ===================================================== */}
+        {/* =====================================================
+            LEGAL / PUBLIC
+        ===================================================== */}
 
-      <Route
-        path="/privacy-policy"
-        element={
-          <PrivacyPolicy />
-        }
-      />
+        <Route
+          path="/privacy-policy"
+          element={
+            <PrivacyPolicy />
+          }
+        />
 
 
-      <Route
-        path="/terms"
-        element={
-          <Terms />
-        }
-      />
+        <Route
+          path="/terms"
+          element={
+            <Terms />
+          }
+        />
 
 
-      <Route
-        path="/refund-policy"
-        element={
-          <RefundPolicy />
-        }
-      />
+        <Route
+          path="/refund-policy"
+          element={
+            <RefundPolicy />
+          }
+        />
 
 
-      <Route
-        path="/contact"
-        element={
-          <Contact />
-        }
-      />
+        <Route
+          path="/contact"
+          element={
+            <Contact />
+          }
+        />
 
 
-      {/* =====================================================
-          DASHBOARD
-          FREE+
-      ===================================================== */}
+        {/* =====================================================
+            DASHBOARD
+            FREE+
+        ===================================================== */}
 
-      <Route
-        path="/dashboard"
-        element={
+        <Route
+          path="/dashboard"
+          element={
 
-          <ProtectedRoute>
+            <ProtectedRoute>
 
-            <FeatureRoute
-              requiredPlan="Free"
-              featureName="Dashboard"
-            >
+              <FeatureRoute
+                requiredPlan="Free"
+                featureName="Dashboard"
+              >
 
-              <Dashboard />
+                <Dashboard />
 
-            </FeatureRoute>
+              </FeatureRoute>
 
-          </ProtectedRoute>
+            </ProtectedRoute>
 
-        }
-      />
+          }
+        />
 
 
-      {/* =====================================================
-          RESUME ANALYSIS
-          FREE+
-      ===================================================== */}
+        {/* =====================================================
+            RESUME ANALYSIS
+            FREE+
+        ===================================================== */}
 
-      <Route
-        path="/resume-analysis"
-        element={
+        <Route
+          path="/resume-analysis"
+          element={
 
-          <ProtectedRoute>
+            <ProtectedRoute>
 
-            <FeatureRoute
-              requiredPlan="Free"
-              featureName="Resume Analysis"
-            >
+              <FeatureRoute
+                requiredPlan="Free"
+                featureName="Resume Analysis"
+              >
 
-              <ResumeAnalysisPage />
+                <ResumeAnalysisPage />
 
-            </FeatureRoute>
+              </FeatureRoute>
 
-          </ProtectedRoute>
+            </ProtectedRoute>
 
-        }
-      />
+          }
+        />
 
 
-      {/* =====================================================
-          JOB MATCH
-          PRO+
-      ===================================================== */}
+        {/* =====================================================
+            JOB MATCH
+            PRO+
+        ===================================================== */}
 
-      <Route
-        path="/job-match"
-        element={
+        <Route
+          path="/job-match"
+          element={
 
-          <ProtectedRoute>
+            <ProtectedRoute>
 
-            <FeatureRoute
-              requiredPlan="Pro"
-              featureName="Job Match"
-            >
+              <FeatureRoute
+                requiredPlan="Pro"
+                featureName="Job Match"
+              >
 
-              <JobMatch />
+                <JobMatch />
 
-            </FeatureRoute>
+              </FeatureRoute>
 
-          </ProtectedRoute>
+            </ProtectedRoute>
 
-        }
-      />
+          }
+        />
 
 
-      {/* =====================================================
-          COVER LETTER
-          PRO+
-      ===================================================== */}
+        {/* =====================================================
+            COVER LETTER
+            PRO+
+        ===================================================== */}
 
-      <Route
-        path="/cover-letter"
-        element={
+        <Route
+          path="/cover-letter"
+          element={
 
-          <ProtectedRoute>
+            <ProtectedRoute>
 
-            <FeatureRoute
-              requiredPlan="Pro"
-              featureName="Cover Letter"
-            >
+              <FeatureRoute
+                requiredPlan="Pro"
+                featureName="Cover Letter"
+              >
 
-              <CoverLetter />
+                <CoverLetter />
 
-            </FeatureRoute>
+              </FeatureRoute>
 
-          </ProtectedRoute>
+            </ProtectedRoute>
 
-        }
-      />
+          }
+        />
 
 
-      {/* =====================================================
-          INTERVIEW PREP
-          PRO+
-      ===================================================== */}
+        {/* =====================================================
+            INTERVIEW PREP
+            PRO+
+        ===================================================== */}
 
-      <Route
-        path="/interview-prep"
-        element={
+        <Route
+          path="/interview-prep"
+          element={
 
-          <ProtectedRoute>
+            <ProtectedRoute>
 
-            <FeatureRoute
-              requiredPlan="Pro"
-              featureName="Interview Preparation"
-            >
+              <FeatureRoute
+                requiredPlan="Pro"
+                featureName="Interview Preparation"
+              >
 
-              <InterviewPrep />
+                <InterviewPrep />
 
-            </FeatureRoute>
+              </FeatureRoute>
 
-          </ProtectedRoute>
+            </ProtectedRoute>
 
-        }
-      />
+          }
+        />
 
 
-      {/* =====================================================
-          INTERVIEW HISTORY
-          PRO+
-      ===================================================== */}
+        {/* =====================================================
+            INTERVIEW HISTORY
+            PRO+
+        ===================================================== */}
 
-      <Route
-        path="/interview-history"
-        element={
+        <Route
+          path="/interview-history"
+          element={
 
-          <ProtectedRoute>
+            <ProtectedRoute>
 
-            <FeatureRoute
-              requiredPlan="Pro"
-              featureName="Interview History"
-            >
+              <FeatureRoute
+                requiredPlan="Pro"
+                featureName="Interview History"
+              >
 
-              <InterviewHistory />
+                <InterviewHistory />
 
-            </FeatureRoute>
+              </FeatureRoute>
 
-          </ProtectedRoute>
+            </ProtectedRoute>
 
-        }
-      />
+          }
+        />
 
 
-      {/* =====================================================
-          REPORTS
-          PREMIUM ONLY
-      ===================================================== */}
+        {/* =====================================================
+            REPORTS
+            PREMIUM ONLY
+        ===================================================== */}
 
-      <Route
-        path="/reports"
-        element={
+        <Route
+          path="/reports"
+          element={
 
-          <ProtectedRoute>
+            <ProtectedRoute>
 
-            <FeatureRoute
-              requiredPlan="Premium"
-              featureName="Career Reports"
-            >
+              <FeatureRoute
+                requiredPlan="Premium"
+                featureName="Career Reports"
+              >
 
-              <Reports />
+                <Reports />
 
-            </FeatureRoute>
+              </FeatureRoute>
 
-          </ProtectedRoute>
+            </ProtectedRoute>
 
-        }
-      />
+          }
+        />
 
 
-      {/* =====================================================
-          SETTINGS
-          FREE+
-      ===================================================== */}
+        {/* =====================================================
+            SETTINGS
+            FREE+
+        ===================================================== */}
 
-      <Route
-        path="/settings"
-        element={
+        <Route
+          path="/settings"
+          element={
 
-          <ProtectedRoute>
+            <ProtectedRoute>
 
-            <FeatureRoute
-              requiredPlan="Free"
-              featureName="Settings"
-            >
+              <FeatureRoute
+                requiredPlan="Free"
+                featureName="Settings"
+              >
 
-              <Settings />
+                <Settings />
 
-            </FeatureRoute>
+              </FeatureRoute>
 
-          </ProtectedRoute>
+            </ProtectedRoute>
 
-        }
-      />
+          }
+        />
 
-      <Route
-        path="*"
-        element={
-          <div className="route-not-found">
-            <div>
-              <span className="route-not-found__code">404</span>
-              <h1>Page not found</h1>
-              <p>The page you requested does not exist or has moved.</p>
-              <a href="/">Return to Critiqon</a>
+
+        {/* =====================================================
+            404
+        ===================================================== */}
+
+        <Route
+          path="*"
+          element={
+            <div className="route-not-found">
+              <div>
+
+                <span className="route-not-found__code">
+                  404
+                </span>
+
+                <h1>
+                  Page not found
+                </h1>
+
+                <p>
+                  The page you requested does not
+                  exist or has moved.
+                </p>
+
+                <a href="/">
+                  Return to Critiqon
+                </a>
+
+              </div>
             </div>
-          </div>
-        }
-      />
+          }
+        />
 
-    </Routes>
-
+      </Routes>
+    </>
   );
-
 }
 
 
