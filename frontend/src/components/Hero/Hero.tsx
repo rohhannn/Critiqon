@@ -25,46 +25,44 @@ function Hero() {
     navigate("/login");
   };
 
+  /*
+   * =========================================================
+   * SEE HOW IT WORKS
+   * Scroll to the features section.
+   * =========================================================
+   */
   const handleSeeHowItWorks = () => {
-    document
-      .getElementById("features")
-      ?.scrollIntoView({
-        behavior: "smooth",
-      });
+    document.getElementById("features")?.scrollIntoView({
+      behavior: "smooth",
+    });
   };
 
   return (
     <main className="hero-container">
-
       <section className="hero">
-
         {/* =================================================
             HERO TITLE
         ================================================= */}
 
         <h1>
-          Land Your Dream Job{" "}
-          Faster
+          AI-Powered Resume & Career Tools to Land Your Dream Job Faster
         </h1>
-
 
         {/* =================================================
             HERO DESCRIPTION
         ================================================= */}
 
         <p>
-          AI-powered resume analysis, ATS optimization,
-          interview preparation and job tracking —
+          Analyze your resume, improve ATS compatibility, match with jobs,
+          create tailored cover letters, and prepare for interviews with AI —
           all in one platform.
         </p>
-
 
         {/* =================================================
             HERO ACTIONS
         ================================================= */}
 
         <div className="hero-actions">
-
           <Button
             text="Get Started"
             onClick={handleGetStarted}
@@ -76,54 +74,40 @@ function Hero() {
           >
             See How It Works →
           </button>
-
         </div>
-
 
         {/* =================================================
             PRODUCT PREVIEW
         ================================================= */}
 
         <div className="hero-product-preview">
-
           {/* =================================================
               TOP BAR
           ================================================= */}
 
           <div className="preview-topbar">
-
             <div className="preview-brand">
               Critiqon<span>.</span>
             </div>
 
             <div className="preview-status">
-
               <span className="status-dot"></span>
-
               AI Analysis Complete
-
             </div>
-
           </div>
-
 
           {/* =================================================
               DASHBOARD
           ================================================= */}
 
           <div className="preview-dashboard">
-
-
             {/* =================================================
                 LEFT SIDE
             ================================================= */}
 
             <div className="preview-main">
-
               <div className="preview-heading">
-
                 <div>
-
                   <span className="preview-eyebrow">
                     Resume Analysis
                   </span>
@@ -131,42 +115,31 @@ function Hero() {
                   <h3>
                     Your Resume Score
                   </h3>
-
                 </div>
 
-
                 <div className="preview-score">
-
                   87
 
                   <span>
                     /100
                   </span>
-
                 </div>
-
               </div>
-
 
               {/* =================================================
                   SCORE BAR
               ================================================= */}
 
               <div className="preview-score-bar">
-
                 <div className="preview-score-fill"></div>
-
               </div>
-
 
               {/* =================================================
                   METRICS
               ================================================= */}
 
               <div className="preview-metrics">
-
                 <div className="preview-metric">
-
                   <span>
                     ATS Compatibility
                   </span>
@@ -174,12 +147,9 @@ function Hero() {
                   <strong>
                     92%
                   </strong>
-
                 </div>
 
-
                 <div className="preview-metric">
-
                   <span>
                     Skills Match
                   </span>
@@ -187,12 +157,9 @@ function Hero() {
                   <strong>
                     89%
                   </strong>
-
                 </div>
 
-
                 <div className="preview-metric">
-
                   <span>
                     Interview Readiness
                   </span>
@@ -200,18 +167,14 @@ function Hero() {
                   <strong>
                     84%
                   </strong>
-
                 </div>
-
               </div>
-
 
               {/* =================================================
                   SKILLS
               ================================================= */}
 
               <div className="preview-skills">
-
                 <span>
                   Python
                 </span>
@@ -231,20 +194,15 @@ function Hero() {
                 <span>
                   Data Analysis
                 </span>
-
               </div>
-
             </div>
-
 
             {/* =================================================
                 RIGHT SIDE
             ================================================= */}
 
             <div className="preview-side">
-
               <div className="preview-side-header">
-
                 <span>
                   AI Recommendations
                 </span>
@@ -252,22 +210,18 @@ function Hero() {
                 <span className="preview-ai">
                   ✦ AI
                 </span>
-
               </div>
-
 
               {/* =================================================
                   RECOMMENDATION 1
               ================================================= */}
 
               <div className="preview-recommendation">
-
                 <div className="recommendation-icon">
                   ✓
                 </div>
 
                 <div>
-
                   <strong>
                     Strong ATS compatibility
                   </strong>
@@ -276,24 +230,19 @@ function Hero() {
                     Your resume matches most
                     important keywords.
                   </p>
-
                 </div>
-
               </div>
-
 
               {/* =================================================
                   RECOMMENDATION 2
               ================================================= */}
 
               <div className="preview-recommendation">
-
                 <div className="recommendation-icon">
                   ↑
                 </div>
 
                 <div>
-
                   <strong>
                     Improve your summary
                   </strong>
@@ -302,11 +251,8 @@ function Hero() {
                     Add measurable achievements
                     to increase impact.
                   </p>
-
                 </div>
-
               </div>
-
 
               {/* =================================================
                   ACTION
@@ -318,20 +264,15 @@ function Hero() {
               >
                 Improve Resume →
               </button>
-
             </div>
-
           </div>
-
         </div>
-
 
         {/* =================================================
             TRUST / VALUE STRIP
         ================================================= */}
 
         <div className="hero-trust-strip">
-
           <span>
             <strong>
               AI-Powered
@@ -369,11 +310,8 @@ function Hero() {
           <span>
             Job Matching
           </span>
-
         </div>
-
       </section>
-
     </main>
   );
 }
