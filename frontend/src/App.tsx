@@ -13,6 +13,9 @@ import Register from "./pages/Register/Register";
 import AIResumeAnalyzer
   from "./pages/AIResumeAnalyzer/AIResumeAnalyzer";
 
+import AIJobMatcher
+  from "./pages/AIJobMatcher/AIJobMatcher";
+
 import Dashboard from "./pages/Dashboard/Dashboard";
 
 import ResumeAnalysisPage
@@ -96,6 +99,14 @@ function PageSEO() {
 
         description:
           "Analyze your resume with AI and get practical feedback on resume structure, skills, keywords, ATS compatibility, and areas for improvement with Critiqon.",
+      },
+
+      "/ai-job-matcher": {
+        title:
+          "AI Job Matcher – Match Your Resume to Jobs | Critiqon",
+
+        description:
+          "Compare your resume with job requirements using AI. Understand your skills, keywords, and job match before applying with Critiqon.",
       },
 
       "/pricing": {
@@ -560,6 +571,19 @@ function App() {
           path="/ai-resume-analyzer"
           element={
             <AIResumeAnalyzer />
+          }
+        />
+
+
+        {/* =====================================================
+            PUBLIC SEO LANDING PAGE
+            AI JOB MATCHER
+        ===================================================== */}
+
+        <Route
+          path="/ai-job-matcher"
+          element={
+            <AIJobMatcher />
           }
         />
 
