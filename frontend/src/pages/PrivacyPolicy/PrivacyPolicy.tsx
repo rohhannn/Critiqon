@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import LegalPage from "../../components/LegalPage";
 
 function PrivacyPolicy() {
@@ -7,19 +8,19 @@ function PrivacyPolicy() {
       lastUpdated="August 22, 2026"
     >
       <p>
-        This Privacy Policy explains how Critiqon
-        collects, uses, stores, and protects information
-        when you use the Critiqon website and services.
+        This Privacy Policy explains how Critiqon collects,
+        uses, stores, and protects information when you use
+        the Critiqon website and services.
       </p>
 
       <h2>1. Information We Collect</h2>
 
       <p>
         Depending on how you use Critiqon, we may collect
-        information such as your name, email address,
-        account information, resume content, job
-        descriptions, interview-preparation inputs, and
-        information relating to your use of our services.
+        information such as your name, email address, account
+        information, resume content, job descriptions,
+        interview-preparation inputs, and information relating
+        to your use of our services.
       </p>
 
       <h2>2. Google Sign-In</h2>
@@ -50,19 +51,18 @@ function PrivacyPolicy() {
       <h2>4. Resume and Job Information</h2>
 
       <p>
-        Information you submit for resume analysis,
-        job matching, cover letters, or interview
-        preparation may be processed to provide the
-        requested functionality.
+        Information you submit for resume analysis, job
+        matching, cover letters, or interview preparation may
+        be processed to provide the requested functionality.
       </p>
 
       <h2>5. Third-Party Services</h2>
 
       <p>
-        Critiqon may use third-party service providers
-        to operate parts of the service, including
-        authentication, payment processing, email
-        delivery, hosting, databases, and AI processing.
+        Critiqon may use third-party service providers to
+        operate parts of the service, including authentication,
+        payment processing, email delivery, hosting, databases,
+        and AI processing.
       </p>
 
       <p>
@@ -101,17 +101,17 @@ function PrivacyPolicy() {
       <h2>9. Your Choices</h2>
 
       <p>
-        You may contact us regarding your account or
-        personal information, including requests concerning
-        access, correction, or deletion where applicable.
+        You may contact us regarding your account or personal
+        information, including requests concerning access,
+        correction, or deletion where applicable.
       </p>
 
       <h2>10. Changes to This Policy</h2>
 
       <p>
-        We may update this Privacy Policy from time to
-        time. The updated version will be posted on this
-        page with a revised update date.
+        We may update this Privacy Policy from time to time.
+        The updated version will be posted on this page with
+        a revised update date.
       </p>
 
       <h2>11. Contact</h2>
@@ -119,9 +119,9 @@ function PrivacyPolicy() {
       <p>
         If you have questions about this Privacy Policy,
         please use our{" "}
-        <a href="/contact">
+        <Link to="/contact">
           Contact Us
-        </a>{" "}
+        </Link>{" "}
         page.
       </p>
     </LegalPage>
