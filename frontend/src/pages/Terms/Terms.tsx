@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import LegalPage from "../../components/LegalPage";
 
 function Terms() {
@@ -82,9 +83,9 @@ function Terms() {
       <p>
         Subscription cancellation and refund requests are
         handled according to our{" "}
-        <a href="/refund-policy">
+        <Link to="/refund-policy">
           Refund & Cancellation Policy
-        </a>.
+        </Link>.
       </p>
 
       <h2>8. Prohibited Use</h2>
@@ -140,9 +141,9 @@ function Terms() {
       <p>
         Questions about these terms can be submitted
         through our{" "}
-        <a href="/contact">
+        <Link to="/contact">
           Contact Us
-        </a>{" "}
+        </Link>{" "}
         page.
       </p>
     </LegalPage>
