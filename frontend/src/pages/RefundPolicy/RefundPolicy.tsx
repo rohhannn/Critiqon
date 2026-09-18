@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import LegalPage from "../../components/LegalPage";
 
 function RefundPolicy() {
@@ -74,9 +75,9 @@ function RefundPolicy() {
       <p>
         For cancellation or refund assistance, please
         contact us through our{" "}
-        <a href="/contact">
+        <Link to="/contact">
           Contact Us
-        </a>{" "}
+        </Link>{" "}
         page.
       </p>
     </LegalPage>
