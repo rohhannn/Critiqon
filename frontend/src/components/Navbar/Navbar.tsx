@@ -1,6 +1,7 @@
 import "./Navbar.css";
 
 import {
+  Link,
   useNavigate,
   useLocation,
 } from "react-router-dom";
@@ -17,7 +18,6 @@ function Navbar() {
     user,
     logout,
   } = useAuth();
-
 
   const scrollToSection = (id: string) => {
 
@@ -150,14 +150,11 @@ function Navbar() {
         </button>
 
 
-        <button
-          type="button"
-          onClick={() =>
-            scrollToSection("pricing")
-          }
-        >
+        {/* SEO-FRIENDLY PRICING LINK */}
+
+        <Link to="/pricing">
           Pricing
-        </button>
+        </Link>
 
 
         <button
