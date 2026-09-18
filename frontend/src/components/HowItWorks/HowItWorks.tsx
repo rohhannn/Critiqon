@@ -80,7 +80,6 @@ function HowItWorks() {
       <div className="how-background-glow how-glow-two" />
 
       <div className="how-container">
-
         {/* HEADER */}
 
         <div className="how-header">
@@ -90,8 +89,7 @@ function HowItWorks() {
           </div>
 
           <h2>
-            From resume to{" "}
-            <span>job-ready.</span>
+            From Resume Analysis to Job-Ready
           </h2>
 
           <p>
@@ -103,7 +101,6 @@ function HowItWorks() {
         {/* STEPS */}
 
         <div className="steps-wrapper">
-
           <div className="steps-connector" />
 
           <div className="steps-grid">
@@ -118,7 +115,6 @@ function HowItWorks() {
                 }
               >
                 <div className="journey-card-top">
-
                   <div className="step-number">
                     {step.number}
                   </div>
@@ -126,11 +122,9 @@ function HowItWorks() {
                   <div className="step-icon">
                     {step.icon}
                   </div>
-
                 </div>
 
                 <div className="step-content">
-
                   <div className="step-label">
                     {step.label}
                   </div>
@@ -142,7 +136,6 @@ function HowItWorks() {
                   <p>
                     {step.description}
                   </p>
-
                 </div>
 
                 <div className="step-progress">
@@ -167,7 +160,6 @@ function HowItWorks() {
             all connected.
           </span>
         </div>
-
       </div>
     </section>
   );

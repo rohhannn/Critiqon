@@ -21,8 +21,7 @@ function Features() {
           </div>
 
           <h2>
-            Everything you need
-            <span className="features-title-accent"> to get hired.</span>
+            AI Career Tools for Resumes, Jobs & Interviews
           </h2>
 
           <p className="subtitle">

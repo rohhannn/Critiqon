@@ -26,8 +26,7 @@ function DashboardPreview() {
         </div>
 
         <h2>
-          Everything you need to
-          <span> get hired.</span>
+          Your AI-Powered Career Dashboard
         </h2>
 
         <p>
