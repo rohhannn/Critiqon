@@ -420,6 +420,25 @@ function PageSEO() {
 
 
 /* =========================================================
+   SCROLL TO TOP ON ROUTE CHANGE
+========================================================= */
+
+function ScrollToTop() {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [location.pathname]);
+
+  return null;
+}
+
+
+/* =========================================================
    APP
 ========================================================= */
 
@@ -470,6 +489,8 @@ function App() {
   return (
     <>
       <PageSEO />
+
+      <ScrollToTop />
 
       <Routes>
 
