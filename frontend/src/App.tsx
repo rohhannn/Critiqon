@@ -10,6 +10,9 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 
+import AIResumeAnalyzer
+  from "./pages/AIResumeAnalyzer/AIResumeAnalyzer";
+
 import Dashboard from "./pages/Dashboard/Dashboard";
 
 import ResumeAnalysisPage
@@ -82,13 +85,23 @@ function PageSEO() {
       "/": {
         title:
           "Critiqon – AI Resume Analyzer, Job Matching & Interview Prep",
+
         description:
           "Critiqon is an AI-powered career platform for resume analysis, ATS optimization, job matching, cover letters, and interview preparation.",
+      },
+
+      "/ai-resume-analyzer": {
+        title:
+          "AI Resume Analyzer – Improve Your Resume | Critiqon",
+
+        description:
+          "Analyze your resume with AI and get practical feedback on resume structure, skills, keywords, ATS compatibility, and areas for improvement with Critiqon.",
       },
 
       "/pricing": {
         title:
           "Pricing – AI Resume & Career Tools | Critiqon",
+
         description:
           "Explore Critiqon's plans for AI resume analysis, ATS optimization, job matching, cover letters, and interview preparation.",
       },
@@ -96,6 +109,7 @@ function PageSEO() {
       "/contact": {
         title:
           "Contact Critiqon – Career & Resume Support",
+
         description:
           "Contact Critiqon for questions, support, feedback, and general enquiries about our AI-powered career tools.",
       },
@@ -103,6 +117,7 @@ function PageSEO() {
       "/privacy-policy": {
         title:
           "Privacy Policy | Critiqon",
+
         description:
           "Read the Critiqon Privacy Policy to understand how we collect, use, protect, and handle user information.",
       },
@@ -110,6 +125,7 @@ function PageSEO() {
       "/terms": {
         title:
           "Terms of Service | Critiqon",
+
         description:
           "Read the Critiqon Terms of Service covering accounts, AI-generated content, subscriptions, payments, and platform usage.",
       },
@@ -117,6 +133,7 @@ function PageSEO() {
       "/refund-policy": {
         title:
           "Refund Policy | Critiqon",
+
         description:
           "Read the Critiqon Refund Policy covering subscription cancellations, refund requests, duplicate charges, and failed payments.",
       },
@@ -124,6 +141,7 @@ function PageSEO() {
       "/login": {
         title:
           "Log In | Critiqon",
+
         description:
           "Log in to Critiqon to analyze your resume, match with jobs, prepare for interviews, and access your career tools.",
       },
@@ -131,6 +149,7 @@ function PageSEO() {
       "/register": {
         title:
           "Create Your Account | Critiqon",
+
         description:
           "Create a Critiqon account and start using AI-powered resume analysis, job matching, cover letters, and interview preparation.",
       },
@@ -138,6 +157,7 @@ function PageSEO() {
       "/dashboard": {
         title:
           "Dashboard | Critiqon",
+
         description:
           "Your Critiqon career dashboard.",
       },
@@ -145,6 +165,7 @@ function PageSEO() {
       "/resume-analysis": {
         title:
           "AI Resume Analysis & ATS Checker | Critiqon",
+
         description:
           "Analyze your resume with AI, identify improvement opportunities, and evaluate ATS compatibility with Critiqon.",
       },
@@ -152,6 +173,7 @@ function PageSEO() {
       "/job-match": {
         title:
           "AI Job Matching | Critiqon",
+
         description:
           "Match your resume and skills with relevant job opportunities using Critiqon's AI-powered job matching tools.",
       },
@@ -159,6 +181,7 @@ function PageSEO() {
       "/cover-letter": {
         title:
           "AI Cover Letter Generator | Critiqon",
+
         description:
           "Create tailored, professional cover letters with AI using Critiqon's career preparation tools.",
       },
@@ -166,6 +189,7 @@ function PageSEO() {
       "/interview-prep": {
         title:
           "AI Interview Preparation | Critiqon",
+
         description:
           "Prepare for job interviews with AI-generated interview questions, answer evaluation, and personalized preparation tools.",
       },
@@ -173,6 +197,7 @@ function PageSEO() {
       "/interview-history": {
         title:
           "Interview History | Critiqon",
+
         description:
           "Review your previous AI interview preparation sessions and performance.",
       },
@@ -180,6 +205,7 @@ function PageSEO() {
       "/reports": {
         title:
           "Career Reports | Critiqon",
+
         description:
           "View detailed career and resume reports with Critiqon's AI-powered tools.",
       },
@@ -187,6 +213,7 @@ function PageSEO() {
       "/settings": {
         title:
           "Account Settings | Critiqon",
+
         description:
           "Manage your Critiqon account settings and preferences.",
       },
@@ -196,9 +223,11 @@ function PageSEO() {
       seoByPath[location.pathname] || {
         title:
           "Critiqon – AI Resume & Career Platform",
+
         description:
           "Critiqon provides AI-powered resume analysis, ATS optimization, job matching, cover letters, and interview preparation.",
       };
+
 
     /* =====================================================
        TITLE
@@ -518,6 +547,19 @@ function App() {
           path="/register"
           element={
             <Register />
+          }
+        />
+
+
+        {/* =====================================================
+            PUBLIC SEO LANDING PAGE
+            AI RESUME ANALYZER
+        ===================================================== */}
+
+        <Route
+          path="/ai-resume-analyzer"
+          element={
+            <AIResumeAnalyzer />
           }
         />
 
