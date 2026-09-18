@@ -187,15 +187,14 @@ function Pricing() {
           </div>
 
           <h2>
-            Choose the plan that
-            <span> fits your career.</span>
+            AI Career Platform Pricing Plans
           </h2>
 
           <p className="pricing-subtitle">
-            Start with the essentials and upgrade when
-            you need more powerful tools for resumes,
-            ATS optimization, job matching and interview
-            preparation.
+            Choose a Critiqon plan for AI resume analysis,
+            ATS optimization, job matching, cover letter
+            generation, and interview preparation. Start
+            free and upgrade when you need more career tools.
           </p>
 
           <div className="pricing-trust">
@@ -246,7 +245,7 @@ function Pricing() {
                   </h3>
 
                   <p>
-                    Get started with the essentials.
+                    Start with essential resume and career tools.
                   </p>
                 </div>
               </div>
@@ -389,7 +388,7 @@ function Pricing() {
                   </h3>
 
                   <p>
-                    More tools for serious job seekers.
+                    Advanced AI tools for active job seekers.
                   </p>
                 </div>
               </div>
@@ -555,7 +554,7 @@ function Pricing() {
                   </h3>
 
                   <p>
-                    Maximum access for intensive preparation.
+                    Full access for intensive career preparation.
                   </p>
                 </div>
               </div>
