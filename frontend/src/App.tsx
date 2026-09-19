@@ -16,7 +16,11 @@ import AIResumeAnalyzer
 import AIJobMatcher
   from "./pages/AIJobMatcher/AIJobMatcher";
 
-import Dashboard from "./pages/Dashboard/Dashboard";
+import AICoverLetterGenerator
+  from "./pages/AICoverLetterGenerator/AICoverLetterGenerator";
+
+import Dashboard
+  from "./pages/Dashboard/Dashboard";
 
 import ResumeAnalysisPage
   from "./pages/ResumeAnalysisPage/ResumeAnalysisPage";
@@ -51,6 +55,7 @@ import FeatureRoute
 import LogoIntro
   from "./LogoIntro";
 
+
 /* =========================================================
    LEGAL PAGES
 ========================================================= */
@@ -78,6 +83,7 @@ function PageSEO() {
   const location = useLocation();
 
   useEffect(() => {
+
     const seoByPath: Record<
       string,
       {
@@ -85,6 +91,11 @@ function PageSEO() {
         description: string;
       }
     > = {
+
+      /* =====================================================
+         HOME
+      ===================================================== */
+
       "/": {
         title:
           "Critiqon – AI Resume Analyzer, Job Matching & Interview Prep",
@@ -92,6 +103,11 @@ function PageSEO() {
         description:
           "Critiqon is an AI-powered career platform for resume analysis, ATS optimization, job matching, cover letters, and interview preparation.",
       },
+
+
+      /* =====================================================
+         AI RESUME ANALYZER
+      ===================================================== */
 
       "/ai-resume-analyzer": {
         title:
@@ -101,6 +117,11 @@ function PageSEO() {
           "Analyze your resume with AI and get practical feedback on resume structure, skills, keywords, ATS compatibility, and areas for improvement with Critiqon.",
       },
 
+
+      /* =====================================================
+         AI JOB MATCHER
+      ===================================================== */
+
       "/ai-job-matcher": {
         title:
           "AI Job Matcher – Match Your Resume to Jobs | Critiqon",
@@ -108,6 +129,24 @@ function PageSEO() {
         description:
           "Compare your resume with job requirements using AI. Understand your skills, keywords, and job match before applying with Critiqon.",
       },
+
+
+      /* =====================================================
+         AI COVER LETTER GENERATOR
+      ===================================================== */
+
+      "/ai-cover-letter-generator": {
+        title:
+          "AI Cover Letter Generator – Tailor Your Application | Critiqon",
+
+        description:
+          "Create a tailored cover letter with AI using your resume and job description. Match your experience to the role, improve keywords, and apply with Critiqon.",
+      },
+
+
+      /* =====================================================
+         PRICING
+      ===================================================== */
 
       "/pricing": {
         title:
@@ -117,6 +156,11 @@ function PageSEO() {
           "Explore Critiqon's plans for AI resume analysis, ATS optimization, job matching, cover letters, and interview preparation.",
       },
 
+
+      /* =====================================================
+         CONTACT
+      ===================================================== */
+
       "/contact": {
         title:
           "Contact Critiqon – Career & Resume Support",
@@ -124,6 +168,11 @@ function PageSEO() {
         description:
           "Contact Critiqon for questions, support, feedback, and general enquiries about our AI-powered career tools.",
       },
+
+
+      /* =====================================================
+         PRIVACY POLICY
+      ===================================================== */
 
       "/privacy-policy": {
         title:
@@ -133,6 +182,11 @@ function PageSEO() {
           "Read the Critiqon Privacy Policy to understand how we collect, use, protect, and handle user information.",
       },
 
+
+      /* =====================================================
+         TERMS
+      ===================================================== */
+
       "/terms": {
         title:
           "Terms of Service | Critiqon",
@@ -140,6 +194,11 @@ function PageSEO() {
         description:
           "Read the Critiqon Terms of Service covering accounts, AI-generated content, subscriptions, payments, and platform usage.",
       },
+
+
+      /* =====================================================
+         REFUND POLICY
+      ===================================================== */
 
       "/refund-policy": {
         title:
@@ -149,6 +208,11 @@ function PageSEO() {
           "Read the Critiqon Refund Policy covering subscription cancellations, refund requests, duplicate charges, and failed payments.",
       },
 
+
+      /* =====================================================
+         LOGIN
+      ===================================================== */
+
       "/login": {
         title:
           "Log In | Critiqon",
@@ -156,6 +220,11 @@ function PageSEO() {
         description:
           "Log in to Critiqon to analyze your resume, match with jobs, prepare for interviews, and access your career tools.",
       },
+
+
+      /* =====================================================
+         REGISTER
+      ===================================================== */
 
       "/register": {
         title:
@@ -165,6 +234,11 @@ function PageSEO() {
           "Create a Critiqon account and start using AI-powered resume analysis, job matching, cover letters, and interview preparation.",
       },
 
+
+      /* =====================================================
+         DASHBOARD
+      ===================================================== */
+
       "/dashboard": {
         title:
           "Dashboard | Critiqon",
@@ -172,6 +246,11 @@ function PageSEO() {
         description:
           "Your Critiqon career dashboard.",
       },
+
+
+      /* =====================================================
+         RESUME ANALYSIS
+      ===================================================== */
 
       "/resume-analysis": {
         title:
@@ -181,6 +260,11 @@ function PageSEO() {
           "Analyze your resume with AI, identify improvement opportunities, and evaluate ATS compatibility with Critiqon.",
       },
 
+
+      /* =====================================================
+         JOB MATCH
+      ===================================================== */
+
       "/job-match": {
         title:
           "AI Job Matching | Critiqon",
@@ -188,6 +272,12 @@ function PageSEO() {
         description:
           "Match your resume and skills with relevant job opportunities using Critiqon's AI-powered job matching tools.",
       },
+
+
+      /* =====================================================
+         COVER LETTER
+         PROTECTED APP PAGE
+      ===================================================== */
 
       "/cover-letter": {
         title:
@@ -197,6 +287,11 @@ function PageSEO() {
           "Create tailored, professional cover letters with AI using Critiqon's career preparation tools.",
       },
 
+
+      /* =====================================================
+         INTERVIEW PREP
+      ===================================================== */
+
       "/interview-prep": {
         title:
           "AI Interview Preparation | Critiqon",
@@ -204,6 +299,11 @@ function PageSEO() {
         description:
           "Prepare for job interviews with AI-generated interview questions, answer evaluation, and personalized preparation tools.",
       },
+
+
+      /* =====================================================
+         INTERVIEW HISTORY
+      ===================================================== */
 
       "/interview-history": {
         title:
@@ -213,6 +313,11 @@ function PageSEO() {
           "Review your previous AI interview preparation sessions and performance.",
       },
 
+
+      /* =====================================================
+         REPORTS
+      ===================================================== */
+
       "/reports": {
         title:
           "Career Reports | Critiqon",
@@ -220,6 +325,11 @@ function PageSEO() {
         description:
           "View detailed career and resume reports with Critiqon's AI-powered tools.",
       },
+
+
+      /* =====================================================
+         SETTINGS
+      ===================================================== */
 
       "/settings": {
         title:
@@ -229,6 +339,11 @@ function PageSEO() {
           "Manage your Critiqon account settings and preferences.",
       },
     };
+
+
+    /* =====================================================
+       CURRENT SEO DATA
+    ===================================================== */
 
     const currentSEO =
       seoByPath[location.pathname] || {
@@ -257,6 +372,7 @@ function PageSEO() {
       ) as HTMLMetaElement | null;
 
     if (!descriptionTag) {
+
       descriptionTag =
         document.createElement("meta");
 
@@ -289,6 +405,7 @@ function PageSEO() {
       ) as HTMLLinkElement | null;
 
     if (!canonicalTag) {
+
       canonicalTag =
         document.createElement("link");
 
@@ -318,6 +435,7 @@ function PageSEO() {
       ) as HTMLMetaElement | null;
 
     if (!ogTitle) {
+
       ogTitle =
         document.createElement("meta");
 
@@ -347,6 +465,7 @@ function PageSEO() {
       ) as HTMLMetaElement | null;
 
     if (!ogDescription) {
+
       ogDescription =
         document.createElement("meta");
 
@@ -376,6 +495,7 @@ function PageSEO() {
       ) as HTMLMetaElement | null;
 
     if (!ogURL) {
+
       ogURL =
         document.createElement("meta");
 
@@ -405,6 +525,7 @@ function PageSEO() {
       ) as HTMLMetaElement | null;
 
     if (!twitterTitle) {
+
       twitterTitle =
         document.createElement("meta");
 
@@ -434,6 +555,7 @@ function PageSEO() {
       ) as HTMLMetaElement | null;
 
     if (!twitterDescription) {
+
       twitterDescription =
         document.createElement("meta");
 
@@ -464,14 +586,17 @@ function PageSEO() {
 ========================================================= */
 
 function ScrollToTop() {
+
   const location = useLocation();
 
   useEffect(() => {
+
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: "smooth",
     });
+
   }, [location.pathname]);
 
   return null;
@@ -485,29 +610,41 @@ function ScrollToTop() {
 function App() {
 
   const [showIntro, setShowIntro] = useState(() => {
+
     try {
+
       return (
         sessionStorage.getItem(
           "critiqon:intro-seen"
         ) !== "1"
       );
+
     } catch {
+
       return true;
+
     }
+
   });
 
 
   const completeIntro = () => {
+
     try {
+
       sessionStorage.setItem(
         "critiqon:intro-seen",
         "1"
       );
+
     } catch {
+
       // Storage can be unavailable in privacy-restricted browsers.
+
     }
 
     setShowIntro(false);
+
   };
 
 
@@ -528,11 +665,14 @@ function App() {
 
   return (
     <>
+
       <PageSEO />
 
       <ScrollToTop />
 
+
       <Routes>
+
 
         {/* =====================================================
             PUBLIC
@@ -587,6 +727,23 @@ function App() {
           }
         />
 
+
+        {/* =====================================================
+            PUBLIC SEO LANDING PAGE
+            AI COVER LETTER GENERATOR
+        ===================================================== */}
+
+        <Route
+          path="/ai-cover-letter-generator"
+          element={
+            <AICoverLetterGenerator />
+          }
+        />
+
+
+        {/* =====================================================
+            PRICING
+        ===================================================== */}
 
         <Route
           path="/pricing"
@@ -847,7 +1004,9 @@ function App() {
         <Route
           path="*"
           element={
+
             <div className="route-not-found">
+
               <div>
 
                 <span className="route-not-found__code">
@@ -868,11 +1027,14 @@ function App() {
                 </a>
 
               </div>
+
             </div>
+
           }
         />
 
       </Routes>
+
     </>
   );
 }
