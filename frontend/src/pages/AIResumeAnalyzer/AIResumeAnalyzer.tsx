@@ -1,7 +1,3 @@
-/* =========================================================
-   PUBLIC AI RESUME ANALYZER PAGE
-   ========================================================= */
-
 import "./AIResumeAnalyzer.css";
 
 import {
@@ -22,25 +18,73 @@ import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 
+const resumeFaqs = [
+  {
+    question: "What is an AI resume analyzer?",
+    answer:
+      "An AI resume analyzer reviews your resume and provides feedback on areas such as structure, skills, keywords, content, and ATS compatibility. Critiqon helps turn that analysis into practical suggestions you can use to improve your resume.",
+  },
+  {
+    question: "Can an AI resume analyzer check ATS compatibility?",
+    answer:
+      "Yes. Critiqon analyzes important resume elements that can affect ATS compatibility, including structure, formatting, skills, keywords, and content clarity.",
+  },
+  {
+    question: "How can I improve my resume for ATS?",
+    answer:
+      "Use clear formatting, relevant skills and keywords, concise descriptions, and measurable achievements. Your resume should also accurately reflect the requirements of the role you are applying for.",
+  },
+  {
+    question: "What does an ATS resume score mean?",
+    answer:
+      "An ATS score is an indication of how well a resume aligns with factors commonly considered by applicant tracking systems. It can help identify areas where your resume may need improvement.",
+  },
+  {
+    question: "Is Critiqon an AI resume checker?",
+    answer:
+      "Yes. Critiqon provides AI-powered resume analysis that helps you review your resume, identify potential improvements, and prepare it for relevant job applications.",
+  },
+  {
+    question: "How does Critiqon analyze my resume?",
+    answer:
+      "Critiqon examines information in your resume and organizes the analysis into areas such as resume structure, skills, keywords, ATS compatibility, and improvement suggestions.",
+  },
+];
+
 function AIResumeAnalyzer() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: resumeFaqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
     <div className="seo-resume-page">
       <Navbar />
 
-      <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema),
+        }}
+      />
 
+      <main>
         {/* =====================================================
             HERO
         ===================================================== */}
 
         <section className="seo-resume-hero">
-
           <div className="seo-resume-container">
-
             <div className="seo-resume-hero-grid">
-
               <div className="seo-resume-hero-copy">
-
                 <div className="seo-resume-eyebrow">
                   <span className="seo-eyebrow-icon">
                     <Sparkles size={14} />
@@ -53,39 +97,28 @@ function AIResumeAnalyzer() {
 
                 <h1>
                   AI Resume Analyzer
-                  <span>
-                    to Improve Your Resume
-                  </span>
+                  <span>to Improve Your Resume</span>
                 </h1>
 
                 <p className="seo-resume-hero-description">
-                  Analyze your resume with AI and get practical
-                  feedback on content, skills, structure, and ATS
-                  compatibility. Critiqon helps you identify areas
-                  to improve before applying for jobs.
+                  Analyze your resume with AI and get practical feedback on
+                  content, skills, structure, and ATS compatibility. Critiqon
+                  helps you identify areas to improve before applying for
+                  jobs.
                 </p>
 
                 <div className="seo-resume-actions">
-
-                  <Link
-                    to="/register"
-                    className="seo-primary-button"
-                  >
+                  <Link to="/register" className="seo-primary-button">
                     Analyze Your Resume
                     <ArrowRight size={17} />
                   </Link>
 
-                  <Link
-                    to="/pricing"
-                    className="seo-secondary-button"
-                  >
+                  <Link to="/pricing" className="seo-secondary-button">
                     View Pricing
                   </Link>
-
                 </div>
 
                 <div className="seo-trust-row">
-
                   <span>
                     <CheckCircle2 size={15} />
                     AI-powered analysis
@@ -100,209 +133,139 @@ function AIResumeAnalyzer() {
                     <CheckCircle2 size={15} />
                     Practical suggestions
                   </span>
-
                 </div>
-
               </div>
-
 
               {/* =================================================
                   ANALYSIS PREVIEW
               ================================================= */}
 
               <div className="seo-analysis-preview">
-
                 <div className="seo-preview-glow" />
 
                 <div className="seo-preview-card">
-
                   <div className="seo-preview-top">
-
                     <div className="seo-preview-title">
-
                       <div className="seo-preview-icon">
                         <FileCheck2 size={18} />
                       </div>
 
                       <div>
-                        <strong>
-                          Resume Intelligence
-                        </strong>
+                        <strong>Resume Intelligence</strong>
 
-                        <span>
-                          Example analysis
-                        </span>
+                        <span>Example analysis</span>
                       </div>
-
                     </div>
 
                     <span className="seo-preview-ai">
                       <Sparkles size={13} />
                       AI Powered
                     </span>
-
                   </div>
 
-
                   <div className="seo-score-section">
-
                     <div className="seo-score-label">
                       <span>ATS READINESS</span>
 
-                      <span className="seo-score-status">
-                        Strong
-                      </span>
+                      <span className="seo-score-status">Strong</span>
                     </div>
 
                     <div className="seo-score-row">
-
                       <div className="seo-score-number">
                         78
                         <span>/100</span>
                       </div>
 
                       <div className="seo-score-info">
-
-                        <strong>
-                          Good foundation
-                        </strong>
+                        <strong>Good foundation</strong>
 
                         <p>
-                          A few targeted improvements can
-                          strengthen screening performance.
+                          A few targeted improvements can strengthen screening
+                          performance.
                         </p>
-
                       </div>
-
                     </div>
 
                     <div className="seo-score-progress">
-
                       <div
                         className="seo-score-progress-fill"
                         style={{ width: "78%" }}
                       />
-
                     </div>
-
                   </div>
-
 
                   <div className="seo-preview-divider" />
 
-
                   <div className="seo-preview-signals">
-
                     <div className="seo-signal-heading">
                       <span>ANALYSIS AREAS</span>
                       <span>5 checks</span>
                     </div>
 
                     <div className="seo-signal-list">
-
                       <div className="seo-signal">
-
                         <span className="seo-signal-icon positive">
                           <CheckCircle2 size={14} />
                         </span>
 
-                        <span>
-                          Resume structure
-                        </span>
-
+                        <span>Resume structure</span>
                       </div>
 
-
                       <div className="seo-signal">
-
                         <span className="seo-signal-icon positive">
                           <CheckCircle2 size={14} />
                         </span>
 
-                        <span>
-                          Skills and keywords
-                        </span>
-
+                        <span>Skills and keywords</span>
                       </div>
 
-
                       <div className="seo-signal">
-
                         <span className="seo-signal-icon positive">
                           <CheckCircle2 size={14} />
                         </span>
 
-                        <span>
-                          ATS compatibility
-                        </span>
-
+                        <span>ATS compatibility</span>
                       </div>
 
-
                       <div className="seo-signal">
-
                         <span className="seo-signal-icon warning">
                           <Lightbulb size={14} />
                         </span>
 
-                        <span>
-                          Improvement suggestions
-                        </span>
-
+                        <span>Improvement suggestions</span>
                       </div>
 
-
                       <div className="seo-signal">
-
                         <span className="seo-signal-icon purple">
                           <Target size={14} />
                         </span>
 
-                        <span>
-                          Recommended roles
-                        </span>
-
+                        <span>Recommended roles</span>
                       </div>
-
                     </div>
-
                   </div>
 
-
                   <div className="seo-preview-footer">
-
                     <span>
                       <Sparkles size={13} />
                       Example output
                     </span>
 
-                    <span>
-                      Critiqon AI
-                    </span>
-
+                    <span>Critiqon AI</span>
                   </div>
-
                 </div>
-
               </div>
-
             </div>
-
           </div>
-
         </section>
-
 
         {/* =====================================================
             INTRO / VALUE
         ===================================================== */}
 
         <section className="seo-resume-section seo-value-section">
-
           <div className="seo-resume-container">
-
             <div className="seo-section-heading">
-
               <div className="seo-section-eyebrow">
                 <span />
                 RESUME INTELLIGENCE
@@ -314,104 +277,77 @@ function AIResumeAnalyzer() {
               </h2>
 
               <p>
-                A strong resume is more than a list of experience.
-                Critiqon analyzes the information that matters when
-                preparing your resume for modern job applications.
+                A strong resume is more than a list of experience. Critiqon
+                analyzes the information that matters when preparing your
+                resume for modern job applications.
               </p>
-
             </div>
 
-
             <div className="seo-analysis-grid">
-
               <article className="seo-feature-card">
-
                 <div className="seo-feature-icon blue">
                   <TrendingUp size={20} />
                 </div>
 
-                <h3>
-                  ATS Compatibility
-                </h3>
+                <h3>ATS Compatibility</h3>
 
                 <p>
-                  Review your resume structure and formatting
-                  for compatibility with automated screening
-                  systems.
+                  Review your resume structure and formatting for compatibility
+                  with automated screening systems.
                 </p>
 
                 <div className="seo-card-tag">
                   <SearchCheck size={13} />
                   Screening readiness
                 </div>
-
               </article>
 
-
               <article className="seo-feature-card">
-
                 <div className="seo-feature-icon green">
                   <Zap size={20} />
                 </div>
 
-                <h3>
-                  Skills & Keywords
-                </h3>
+                <h3>Skills &amp; Keywords</h3>
 
                 <p>
-                  Identify skills and keywords already present
-                  in your resume and areas where relevant skills
-                  may be missing.
+                  Identify skills and keywords already present in your resume
+                  and areas where relevant skills may be missing.
                 </p>
 
                 <div className="seo-card-tag green">
                   <Target size={13} />
                   Skill signals
                 </div>
-
               </article>
 
-
               <article className="seo-feature-card">
-
                 <div className="seo-feature-icon purple">
                   <Lightbulb size={20} />
                 </div>
 
-                <h3>
-                  Actionable Suggestions
-                </h3>
+                <h3>Actionable Suggestions</h3>
 
                 <p>
-                  Get practical recommendations that help you
-                  improve resume content, clarity, structure,
-                  and job relevance.
+                  Get practical recommendations that help you improve resume
+                  content, clarity, structure, and job relevance.
                 </p>
 
                 <div className="seo-card-tag purple">
                   <Sparkles size={13} />
                   AI recommendations
                 </div>
-
               </article>
-
             </div>
-
           </div>
-
         </section>
-
 
         {/* =====================================================
             HOW IT WORKS
         ===================================================== */}
 
         <section className="seo-resume-section seo-how-section">
-
           <div className="seo-resume-container">
-
             <div className="seo-section-heading centered">
-
               <div className="seo-section-eyebrow">
                 <span />
                 HOW IT WORKS
@@ -423,250 +359,122 @@ function AIResumeAnalyzer() {
               </h2>
 
               <p>
-                Critiqon turns your resume into practical,
-                easy-to-understand insights you can use before
-                applying for your next role.
+                Critiqon turns your resume into practical, easy-to-understand
+                insights you can use before applying for your next role.
               </p>
-
             </div>
 
-
             <div className="seo-steps">
-
               <div className="seo-step">
-
-                <div className="seo-step-number">
-                  01
-                </div>
+                <div className="seo-step-number">01</div>
 
                 <div className="seo-step-icon">
                   <FileText size={21} />
                 </div>
 
-                <h3>
-                  Upload your resume
-                </h3>
+                <h3>Upload your resume</h3>
 
                 <p>
-                  Provide your resume so Critiqon can analyze
-                  its content, structure, skills, and experience.
+                  Provide your resume so Critiqon can analyze its content,
+                  structure, skills, and experience.
                 </p>
-
               </div>
-
 
               <div className="seo-step-line" />
 
-
               <div className="seo-step">
-
-                <div className="seo-step-number">
-                  02
-                </div>
+                <div className="seo-step-number">02</div>
 
                 <div className="seo-step-icon">
                   <Sparkles size={21} />
                 </div>
 
-                <h3>
-                  Let AI analyze it
-                </h3>
+                <h3>Let AI analyze it</h3>
 
                 <p>
-                  Critiqon processes your resume and organizes
-                  the results into useful career insights.
+                  Critiqon processes your resume and organizes the results into
+                  useful career insights.
                 </p>
-
               </div>
-
 
               <div className="seo-step-line" />
 
-
               <div className="seo-step">
-
-                <div className="seo-step-number">
-                  03
-                </div>
+                <div className="seo-step-number">03</div>
 
                 <div className="seo-step-icon">
                   <Target size={21} />
                 </div>
 
-                <h3>
-                  Improve and apply
-                </h3>
+                <h3>Improve and apply</h3>
 
                 <p>
-                  Use the feedback to strengthen your resume
-                  before moving forward with job applications.
+                  Use the feedback to strengthen your resume before moving
+                  forward with job applications.
                 </p>
-
               </div>
-
             </div>
-
           </div>
-
         </section>
-
 
         {/* =====================================================
             FAQ
         ===================================================== */}
 
-        <section className="seo-resume-section seo-faq-section">
-
+        <section
+          className="seo-resume-section seo-faq-section"
+          aria-labelledby="resume-faq-heading"
+        >
           <div className="seo-resume-container">
-
             <div className="seo-section-heading centered">
-
               <div className="seo-section-eyebrow">
                 <span />
                 FREQUENTLY ASKED QUESTIONS
               </div>
 
-              <h2>
+              <h2 id="resume-faq-heading">
                 Questions about AI resume analysis
                 <span> and ATS optimization.</span>
               </h2>
 
               <p>
-                Learn how an AI resume analyzer can help you
-                understand your resume, improve ATS compatibility,
-                and prepare for job applications.
+                Learn how an AI resume analyzer can help you understand your
+                resume, improve ATS compatibility, and prepare for job
+                applications.
               </p>
-
             </div>
-
 
             <div className="seo-faq-list">
+              {resumeFaqs.map((faq) => (
+                <details className="seo-faq-item" key={faq.question}>
+                  <summary>
+                    <span className="seo-faq-question">
+                      {faq.question}
+                    </span>
 
-              <details className="seo-faq-item">
+                    <span className="seo-faq-toggle" aria-hidden="true">
+                      +
+                    </span>
+                  </summary>
 
-                <summary>
-                  What is an AI resume analyzer?
-                  <span>+</span>
-                </summary>
-
-                <p>
-                  An AI resume analyzer reviews your resume and
-                  provides feedback on areas such as structure,
-                  skills, keywords, content, and ATS compatibility.
-                  Critiqon helps turn that analysis into practical
-                  suggestions you can use to improve your resume.
-                </p>
-
-              </details>
-
-
-              <details className="seo-faq-item">
-
-                <summary>
-                  Can an AI resume analyzer check ATS compatibility?
-                  <span>+</span>
-                </summary>
-
-                <p>
-                  Yes. Critiqon analyzes important resume elements
-                  that can affect ATS compatibility, including
-                  structure, formatting, skills, keywords, and
-                  content clarity.
-                </p>
-
-              </details>
-
-
-              <details className="seo-faq-item">
-
-                <summary>
-                  How can I improve my resume for ATS?
-                  <span>+</span>
-                </summary>
-
-                <p>
-                  Use clear formatting, relevant skills and
-                  keywords, concise descriptions, and measurable
-                  achievements. Your resume should also accurately
-                  reflect the requirements of the role you are
-                  applying for.
-                </p>
-
-              </details>
-
-
-              <details className="seo-faq-item">
-
-                <summary>
-                  What does an ATS resume score mean?
-                  <span>+</span>
-                </summary>
-
-                <p>
-                  An ATS score is an indication of how well a resume
-                  aligns with factors commonly considered by
-                  applicant tracking systems. It can help identify
-                  areas where your resume may need improvement.
-                </p>
-
-              </details>
-
-
-              <details className="seo-faq-item">
-
-                <summary>
-                  Is Critiqon an AI resume checker?
-                  <span>+</span>
-                </summary>
-
-                <p>
-                  Yes. Critiqon provides AI-powered resume analysis
-                  that helps you review your resume, identify
-                  potential improvements, and prepare it for
-                  relevant job applications.
-                </p>
-
-              </details>
-
-
-              <details className="seo-faq-item">
-
-                <summary>
-                  How does Critiqon analyze my resume?
-                  <span>+</span>
-                </summary>
-
-                <p>
-                  Critiqon examines information in your resume and
-                  organizes the analysis into areas such as resume
-                  structure, skills, keywords, ATS compatibility,
-                  and improvement suggestions.
-                </p>
-
-              </details>
-
+                  <p>{faq.answer}</p>
+                </details>
+              ))}
             </div>
-
           </div>
-
         </section>
-
 
         {/* =====================================================
             CTA
         ===================================================== */}
 
         <section className="seo-resume-cta">
-
           <div className="seo-resume-container">
-
             <div className="seo-cta-card">
-
               <div className="seo-cta-decoration one" />
               <div className="seo-cta-decoration two" />
 
               <div className="seo-cta-content">
-
                 <div className="seo-section-eyebrow">
                   <span />
                   READY TO IMPROVE YOUR RESUME?
@@ -678,17 +486,13 @@ function AIResumeAnalyzer() {
                 </h2>
 
                 <p>
-                  Analyze your resume with Critiqon and get
-                  practical AI-powered feedback before applying
-                  for your next opportunity.
+                  Analyze your resume with Critiqon and get practical
+                  AI-powered feedback before applying for your next
+                  opportunity.
                 </p>
 
                 <div className="seo-cta-actions">
-
-                  <Link
-                    to="/register"
-                    className="seo-primary-button"
-                  >
+                  <Link to="/register" className="seo-primary-button">
                     Analyze Your Resume
                     <ArrowRight size={17} />
                   </Link>
@@ -699,25 +503,18 @@ function AIResumeAnalyzer() {
                   >
                     Explore plans
                   </Link>
-
                 </div>
-
               </div>
 
               <div className="seo-cta-icon">
                 <Sparkles size={30} />
               </div>
-
             </div>
-
           </div>
-
         </section>
-
       </main>
 
       <Footer />
-
     </div>
   );
 }

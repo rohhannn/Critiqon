@@ -157,7 +157,7 @@
 }
 
 .seo-cover-hero h1 {
-  margin: 20px 0 20px;
+  margin: 20px 0;
   max-width: 680px;
   color: #111827;
   font-size: clamp(42px, 5vw, 66px);
@@ -476,25 +476,43 @@
 
 
 /* =========================================================
-   VALUE SECTION
+   SHARED SECTION
 ========================================================= */
 
-.seo-cover-value-section {
+.seo-cover-section {
   padding: 105px 0;
-  background: #f8f9fb;
-  border-top: 1px solid #f0f1f4;
-  border-bottom: 1px solid #f0f1f4;
 }
 
 .seo-cover-section-heading {
   max-width: 690px;
 }
 
-.seo-cover-section-heading > span {
-  color: #6366f1;
-  font-size: 11px;
+.seo-cover-section-heading-centered {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.seo-cover-section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 18px;
+  color: #667085;
+  font-size: 10px;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
+}
+
+.seo-cover-section-eyebrow > span {
+  width: 28px;
+  height: 1px;
+  flex: 0 0 28px;
+  background: #cbd2dc;
+}
+
+.seo-cover-section-heading-centered
+  .seo-cover-section-eyebrow {
+  justify-content: center;
 }
 
 .seo-cover-section-heading h2 {
@@ -503,6 +521,11 @@
   font-size: clamp(31px, 4vw, 46px);
   line-height: 1.1;
   letter-spacing: -0.045em;
+  font-weight: 800;
+}
+
+.seo-cover-section-heading h2 span {
+  color: #667085;
 }
 
 .seo-cover-section-heading p {
@@ -513,14 +536,31 @@
   line-height: 1.7;
 }
 
-.seo-cover-feature-grid {
+.seo-cover-section-heading-centered p {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* =========================================================
+   VALUE SECTION
+========================================================= */
+
+.seo-cover-value-section {
+  padding: 105px 0;
+  background: #f8f9fb;
+  border-top: 1px solid #f0f1f4;
+  border-bottom: 1px solid #f0f1f4;
+}
+
+.seo-cover-value-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
   margin-top: 48px;
 }
 
-.seo-cover-feature-card {
+.seo-cover-value-card {
   padding: 27px;
   border: 1px solid #e6e9ee;
   border-radius: 17px;
@@ -531,24 +571,37 @@
     border-color 0.25s ease;
 }
 
-.seo-cover-feature-card:hover {
+.seo-cover-value-card:hover {
   transform: translateY(-5px);
   border-color: #d8dce5;
   box-shadow: 0 18px 40px rgba(17, 24, 39, 0.07);
 }
 
-.seo-cover-feature-icon {
+.seo-cover-value-icon {
   width: 43px;
   height: 43px;
   display: grid;
   place-items: center;
   margin-bottom: 20px;
   border-radius: 12px;
+}
+
+.seo-cover-value-icon.blue {
   background: #eef2ff;
   color: #6366f1;
 }
 
-.seo-cover-feature-card h3 {
+.seo-cover-value-icon.green {
+  background: #ecfdf3;
+  color: #16a34a;
+}
+
+.seo-cover-value-icon.purple {
+  background: #f5f3ff;
+  color: #7c3aed;
+}
+
+.seo-cover-value-card h3 {
   margin: 0 0 9px;
   color: #202735;
   font-size: 17px;
@@ -556,11 +609,35 @@
   letter-spacing: -0.02em;
 }
 
-.seo-cover-feature-card p {
+.seo-cover-value-card p {
   margin: 0;
   color: #747d8b;
   font-size: 13px;
   line-height: 1.7;
+}
+
+.seo-cover-card-tag {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #5963d7;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.seo-cover-card-tag.green {
+  background: #ecfdf3;
+  color: #15803d;
+}
+
+.seo-cover-card-tag.purple {
+  background: #f5f3ff;
+  color: #7c3aed;
 }
 
 
@@ -573,20 +650,11 @@
   background: #ffffff;
 }
 
-.seo-cover-centered-heading {
-  margin: 0 auto;
-  text-align: center;
-}
-
-.seo-cover-centered-heading p {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .seo-cover-steps {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: stretch;
+  gap: 18px;
   margin-top: 55px;
 }
 
@@ -596,6 +664,16 @@
   border: 1px solid #e8ebf0;
   border-radius: 17px;
   background: #ffffff;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.seo-cover-step:hover {
+  transform: translateY(-4px);
+  border-color: #dfe3ea;
+  box-shadow: 0 15px 35px rgba(17, 24, 39, 0.055);
 }
 
 .seo-cover-step-number {
@@ -634,6 +712,143 @@
   line-height: 1.7;
 }
 
+.seo-cover-step-line {
+  width: 24px;
+  align-self: center;
+  height: 1px;
+  background: #dfe3ea;
+}
+
+
+/* =========================================================
+   FAQ SECTION
+========================================================= */
+
+.seo-cover-faq-section {
+  padding: 105px 0;
+  background: #fafbfc;
+  border-top: 1px solid #f0f2f5;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.seo-cover-faq-section
+  .seo-cover-section-heading {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.seo-cover-faq-section
+  .seo-cover-section-heading p {
+  max-width: 690px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.seo-cover-faq-list {
+  width: min(820px, 100%);
+  margin: 48px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.seo-cover-faq-item {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #e5e8ee;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.025);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.seo-cover-faq-item:hover {
+  border-color: #dfe3ea;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.045);
+}
+
+.seo-cover-faq-item[open] {
+  border-color: #d9deea;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.05);
+}
+
+.seo-cover-faq-item summary {
+  width: 100%;
+  min-height: 66px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 20px;
+  cursor: pointer;
+  list-style: none;
+  color: #1f2937;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.5;
+  user-select: none;
+}
+
+.seo-cover-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.seo-cover-faq-item summary::marker {
+  display: none;
+}
+
+.seo-cover-faq-question {
+  flex: 1;
+  display: block;
+}
+
+.seo-cover-faq-toggle {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 30px;
+  border-radius: 9px;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1;
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease;
+}
+
+.seo-cover-faq-item[open]
+  .seo-cover-faq-toggle {
+  transform: rotate(45deg);
+  background: #e9eaff;
+}
+
+.seo-cover-faq-item p {
+  width: 100%;
+  max-width: 750px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 52px 22px 20px;
+  color: #7a8494;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.seo-cover-faq-item summary:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: -2px;
+}
+
 
 /* =========================================================
    CTA
@@ -644,10 +859,12 @@
   background: #ffffff;
 }
 
-.seo-cover-cta {
+.seo-cover-cta-card {
   position: relative;
-  padding: 67px 30px;
+  min-height: 310px;
+  padding: 67px 50px;
   overflow: hidden;
+  box-sizing: border-box;
   border-radius: 24px;
   background:
     radial-gradient(
@@ -661,54 +878,63 @@
       transparent 35%
     ),
     #111827;
-  text-align: center;
 }
 
-.seo-cover-cta::before {
-  content: "";
+.seo-cover-cta-decoration {
   position: absolute;
-  width: 280px;
-  height: 280px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.seo-cover-cta-decoration.one {
+  width: 320px;
+  height: 320px;
+  right: -140px;
+  top: -190px;
+}
+
+.seo-cover-cta-decoration.two {
+  width: 260px;
+  height: 260px;
   left: -130px;
   bottom: -170px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.09);
 }
 
-.seo-cover-cta-icon {
+.seo-cover-cta-content {
   position: relative;
-  width: 48px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  margin: 0 auto 19px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 13px;
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
+  z-index: 2;
+  max-width: 700px;
 }
 
-.seo-cover-cta > span {
-  position: relative;
+.seo-cover-cta-content
+  .seo-cover-section-eyebrow {
   color: #a5b4fc;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.13em;
 }
 
-.seo-cover-cta h2 {
+.seo-cover-cta-content
+  .seo-cover-section-eyebrow > span {
+  background: rgba(165, 180, 252, 0.45);
+}
+
+.seo-cover-cta-content h2 {
   position: relative;
   margin: 13px 0 12px;
   color: #ffffff;
   font-size: clamp(31px, 4vw, 47px);
   line-height: 1.08;
   letter-spacing: -0.045em;
+  font-weight: 800;
 }
 
-.seo-cover-cta p {
+.seo-cover-cta-content h2 span {
+  color: #a5b4fc;
+}
+
+.seo-cover-cta-content p {
   position: relative;
   max-width: 580px;
-  margin: 0 auto;
+  margin: 0;
   color: #aeb6c4;
   font-size: 15px;
   line-height: 1.7;
@@ -718,31 +944,53 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 11px;
+  gap: 15px;
   margin-top: 27px;
   flex-wrap: wrap;
 }
 
-.seo-cover-cta .seo-cover-primary-button {
+.seo-cover-cta-card
+  .seo-cover-primary-button {
   background: #ffffff;
   color: #111827;
   box-shadow: none;
 }
 
-.seo-cover-cta .seo-cover-primary-button:hover {
+.seo-cover-cta-card
+  .seo-cover-primary-button:hover {
   background: #f3f4f6;
 }
 
-.seo-cover-cta .seo-cover-secondary-button {
-  border-color: rgba(255, 255, 255, 0.17);
-  background: rgba(255, 255, 255, 0.07);
+.seo-cover-cta-pricing-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  color: #d9ddff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.seo-cover-cta-pricing-link:hover {
   color: #ffffff;
 }
 
-.seo-cover-cta .seo-cover-secondary-button:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
+.seo-cover-cta-icon {
+  position: absolute;
+  z-index: 2;
+  right: 70px;
+  top: 50%;
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
 }
 
 
@@ -755,65 +1003,78 @@
   background: #fafbfc;
 }
 
-.seo-cover-footer-inner {
-  min-height: 100px;
-  display: flex;
-  align-items: center;
-  gap: 25px;
-  flex-wrap: wrap;
+.seo-cover-footer-grid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.7fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr);
+  gap: 70px;
+  padding: 54px 0 42px;
 }
 
 .seo-cover-footer-brand {
+  min-width: 0;
+}
+
+.seo-cover-footer-brand .seo-cover-brand {
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #202735;
+}
+
+.seo-cover-footer-brand p {
+  max-width: 470px;
+  margin: 18px 0 0;
+  color: #737d8c;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.seo-cover-footer-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.seo-cover-footer-column h4 {
+  margin: 0 0 6px;
+  color: #172033;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.seo-cover-footer-column a {
+  display: block;
+  width: fit-content;
+  color: #737d8c;
   text-decoration: none;
   font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  line-height: 1.5;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.seo-cover-footer-brand img {
-  width: 27px;
-  height: 27px;
-  object-fit: contain;
+.seo-cover-footer-column a:hover {
+  color: #4f46e5;
+  transform: translateX(2px);
 }
 
-.seo-cover-footer-links,
-.seo-cover-footer-legal {
+.seo-cover-footer-bottom {
   display: flex;
   align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-
-.seo-cover-footer-links {
-  margin-left: auto;
-}
-
-.seo-cover-footer-links a,
-.seo-cover-footer-legal a {
-  color: #737b89;
-  text-decoration: none;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 0 24px;
+  border-top: 1px solid #eceef2;
+  color: #98a0ad;
   font-size: 11px;
-  font-weight: 600;
-}
-
-.seo-cover-footer-links a:hover,
-.seo-cover-footer-legal a:hover {
-  color: #111827;
-}
-
-.seo-cover-footer-inner > p {
-  margin: 0;
-  color: #a0a6b0;
-  font-size: 10px;
+  line-height: 1.5;
 }
 
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE — 1000px
 ========================================================= */
 
 @media (max-width: 1000px) {
@@ -839,25 +1100,44 @@
     max-width: 650px;
   }
 
-  .seo-cover-feature-grid,
-  .seo-cover-steps {
+  .seo-cover-value-grid {
     grid-template-columns: 1fr;
   }
 
-  .seo-cover-feature-card,
+  .seo-cover-value-card {
+    max-width: 650px;
+  }
+
+  .seo-cover-steps {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
   .seo-cover-step {
     max-width: 650px;
   }
 
-  .seo-cover-footer-inner {
-    padding: 25px 0;
+  .seo-cover-step-line {
+    display: none;
   }
 
-  .seo-cover-footer-links {
-    margin-left: 0;
+  .seo-cover-footer-grid {
+    grid-template-columns:
+      1.4fr
+      1fr
+      1fr;
+    gap: 40px;
+  }
+
+  .seo-cover-cta-icon {
+    right: 45px;
   }
 }
 
+
+/* =========================================================
+   RESPONSIVE — 700px
+========================================================= */
 
 @media (max-width: 700px) {
 
@@ -913,7 +1193,8 @@
   }
 
   .seo-cover-value-section,
-  .seo-cover-how-section {
+  .seo-cover-how-section,
+  .seo-cover-faq-section {
     padding: 75px 0;
   }
 
@@ -921,38 +1202,76 @@
     font-size: 33px;
   }
 
-  .seo-cover-feature-grid,
-  .seo-cover-steps {
+  .seo-cover-value-grid {
     margin-top: 35px;
   }
 
-  .seo-cover-feature-card,
+  .seo-cover-value-card,
   .seo-cover-step {
     padding: 23px;
+  }
+
+  .seo-cover-faq-list {
+    margin-top: 35px;
+  }
+
+  .seo-cover-faq-item summary {
+    min-height: 62px;
+    padding: 18px;
+    gap: 14px;
+    font-size: 13px;
+  }
+
+  .seo-cover-faq-item p {
+    padding: 0 18px 19px;
+    font-size: 12.5px;
   }
 
   .seo-cover-cta-section {
     padding: 20px 0 75px;
   }
 
-  .seo-cover-cta {
-    padding: 52px 20px;
+  .seo-cover-cta-card {
+    min-height: auto;
+    padding: 52px 24px;
     border-radius: 19px;
   }
 
-  .seo-cover-cta h2 {
+  .seo-cover-cta-content h2 {
     font-size: 33px;
   }
 
-  .seo-cover-footer-inner {
+  .seo-cover-cta-icon {
+    display: none;
+  }
+
+  .seo-cover-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 38px;
+    padding: 42px 0 35px;
+  }
+
+  .seo-cover-footer-brand {
+    grid-column: 1 / -1;
+  }
+
+  .seo-cover-footer-bottom {
     align-items: flex-start;
     flex-direction: column;
-    gap: 17px;
+    gap: 7px;
   }
 }
 
 
+/* =========================================================
+   RESPONSIVE — 480px
+========================================================= */
+
 @media (max-width: 480px) {
+
+  .seo-cover-container {
+    width: min(100% - 24px, 1180px);
+  }
 
   .seo-cover-hero h1 {
     font-size: 36px;
@@ -983,193 +1302,28 @@
     font-size: 10.5px;
   }
 
-  .seo-cover-cta-actions {
-    flex-direction: column;
-    align-items: stretch;
+  .seo-cover-section-heading h2 {
+    font-size: 29px;
   }
 
-  .seo-cover-cta .seo-cover-primary-button,
-  .seo-cover-cta .seo-cover-secondary-button {
-    width: 100%;
+  .seo-cover-section-heading p {
+    font-size: 14px;
   }
 
-  .seo-cover-footer-links,
-  .seo-cover-footer-legal {
-    gap: 12px;
-  }
-  /* =========================================================
-   FAQ
-   ========================================================= */
-
-.seo-cover-section {
-  padding: 105px 0;
-}
-
-.seo-cover-faq-section {
-  background: #fafbfc;
-  border-top: 1px solid #f0f2f5;
-  border-bottom: 1px solid #f0f2f5;
-}
-
-.seo-cover-section-heading {
-  max-width: 760px;
-}
-
-.seo-cover-section-heading-centered {
-  margin: 0 auto;
-  text-align: center;
-}
-
-.seo-cover-section-heading-centered
-.seo-cover-section-eyebrow {
-  justify-content: center;
-}
-
-.seo-cover-section-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-bottom: 18px;
-  color: #667085;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-}
-
-.seo-cover-section-eyebrow > span {
-  width: 28px;
-  height: 1px;
-  background: #cbd2dc;
-}
-
-.seo-cover-section-heading h2 {
-  margin: 0;
-  color: #111827;
-  font-size: clamp(31px, 4vw, 48px);
-  font-weight: 800;
-  line-height: 1.06;
-  letter-spacing: -0.05em;
-}
-
-.seo-cover-section-heading h2 span {
-  color: #667085;
-}
-
-.seo-cover-section-heading p {
-  max-width: 690px;
-  margin: 19px auto 0;
-  color: #7a8494;
-  font-size: 15px;
-  line-height: 1.75;
-}
-
-.seo-cover-faq-list {
-  width: min(820px, 100%);
-  margin: 48px auto 0;
-  display: grid;
-  gap: 11px;
-}
-
-.seo-cover-faq-item {
-  overflow: hidden;
-  border: 1px solid #e5e8ee;
-  border-radius: 16px;
-  background: #ffffff;
-  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.025);
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.seo-cover-faq-item:hover {
-  border-color: #dfe3ea;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.045);
-}
-
-.seo-cover-faq-item[open] {
-  border-color: #d9deea;
-  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.05);
-}
-
-.seo-cover-faq-item summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 20px 22px;
-  cursor: pointer;
-  list-style: none;
-  color: #1f2937;
-  font-size: 14px;
-  font-weight: 750;
-  line-height: 1.5;
-}
-
-.seo-cover-faq-item summary::-webkit-details-marker {
-  display: none;
-}
-
-.seo-cover-faq-question {
-  flex: 1;
-}
-
-.seo-cover-faq-toggle {
-  width: 29px;
-  height: 29px;
-  display: grid;
-  place-items: center;
-  flex: 0 0 29px;
-  border-radius: 8px;
-  color: #4f46e5;
-  background: #eef2ff;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1;
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
-}
-
-.seo-cover-faq-item[open] .seo-cover-faq-toggle {
-  transform: rotate(45deg);
-  background: #e9eaff;
-}
-
-.seo-cover-faq-item p {
-  max-width: 750px;
-  margin: 0;
-  padding: 0 22px 21px;
-  color: #7a8494;
-  font-size: 13px;
-  line-height: 1.75;
-}
-
-@media (max-width: 700px) {
-
-  .seo-cover-section {
-    padding: 75px 0;
+  .seo-cover-faq-section {
+    padding: 58px 0;
   }
 
   .seo-cover-faq-list {
-    margin-top: 35px;
+    margin-top: 30px;
+    gap: 9px;
   }
 
   .seo-cover-faq-item summary {
-    padding: 18px;
-    font-size: 13px;
-  }
-
-  .seo-cover-faq-item p {
-    padding: 0 18px 19px;
-    font-size: 12.5px;
-  }
-
-}
-
-@media (max-width: 480px) {
-
-  .seo-cover-faq-item summary {
+    min-height: 60px;
+    padding: 16px 14px;
     gap: 13px;
+    font-size: 12.5px;
   }
 
   .seo-cover-faq-toggle {
@@ -1178,5 +1332,41 @@
     flex-basis: 27px;
   }
 
-}
+  .seo-cover-faq-item p {
+    padding: 0 14px 18px;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .seo-cover-cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .seo-cover-cta-card
+    .seo-cover-primary-button {
+    width: 100%;
+  }
+
+  .seo-cover-cta-pricing-link {
+    justify-content: center;
+    min-height: 40px;
+  }
+
+  .seo-cover-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .seo-cover-footer-brand {
+    grid-column: auto;
+  }
+
+  .seo-cover-footer-column {
+    gap: 10px;
+  }
+
+  .seo-cover-footer-column a {
+    font-size: 12px;
+  }
 }

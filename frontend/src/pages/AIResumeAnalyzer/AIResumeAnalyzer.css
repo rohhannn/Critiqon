@@ -716,6 +716,20 @@
   border-radius: 16px;
   background: #ffffff;
   box-shadow: 0 8px 25px rgba(15, 23, 42, 0.025);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.seo-faq-item:hover {
+  border-color: #dfe3ea;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.045);
+}
+
+.seo-faq-item[open] {
+  border-color: #d9deea;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.05);
 }
 
 .seo-faq-item summary {
@@ -736,23 +750,30 @@
   display: none;
 }
 
-.seo-faq-item summary span {
-  width: 28px;
-  height: 28px;
+.seo-faq-question {
+  flex: 1;
+}
+
+.seo-faq-toggle {
+  width: 29px;
+  height: 29px;
   display: grid;
   place-items: center;
-  flex: 0 0 28px;
+  flex: 0 0 29px;
   border-radius: 8px;
   color: #4f46e5;
   background: #eef2ff;
   font-size: 18px;
   font-weight: 500;
   line-height: 1;
-  transition: transform 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
-.seo-faq-item[open] summary span {
+.seo-faq-item[open] .seo-faq-toggle {
   transform: rotate(45deg);
+  background: #e9eaff;
 }
 
 .seo-faq-item p {
@@ -764,10 +785,42 @@
   line-height: 1.75;
 }
 
-.seo-faq-item[open] {
-  border-color: #dfe3ea;
+
+/* =========================================================
+   FAQ RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .seo-faq-list {
+    margin-top: 35px;
+  }
+
+  .seo-faq-item summary {
+    padding: 18px;
+    font-size: 13px;
+  }
+
+  .seo-faq-item p {
+    padding: 0 18px 19px;
+    font-size: 12.5px;
+  }
+
 }
 
+@media (max-width: 480px) {
+
+  .seo-faq-item summary {
+    gap: 13px;
+  }
+
+  .seo-faq-toggle {
+    width: 27px;
+    height: 27px;
+    flex-basis: 27px;
+  }
+
+}
 
 /* =========================================================
    CTA
