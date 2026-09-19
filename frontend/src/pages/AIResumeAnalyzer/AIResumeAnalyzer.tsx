@@ -1,3 +1,7 @@
+/* =========================================================
+   PUBLIC AI RESUME ANALYZER PAGE
+   ========================================================= */
+
 import "./AIResumeAnalyzer.css";
 
 import {
@@ -144,6 +148,7 @@ function AIResumeAnalyzer() {
 
                     <div className="seo-score-label">
                       <span>ATS READINESS</span>
+
                       <span className="seo-score-status">
                         Strong
                       </span>
@@ -157,6 +162,7 @@ function AIResumeAnalyzer() {
                       </div>
 
                       <div className="seo-score-info">
+
                         <strong>
                           Good foundation
                         </strong>
@@ -165,15 +171,18 @@ function AIResumeAnalyzer() {
                           A few targeted improvements can
                           strengthen screening performance.
                         </p>
+
                       </div>
 
                     </div>
 
                     <div className="seo-score-progress">
+
                       <div
                         className="seo-score-progress-fill"
                         style={{ width: "78%" }}
                       />
+
                     </div>
 
                   </div>
@@ -192,6 +201,7 @@ function AIResumeAnalyzer() {
                     <div className="seo-signal-list">
 
                       <div className="seo-signal">
+
                         <span className="seo-signal-icon positive">
                           <CheckCircle2 size={14} />
                         </span>
@@ -199,9 +209,12 @@ function AIResumeAnalyzer() {
                         <span>
                           Resume structure
                         </span>
+
                       </div>
 
+
                       <div className="seo-signal">
+
                         <span className="seo-signal-icon positive">
                           <CheckCircle2 size={14} />
                         </span>
@@ -209,9 +222,12 @@ function AIResumeAnalyzer() {
                         <span>
                           Skills and keywords
                         </span>
+
                       </div>
 
+
                       <div className="seo-signal">
+
                         <span className="seo-signal-icon positive">
                           <CheckCircle2 size={14} />
                         </span>
@@ -219,9 +235,12 @@ function AIResumeAnalyzer() {
                         <span>
                           ATS compatibility
                         </span>
+
                       </div>
 
+
                       <div className="seo-signal">
+
                         <span className="seo-signal-icon warning">
                           <Lightbulb size={14} />
                         </span>
@@ -229,9 +248,12 @@ function AIResumeAnalyzer() {
                         <span>
                           Improvement suggestions
                         </span>
+
                       </div>
 
+
                       <div className="seo-signal">
+
                         <span className="seo-signal-icon purple">
                           <Target size={14} />
                         </span>
@@ -239,6 +261,7 @@ function AIResumeAnalyzer() {
                         <span>
                           Recommended roles
                         </span>
+
                       </div>
 
                     </div>
@@ -480,6 +503,147 @@ function AIResumeAnalyzer() {
                 </p>
 
               </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        {/* =====================================================
+            FAQ
+        ===================================================== */}
+
+        <section className="seo-resume-section seo-faq-section">
+
+          <div className="seo-resume-container">
+
+            <div className="seo-section-heading centered">
+
+              <div className="seo-section-eyebrow">
+                <span />
+                FREQUENTLY ASKED QUESTIONS
+              </div>
+
+              <h2>
+                Questions about AI resume analysis
+                <span> and ATS optimization.</span>
+              </h2>
+
+              <p>
+                Learn how an AI resume analyzer can help you
+                understand your resume, improve ATS compatibility,
+                and prepare for job applications.
+              </p>
+
+            </div>
+
+
+            <div className="seo-faq-list">
+
+              <details className="seo-faq-item">
+
+                <summary>
+                  What is an AI resume analyzer?
+                  <span>+</span>
+                </summary>
+
+                <p>
+                  An AI resume analyzer reviews your resume and
+                  provides feedback on areas such as structure,
+                  skills, keywords, content, and ATS compatibility.
+                  Critiqon helps turn that analysis into practical
+                  suggestions you can use to improve your resume.
+                </p>
+
+              </details>
+
+
+              <details className="seo-faq-item">
+
+                <summary>
+                  Can an AI resume analyzer check ATS compatibility?
+                  <span>+</span>
+                </summary>
+
+                <p>
+                  Yes. Critiqon analyzes important resume elements
+                  that can affect ATS compatibility, including
+                  structure, formatting, skills, keywords, and
+                  content clarity.
+                </p>
+
+              </details>
+
+
+              <details className="seo-faq-item">
+
+                <summary>
+                  How can I improve my resume for ATS?
+                  <span>+</span>
+                </summary>
+
+                <p>
+                  Use clear formatting, relevant skills and
+                  keywords, concise descriptions, and measurable
+                  achievements. Your resume should also accurately
+                  reflect the requirements of the role you are
+                  applying for.
+                </p>
+
+              </details>
+
+
+              <details className="seo-faq-item">
+
+                <summary>
+                  What does an ATS resume score mean?
+                  <span>+</span>
+                </summary>
+
+                <p>
+                  An ATS score is an indication of how well a resume
+                  aligns with factors commonly considered by
+                  applicant tracking systems. It can help identify
+                  areas where your resume may need improvement.
+                </p>
+
+              </details>
+
+
+              <details className="seo-faq-item">
+
+                <summary>
+                  Is Critiqon an AI resume checker?
+                  <span>+</span>
+                </summary>
+
+                <p>
+                  Yes. Critiqon provides AI-powered resume analysis
+                  that helps you review your resume, identify
+                  potential improvements, and prepare it for
+                  relevant job applications.
+                </p>
+
+              </details>
+
+
+              <details className="seo-faq-item">
+
+                <summary>
+                  How does Critiqon analyze my resume?
+                  <span>+</span>
+                </summary>
+
+                <p>
+                  Critiqon examines information in your resume and
+                  organizes the analysis into areas such as resume
+                  structure, skills, keywords, ATS compatibility,
+                  and improvement suggestions.
+                </p>
+
+              </details>
 
             </div>
 

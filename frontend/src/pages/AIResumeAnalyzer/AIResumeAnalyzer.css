@@ -694,6 +694,82 @@
 
 
 /* =========================================================
+   FAQ
+   ========================================================= */
+
+.seo-faq-section {
+  background: #fafbfc;
+  border-top: 1px solid #f0f2f5;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.seo-faq-list {
+  width: min(820px, 100%);
+  margin: 48px auto 0;
+  display: grid;
+  gap: 11px;
+}
+
+.seo-faq-item {
+  overflow: hidden;
+  border: 1px solid #e5e8ee;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.025);
+}
+
+.seo-faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 22px;
+  cursor: pointer;
+  list-style: none;
+  color: #1f2937;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.seo-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.seo-faq-item summary span {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 28px;
+  border-radius: 8px;
+  color: #4f46e5;
+  background: #eef2ff;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.seo-faq-item[open] summary span {
+  transform: rotate(45deg);
+}
+
+.seo-faq-item p {
+  max-width: 750px;
+  margin: 0;
+  padding: 0 22px 21px;
+  color: #7a8494;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.seo-faq-item[open] {
+  border-color: #dfe3ea;
+}
+
+
+/* =========================================================
    CTA
    ========================================================= */
 
@@ -855,6 +931,7 @@
 
 }
 
+
 @media (max-width: 700px) {
 
   .seo-resume-container {
@@ -917,7 +994,22 @@
     padding-bottom: 75px;
   }
 
+  .seo-faq-list {
+    margin-top: 35px;
+  }
+
+  .seo-faq-item summary {
+    padding: 18px;
+    font-size: 13px;
+  }
+
+  .seo-faq-item p {
+    padding: 0 18px 19px;
+    font-size: 12.5px;
+  }
+
 }
+
 
 @media (max-width: 480px) {
 
