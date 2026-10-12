@@ -17,6 +17,8 @@ import { useSubscription } from "../../context/SubscriptionContext";
 
 import { startPayment } from "../../services/payment";
 
+import { trackEvent } from "../../analytics";
+
 const OTP_LENGTH = 6;
 const RESEND_COOLDOWN_SECONDS = 60;
 
@@ -293,6 +295,9 @@ function Register() {
         data.access_token,
         data.user
       );
+      trackEvent("sign_up", {
+  method: "email",
+});
 
 
       /*

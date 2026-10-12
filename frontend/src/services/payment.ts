@@ -1,3 +1,4 @@
+import { trackEvent } from "../analytics";
 import { notify } from "./notifications";
 import api from "./api";
 
@@ -152,6 +153,23 @@ export async function startPayment(
             response.razorpay_order_id,
             response.razorpay_signature
           );
+          // Track a purchase only after backend verification succeeds.
+trackEvent("purchase", {
+  transaction_id: result.order_id || order.order_id,
+  currency: order.currency,
+  value:
+    order.currency === "INR"
+      ? Number(order.amount) / 100
+      : undefined,
+  items: [
+    {
+      item_id: result.plan || order.plan,
+      item_name: `${result.plan || order.plan} Plan`,
+      quantity: 1,
+    },
+  ],
+});
+    
 
         localStorage.removeItem(
           "pendingPlan"
@@ -215,6 +233,19 @@ export async function startPayment(
       });
     }
   );
-
+trackEvent("begin_checkout", {
+  currency: order.currency,
+  value:
+    order.currency === "INR"
+      ? Number(order.amount) / 100
+      : undefined,
+  items: [
+    {
+      item_id: order.plan,
+      item_name: `${order.plan} Plan`,
+      quantity: 1,
+    },
+  ],
+});
   razorpay.open();
 }
