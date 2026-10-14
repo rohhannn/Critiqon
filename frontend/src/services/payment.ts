@@ -35,7 +35,6 @@ export interface VerifyPaymentResponse {
   currency?: string;
 }
 
-
 function loadRazorpayScript(): Promise<boolean> {
   return new Promise((resolve) => {
     if (window.Razorpay) {
@@ -51,12 +50,16 @@ function loadRazorpayScript(): Promise<boolean> {
     if (existingScript) {
       existingScript.addEventListener(
         "load",
-        () => resolve(true)
+        () => resolve(true),
+        { once: true }
       );
+
       existingScript.addEventListener(
         "error",
-        () => resolve(false)
+        () => resolve(false),
+        { once: true }
       );
+
       return;
     }
 
@@ -78,10 +81,12 @@ function loadRazorpayScript(): Promise<boolean> {
 async function createOrder(
   plan: PaidPlan
 ): Promise<CreateOrderResponse> {
-  const response = await api.post<CreateOrderResponse>(
-    "/payments/create-order",
-    { plan },
-  );
+  const response =
+    await api.post<CreateOrderResponse>(
+      "/payments/create-order",
+      { plan }
+    );
+
   return response.data;
 }
 
@@ -90,14 +95,16 @@ async function verifyPayment(
   orderId: string,
   signature: string
 ): Promise<VerifyPaymentResponse> {
-  const response = await api.post<VerifyPaymentResponse>(
-    "/payments/verify",
-    {
-      razorpay_payment_id: paymentId,
-      razorpay_order_id: orderId,
-      razorpay_signature: signature,
-    },
-  );
+  const response =
+    await api.post<VerifyPaymentResponse>(
+      "/payments/verify",
+      {
+        razorpay_payment_id: paymentId,
+        razorpay_order_id: orderId,
+        razorpay_signature: signature,
+      }
+    );
+
   return response.data;
 }
 
@@ -125,6 +132,15 @@ export async function startPayment(
   const order =
     await createOrder(plan);
 
+  /*
+   * Razorpay order amounts are in paise for INR.
+   * GA4 monetary values must be in rupees.
+   */
+  const amountInRupees =
+    order.currency === "INR"
+      ? Number(order.amount) / 100
+      : undefined;
+
   const options = {
     key: order.key_id,
     amount: order.amount,
@@ -147,29 +163,44 @@ export async function startPayment(
       response: any
     ) => {
       try {
+        /*
+         * Verify payment with the backend.
+         * Only track a purchase if verification succeeds.
+         */
         const result =
           await verifyPayment(
             response.razorpay_payment_id,
             response.razorpay_order_id,
             response.razorpay_signature
           );
-          // Track a purchase only after backend verification succeeds.
-trackEvent("purchase", {
-  transaction_id: result.order_id || order.order_id,
-  currency: order.currency,
-  value:
-    order.currency === "INR"
-      ? Number(order.amount) / 100
-      : undefined,
-  items: [
-    {
-      item_id: result.plan || order.plan,
-      item_name: `${result.plan || order.plan} Plan`,
-      quantity: 1,
-    },
-  ],
-});
-    
+
+        /*
+         * GA4 PURCHASE EVENT
+         */
+        trackEvent("purchase", {
+          transaction_id:
+            result.order_id || order.order_id,
+
+          currency: order.currency,
+
+          ...(typeof amountInRupees === "number"
+            ? { value: amountInRupees }
+            : {}),
+
+          items: [
+            {
+              item_id: result.plan || order.plan,
+              item_name:
+                `${result.plan || order.plan} Plan`,
+
+              ...(typeof amountInRupees === "number"
+                ? { price: amountInRupees }
+                : {}),
+
+              quantity: 1,
+            },
+          ],
+        });
 
         localStorage.removeItem(
           "pendingPlan"
@@ -184,7 +215,6 @@ trackEvent("purchase", {
         if (onSuccess) {
           await onSuccess(result);
         }
-
       } catch (error) {
         console.error(
           "Payment verification error:",
@@ -204,16 +234,21 @@ trackEvent("purchase", {
 
     modal: {
       ondismiss: () => {
-        localStorage.removeItem("pendingPlan");
-        notify({ type: "info", title: "Payment cancelled", message: "No plan was changed." });
+        localStorage.removeItem(
+          "pendingPlan"
+        );
+
+        notify({
+          type: "info",
+          title: "Payment cancelled",
+          message: "No plan was changed.",
+        });
       },
     },
   };
 
   const razorpay =
-    new window.Razorpay(
-      options
-    );
+    new window.Razorpay(options);
 
   razorpay.on(
     "payment.failed",
@@ -223,7 +258,10 @@ trackEvent("purchase", {
         response
       );
 
-      localStorage.removeItem("pendingPlan");
+      localStorage.removeItem(
+        "pendingPlan"
+      );
+
       notify({
         type: "error",
         title: "Payment failed",
@@ -233,19 +271,30 @@ trackEvent("purchase", {
       });
     }
   );
-trackEvent("begin_checkout", {
-  currency: order.currency,
-  value:
-    order.currency === "INR"
-      ? Number(order.amount) / 100
-      : undefined,
-  items: [
-    {
-      item_id: order.plan,
-      item_name: `${order.plan} Plan`,
-      quantity: 1,
-    },
-  ],
-});
+
+  /*
+   * GA4 BEGIN CHECKOUT EVENT
+   */
+  trackEvent("begin_checkout", {
+    currency: order.currency,
+
+    ...(typeof amountInRupees === "number"
+      ? { value: amountInRupees }
+      : {}),
+
+    items: [
+      {
+        item_id: order.plan,
+        item_name: `${order.plan} Plan`,
+
+        ...(typeof amountInRupees === "number"
+          ? { price: amountInRupees }
+          : {}),
+
+        quantity: 1,
+      },
+    ],
+  });
+
   razorpay.open();
 }
